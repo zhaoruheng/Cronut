@@ -1,88 +1,153 @@
 ﻿<Page x:Class="Cloud.HomePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CloudServerWpf"
-      mc:Ignorable="d"
+      mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage">
+    <Border>
+        <Border.Background>
+            <ImageBrush ImageSource="/Images/back2.jpg"
+                        Stretch="None"/>
+        </Border.Background>
+        <Grid>
 
-    <Page.Resources>
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="Background" Value="#007ACC" />
-            <Setter Property="Margin" Value="12" />
-            <Setter Property="Padding" Value="8" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="MinWidth" Value="100" />
-            <Setter Property="MinHeight" Value="30" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border BorderBrush="#007ACC" BorderThickness="1" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
+            <TextBlock HorizontalAlignment="Left" Margin="63,32,0,0" TextWrapping="Wrap" Text="云端实时信息：" VerticalAlignment="Top" FontSize="14"/>
+
+
+            <Button x:Name="button4"                          
+                            BorderThickness="0"
+                            Content="初始化"
+                            Foreground="White"
+                            FontSize="12"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"                           
+                            Margin="139,-130,-138.824,204.934"
+                            Click="button4_Click" RenderTransformOrigin="0.5,0.425">
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#87CEEB"/>
+                        <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#005A92" />
+                                <Setter Property="Background" Value="#28AEED"/>
                             </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#003145" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="ButtonStyle2" TargetType="Button">
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="Background" Value="#5ab9a9" />
-            <Setter Property="Margin" Value="12" />
-            <Setter Property="Padding" Value="8" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="MinWidth" Value="100" />
-            <Setter Property="MinHeight" Value="30" />
-            <Setter Property="Template">
-                <Setter.Value>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
                     <ControlTemplate TargetType="Button">
-                        <Border BorderBrush="#4CAF50" BorderThickness="1" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border Width="100" Height="30"
+                                        CornerRadius="20"
+                                        Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
                         </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#3E874A" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#2E643B" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
                     </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+                </Button.Template>
+            </Button>
+            <Button x:Name="button1"                          
+                            BorderThickness="0"
+                            Content="启动"
+                            Foreground="White"
+                            FontSize="12"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"                           
+                            Margin="272,-130,-271.824,204.934"
+                            Click="button1_Click" RenderTransformOrigin="0.5,0.425">
 
-    </Page.Resources>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#87CEEB"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="100" Height="30"
+                                        CornerRadius="20"
+                                        Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="button4_f"                          
+                BorderThickness="0"
+                Content="初始化完成"
+                Foreground="White"
+                FontSize="12"
+                FontFamily="Montserrat"
+                Cursor="Hand"                           
+                Margin="139,-130,-138.824,204.934"
+                RenderTransformOrigin="0.5,0.425">
 
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Margin="24" Text="云端实时信息：" FontSize="16" FontWeight="Bold" />
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#C4B3C1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
 
-        <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource ButtonStyle}" Content="初始化" Name="button4" Click="button4_Click" Margin="345,14,282,10" />
-        <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource ButtonStyle}" Content="启动" Name="button1" Click="button1_Click" Margin="600,12,24,12" />
-        <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource ButtonStyle2}" Content="初始化完成" Name="button4_f"  Margin="345,14,282,10" IsEnabled="False" />
-        <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource ButtonStyle2}" Content="启动完成" Name="button1_f" Margin="600,12,24,12" IsEnabled="False"/>
-        
-        <ListBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="24" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="listBox1" />
-    </Grid>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="100" Height="30"
+                            CornerRadius="20"
+                            Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="button1_f"                          
+                BorderThickness="0"
+                Content="已启动"
+                Foreground="White"
+                FontSize="12"
+                FontFamily="Montserrat"
+                Cursor="Hand"                           
+                Margin="272,-130,-271.824,204.934"
+                 RenderTransformOrigin="0.5,0.425">
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#C4B3C1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="100" Height="30"
+                            CornerRadius="20"
+                            Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <ListBox HorizontalAlignment="Left" Height="297" Width="679" Margin="63,77,0,0" VerticalAlignment="Top"  Name="listBox1"/>
+
+        </Grid>
+    </Border>
 </Page>

@@ -112,7 +112,10 @@ namespace Cloud
                     ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + np.userName + "拉取文件列表");
                     break;
                 case DefindedCode.UPLOAD:
+                    /*需要修改！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！*/
                     res = UploadRequest(np.userName, np.fileName, np.fileLength, np.enMd5, np.sha1, np.uploadTime, np.enKey);
+                    //UploadRequest判断是否重复
+
                     serverComHelper.MakeResponsePacket(res);
                     serverComHelper.SendMsg();
                     if (res == DefindedCode.AGREEUP)
@@ -125,6 +128,7 @@ namespace Cloud
                     ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "上传*" + np.fileName + "*成功");
                     break;
                 case DefindedCode.DOWNLOAD:
+                    /*不是很懂！*/
                     string serFilePath = string.Empty;
                     string enKey = string.Empty;
                     string enMd5 = string.Empty;
@@ -133,6 +137,7 @@ namespace Cloud
                     serverComHelper.MakeResponsePacket(res, enKey, enMd5);
                     serverComHelper.SendMsg(); //发送文件解密的密钥，发送文件被用户加密后的摘要
                     serverComHelper.RecvMsg();
+                    /*不懂SendFile！！！！！！！！！！！！！！！！！！！*/
                     serverComHelper.SendFile(serFilePath);
                     ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "下载完成");
                     break;
@@ -196,9 +201,13 @@ namespace Cloud
                 return DefindedCode.AGREEUP;
             return DefindedCode.FILEEXISTED;
         }
+
+        //serFile是服务器的物理路径
         private byte DownloadRequest(string userName, string userFile, ref string serFile, ref string enKey, ref string enMd5)
         {
             DataBaseManager dm = new DataBaseManager(connectionString);
+
+            //获取云端的物理地址
             string serPath = dm.GetFilePath(userName, userFile);
             if (serPath == "")
                 return DefindedCode.ERROR;
@@ -207,6 +216,7 @@ namespace Cloud
             enMd5 = dm.GetEnMd5(userName, userFile);
             return DefindedCode.FILEDOWNLOAD;
         }
+
         private byte DeleteRequest(string userName, string userFile)
         {
             DataBaseManager dm = new DataBaseManager(connectionString);

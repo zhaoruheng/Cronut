@@ -15,36 +15,31 @@ namespace Cloud
     public partial class ClientWindow : Window
     {
         private string workPath = string.Empty;
-        private string userName = string.Empty;
+        private string username = string.Empty;
         private ClientManager clientManager;
         private FileWatcher fw;
 
-        public ClientWindow(ClientManager clientManager,string uName)
+        public ClientWindow(ClientManager clientManager)
         {
             InitializeComponent();
-            button3_f.Visibility= Visibility.Hidden;
 
             //textBox1.ReadOnly = true; //设置只读属性
             workPath = ConfigurationManager.AppSettings["TargetDir"];
-            userName = ConfigurationManager.AppSettings["UserName"];
-            if(uName!=userName)
-            {
-                workPath=string.Empty;
-                SetAppSettingConf("TargetDir", "");
-                SetAppSettingConf("UserName",uName);
-            }
+            username = ConfigurationManager.AppSettings["UserName"];
             textBox1.Text = "";
             this.clientManager = clientManager;
-
-            if (!string.IsNullOrEmpty(workPath) && Directory.Exists(workPath))
+            button4.Visibility = Visibility.Hidden;
+            button4.IsEnabled = false;
+            if (!string.IsNullOrEmpty(workPath) && Directory.Exists(workPath)&&!string .IsNullOrEmpty(username)&&string.Equals(username,clientManager.getusername()))
             {
                 textBox1.Text = workPath;
                 textBox1.IsEnabled = false;
                 button2.IsEnabled = false;
                 button3.IsEnabled = false;
+                button4.IsEnabled = false;
                 button2.Visibility = Visibility.Hidden;
                 button3.Visibility = Visibility.Hidden;
-                button3_f.Visibility = Visibility.Visible;
+                button4.Visibility= Visibility.Visible;
 
                 Thread th = new Thread(SyncTh);
                 th.IsBackground = true;
@@ -77,6 +72,7 @@ namespace Cloud
         {
             string filePath = fp as string;
             clientManager.UploadFileProcess(filePath);
+            //MessageBox.Show(clientManager.filetag(filePath));
         }
 
         private void DownloadTh(object obj)
@@ -115,6 +111,7 @@ namespace Cloud
             }
             clientManager.workPath = workPath;
             SetAppSettingConf("TargetDir", workPath);
+            SetAppSettingConf("UserName", clientManager.getusername());
 
             clientManager.SyncProcess();
             //修改配置文件
@@ -123,9 +120,9 @@ namespace Cloud
             fw.Start();
             button3.IsEnabled = false;
             button2.IsEnabled = false;
-            button2.Visibility = Visibility.Hidden;
-            button3.Visibility = Visibility.Hidden;
-            button3_f.Visibility = Visibility.Visible;
+            button3.Visibility=Visibility.Hidden;
+            button2.Visibility=Visibility.Hidden;
+            button4.Visibility=Visibility.Visible;
         }
 
 
@@ -177,8 +174,10 @@ namespace Cloud
         {
             if (!CheckAccess())
             {
+
                 Delegate d = new Delegate(UpdateListView);
                 listView1.Dispatcher.Invoke(d, new object[] { value });
+
             }
             else
                 listView1.Items.Add(value);
@@ -187,7 +186,6 @@ namespace Cloud
         private void Client_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             clientManager.LogoutProcess();
-            //SetAppSettingConf("TargetDir", "");
             clientManager = null;
         }
 

@@ -18,7 +18,7 @@ namespace Cloud
         private int port;
         private string ipString;
         private string fileKey; //加密文件的密钥
-        private string userKey; //加密fileKey的密钥
+        private string userKey; //加密fileKey的密钥   写错了！！！！！！！！
         List<string> upFileList;    //上传文件列表
         List<string> downFileList;  //下载文件列表
         FileInfoList fileInfoList;
@@ -30,6 +30,7 @@ namespace Cloud
             ipString = ip;
             workPath = ConfigurationManager.AppSettings["TargetDir"].ToString();
             salt = ConfigurationManager.AppSettings["Salt"].ToString();
+
             fileKey = FileCrypto.GetMD5(userName + salt);
             userKey = FileCrypto.GetMD5(salt + userName);
             eventQueue = new Queue<WatchEvent>();
@@ -37,6 +38,7 @@ namespace Cloud
             t.Elapsed += new System.Timers.ElapsedEventHandler(HandleQueue);
             t.AutoReset = true;
             t.Enabled = true;
+
             upFileList = new List<string>();
             downFileList = new List<string>();
         }
@@ -52,7 +54,7 @@ namespace Cloud
                 string fextname = Path.GetExtension(we.filePath);
                 if (fname.Length > 2 && fname.Substring(0, 2) == "~$" || fextname == ".tmp") //word临时文件
                     return;
-                if (File.GetAttributes(we.filePath) == FileAttributes.Hidden)
+                if (File.GetAttributes(we.filePath) == FileAttributes.Hidden) //隐藏文件
                     return;
                 FileInfo fi = new FileInfo(we.filePath);
                 if (fi.Length == 0)  //空文件不做处理
@@ -238,7 +240,7 @@ namespace Cloud
             string fileSha1 = FileCrypto.GetSHA1(fs);
             fs.Close();
 
-            //加密userkey，然后用filekey加密fileMd5
+            //加密filekey，然后用userkey加密fileMd5
             string enMd5 = FileCrypto.AESEncryptString(fileMd5, userKey);  //加密的文件摘要
             string enKey = FileCrypto.AESEncryptString(fileKey, fileMd5);//加密访问文件的密钥
             
@@ -302,6 +304,10 @@ namespace Cloud
             NetPacket np = clientComHelper.RecvMsg();
             ReturnMsg?.Invoke();
             return np.code;
+        }
+        public string getusername()
+        {
+            return userName;
         }
 
         //public int UploadFileProcess(string filePath)

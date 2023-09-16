@@ -27,14 +27,13 @@ namespace Cloud
         public HomePage()
         {
             InitializeComponent();
-
+            button1_f.Visibility= Visibility.Hidden;
+            button4_f.Visibility = Visibility.Hidden;
             tag = ConfigurationManager.AppSettings["initTag"].ToString();
             connectionString = ConfigurationManager.ConnectionStrings["FirstConnection"].ToString();
             int listenPort = int.Parse(ConfigurationManager.AppSettings["Port"].ToString());
             serviceManager = new ServiceManager(listenPort, connectionString);
             serviceManager.ReturnMsg += new ServiceManager.ReturnMsgDelegate(UpdateInfoDisp);
-            button4_f.Visibility = Visibility.Hidden;
-            button1_f.Visibility = Visibility.Hidden;
         }
 
         delegate void Delegate(string value);
@@ -63,14 +62,22 @@ namespace Cloud
             SetAppSettingConf("initTag", "1");
             button4.Visibility = Visibility.Hidden;
             button4_f.Visibility = Visibility.Visible;
+            button4_f.IsEnabled = false;
         }
 
         private void button1_Click(object sender, EventArgs e) //启动
         {
             serviceManager.Start();
-            listBox1.Items.Add(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ": 服务器启动成功");
+            listBox1.Items.Add(DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ": 服务器启动成功");
             button1.Visibility = Visibility.Hidden;
             button1_f.Visibility = Visibility.Visible;
+            button4.Visibility= Visibility.Hidden;
+            button1_f.IsEnabled = false;
+        }
+
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

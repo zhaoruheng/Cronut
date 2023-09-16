@@ -3,53 +3,181 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
         xmlns:local="clr-namespace:CloudClientWpf"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="350" Width="470" WindowStyle="None" AllowsTransparency="True" MouseLeftButtonDown="Window_LeftDown"  KeyDown="Window_KeyDown" BorderThickness="1" BorderBrush="Gray">
-    <Grid>
-        <Label HorizontalAlignment="Left" Margin="74,193,0,0" VerticalAlignment="Top" Name="label1" Content="用户名：" RenderTransformOrigin="0.243,0.195"/>
-        <Label HorizontalAlignment="Left" Margin="84,231,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.592,0.369" Name="label2" Content="密码："/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="154,193,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="183" Name="textBox1"/>
-        <!--TextBox HorizontalAlignment="Left" Height="23" Margin="257,143,0,0" TextWrapping="Wrap" Text="textBox2" VerticalAlignment="Top" Width="120" /-->
-        <PasswordBox HorizontalAlignment="Left" Height="23" Margin="154,234,0,0"  VerticalAlignment="Top" Width="183" Name="textBox2"/>
-        <!--Button Content="登录" HorizontalAlignment="Left" Margin="345,301,0,0" VerticalAlignment="Top" Width="75" Click="button1_Click"/-->
-        <Label Content="" HorizontalAlignment="Left" Margin="154,323,0,-0.2" VerticalAlignment="Top" Name="label3" Width="216"/>
-        <Image HorizontalAlignment="Left" Height="167" Margin="-2,0,-2,0" VerticalAlignment="Top" Width="700" Source="/ImageSource/background.png"/>
-        <Image HorizontalAlignment="Left" Height="36" Margin="290,272,0,0" VerticalAlignment="Top" Width="134" Source="/ImageSource/loginBotton.png" MouseDown="button1_Click" Name="button1"/>
+        Title="LoginWindow" Height="350" Width="470" 
+        WindowStyle="None" AllowsTransparency="True"
+        MouseLeftButtonDown="Window_LeftDown"  
+        KeyDown="Window_KeyDown" 
+        BorderThickness="1" BorderBrush="Gray">
 
-        <Button x:Name="BtnClose" Click="Click_Close" Margin="430,7,3.8,310.8">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <Grid x:Name="Uc_Grid" VerticalAlignment="Center" Height="25" Width="25">
-                            <Path x:Name="Uc_Path1" Stroke="DodgerBlue" StrokeThickness="3" Data="M0,0 L20,20" VerticalAlignment="Center" HorizontalAlignment="Center"></Path>
-                            <Path x:Name="Uc_Path2" Stroke="DodgerBlue" StrokeThickness="3" Data="M20,0 L0,20" VerticalAlignment="Center" HorizontalAlignment="Center"></Path>
-                            <Grid.RenderTransform>
-                                <RotateTransform x:Name="Uc_Transform" Angle="0" CenterY="12.5" CenterX="12.5"></RotateTransform>
-                            </Grid.RenderTransform>
-                        </Grid>
-                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"></ContentPresenter>
-                    </Grid>
-                    
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Uc_Path1" Property="Data" Value="M0,0 L22,22"></Setter>
-                            <Setter TargetName="Uc_Path2" Property="Data" Value="M22,0 L0,22"></Setter>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Uc_Path1" Property="Data" Value="M0,0 L24,24"></Setter>
-                            <Setter TargetName="Uc_Path2" Property="Data" Value="M24,0 L0,24"></Setter>
-                        </Trigger>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
-                                <Storyboard TargetName="Uc_Transform" TargetProperty="Angle">
-                                    <DoubleAnimation From="0" To="90" Duration="0:0:0.1"></DoubleAnimation>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-    </Grid>
+    <Border CornerRadius="12">
+        <Border.Background>
+            <ImageBrush ImageSource="/Imagesource/back2.jpg"
+                        Stretch="None"/>
+        </Border.Background>
+        <Border CornerRadius="10"                    
+            BorderThickness="2"
+            Opacity="0.5">
+
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32*"/>
+                    <RowDefinition Height="11*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="无忧网盘"
+                               Foreground="White"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               FontFamily="Montserrat"                             
+                               Margin="217,70,-250,-43" RenderTransformOrigin="1.151,0.42" Grid.RowSpan="2"/>
+
+                <TextBlock Text="您的安全云管家"
+                               Foreground="White"
+                               FontSize="15"
+                               FontWeight="Thin"
+                               FontFamily="Montserrat"                             
+                               Margin="217,100,-250,-43" RenderTransformOrigin="1.151,0.42" Grid.RowSpan="2"/>
+
+                <Image Source="/Imagesource/logo.png"
+                           Width="80" Height="90" Margin="118,42,0,0" Opacity="10" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Image.OpacityMask>
+                        <ImageBrush ImageSource="ImageSource/back2.jpg"/>
+                    </Image.OpacityMask>
+                </Image>
+
+                <TextBlock Text="Username"
+                               Foreground="DarkGray"
+                               FontSize="12"
+                               FontWeight="Medium"
+                               FontFamily="Montserrat"                             
+                               Margin="143,150,-144,-106" RenderTransformOrigin="1.151,0.42" Grid.RowSpan="2"/>
+
+                <TextBox x:Name="textBox1"
+                             FontSize="13"
+                             FontWeight="Medium"
+                             FontFamily="Montserrat"                            
+                             Foreground="White"
+                             CaretBrush="LightGray"
+                             BorderBrush="DarkGray"
+                             BorderThickness="0,0,0,2"
+                             VerticalContentAlignment="Center"
+                             Margin="144,160,121,64"
+                             Padding="20,0,0,0">
+
+                    <TextBox.Background>
+                        <ImageBrush ImageSource="/Imagesource/user-icon.png"
+                                        Stretch="None"
+                                        AlignmentX="Left"/>
+                    </TextBox.Background>
+                </TextBox>
+                <TextBlock Text="Password"
+                               Foreground="DarkGray"
+                               FontSize="12"
+                               FontWeight="Medium"
+                               FontFamily="Montserrat"                             
+                               Margin="143,211,-144,-77" Grid.RowSpan="2"/>
+                <PasswordBox x:Name="textBox2"
+                             FontSize="13"
+                             FontWeight="Medium"
+                             FontFamily="Montserrat"                            
+                             Foreground="White"
+                             CaretBrush="LightGray"
+                             BorderBrush="DarkGray"
+                             BorderThickness="0,0,0,2"
+                             VerticalContentAlignment="Center"
+                             Margin="144,219,121,6"
+                             Padding="20,0,0,0">
+
+                    <PasswordBox.Background>
+                        <ImageBrush ImageSource="/Imagesource/key-icon.png"
+                                        Stretch="None"
+                                        AlignmentX="Left"/>
+                    </PasswordBox.Background>
+                </PasswordBox>
+                <Label Content="" HorizontalAlignment="Left" Margin="118,75,0,0" VerticalAlignment="Top" Name="label3" Width="252" Grid.Row="1" Height="26"/>
+                <Button x:Name="button1"                          
+                            BorderThickness="0"
+                            Content="LOG IN"
+                            Foreground="White"
+                            FontSize="12"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"                           
+                            Margin="9,205,-9,-54"
+                            Click="button1_Click" Grid.RowSpan="2">
+
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#462AD8"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#28AEED"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Width="150" Height="40"
+                                        CornerRadius="20"
+                                        Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <Button x:Name="btnClose"                          
+                            BorderThickness="0"
+                            Content="X"
+                            Foreground="White"
+                            FontSize="12"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"
+                            Click="Click_Close" Margin="213,-110,-213,110">
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#DA34AE"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#C62DAE"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="18" Height="18"
+                                        CornerRadius="9"
+                                        Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+            </Grid>
+        </Border>
+    </Border>
 </Window>

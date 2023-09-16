@@ -62,7 +62,7 @@ namespace Cloud
                         //DialogResult = DialogResult.OK;
                         label3.Content = "登录成功 正在同步...";
 
-                        ClientWindow clientWindow = new ClientWindow(ClientManager,userName);
+                        ClientWindow clientWindow = new ClientWindow(ClientManager);
                         this.Close();
                         clientWindow.Show();
 
@@ -81,17 +81,10 @@ namespace Cloud
                 label3.Content = "⚠输入过长";
         }
 
-        /// <summary>
-        /// 用户登录
-        /// 检查输入的用户名和密码是否合法
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="userPass"></param>
-        /// <returns></returns>
         private byte CheckInput(string userName, string userPass)
         {
             if (userName.Length > maxInput || userPass.Length > maxInput)
-                return NetPublic.DefindedCode.TOOLONG;  //若用户名过长 或 密码过长
+                return NetPublic.DefindedCode.TOOLONG;
             return NetPublic.DefindedCode.OK;
         }
 

@@ -13,75 +13,70 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="TabItem">
-                                <Grid>
-                                    <Border Name="Border" BorderThickness="1,1,0,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
-                                        <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="10,2"/>
-                                    </Border>
-                                    <Border Name="SelectedIndicator" Visibility="Collapsed" Height="4" CornerRadius="2" Background="#5ab9a9" Margin="2,0" VerticalAlignment="Bottom"/>
-                                </Grid>
+                                <Border Name="Border" BorderThickness="1,1,0,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                </Border>
+
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="#08488f"/>
-                                        <Setter Property="Foreground" Value="White"/>
-                                        <Setter TargetName="SelectedIndicator" Property="Visibility" Value="Visible"/>
+                                        <Setter TargetName="Border" Property="Background" Value="#CBCBCB"/>
+
+                                        <Setter Property="TabItem.Foreground" Value="White"/>
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="False">
-                                        <Setter TargetName="Border" Property="Background" Value="#f5f5f5"/>
-                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Setter TargetName="Border" Property="Background" Value="White" />
+
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
                 </Style>
-
             </TabControl.Resources>
 
-
-
             <TabItem Header="首页" FontFamily="Letter Gothic Std" FontSize="14" Margin="-5,-5,-196.4,-12.6" BorderThickness="1" BorderBrush="Gray">
-                <Frame Source="HomePage.xaml" Foreground="Black"></Frame>
+                <Frame Source="HomePage.xaml" Foreground="black"></Frame>
             </TabItem>
 
             <TabItem Header="文件列表" FontFamily="Letter Gothic Std" FontSize="14" Margin="0,-5,-177.6,-12.6" HorizontalAlignment="Right" Width="429" BorderThickness="1" BorderBrush="Gray">
-                <Frame Source="SecondPage.xaml" Foreground="Black"></Frame>
+                <Frame Source="SecondPage.xaml" Foreground="black" ></Frame>
             </TabItem>
-
         </TabControl>
+        <Button x:Name="BtnClose"                          
+                            BorderThickness="0"
+                            Content="X"
+                            Foreground="White"
+                            FontSize="12"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"
+                            Click="Click_Close" Margin="382,-208,-381.934,207.824">
 
-        <Button x:Name="BtnClose" Click="Click_Close" Margin="767,0,0.4,420">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#DA34AE"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#C62DAE"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+
             <Button.Template>
                 <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <Grid x:Name="Uc_Grid" VerticalAlignment="Center" Height="25" Width="25">
-                            <Path x:Name="Uc_Path1" Stroke="DodgerBlue" StrokeThickness="3" Data="M0,0 L20,20" VerticalAlignment="Center" HorizontalAlignment="Center"></Path>
-                            <Path x:Name="Uc_Path2" Stroke="DodgerBlue" StrokeThickness="3" Data="M20,0 L0,20" VerticalAlignment="Center" HorizontalAlignment="Center"></Path>
-                            <Grid.RenderTransform>
-                                <RotateTransform x:Name="Uc_Transform" Angle="0" CenterY="12.5" CenterX="12.5"></RotateTransform>
-                            </Grid.RenderTransform>
-                        </Grid>
-                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"></ContentPresenter>
-                    </Grid>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Uc_Path1" Property="Data" Value="M0,0 L22,22"></Setter>
-                            <Setter TargetName="Uc_Path2" Property="Data" Value="M22,0 L0,22"></Setter>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Uc_Path1" Property="Data" Value="M0,0 L24,24"></Setter>
-                            <Setter TargetName="Uc_Path2" Property="Data" Value="M24,0 L0,24"></Setter>
-                        </Trigger>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
-                                <Storyboard TargetName="Uc_Transform" TargetProperty="Angle">
-                                    <DoubleAnimation From="0" To="90" Duration="0:0:0.1"></DoubleAnimation>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </ControlTemplate.Triggers>
+                    <Border Width="20" Height="20"
+                                        CornerRadius="9"
+                                        Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                    </Border>
                 </ControlTemplate>
             </Button.Template>
         </Button>
+
     </Grid>
 </Window>

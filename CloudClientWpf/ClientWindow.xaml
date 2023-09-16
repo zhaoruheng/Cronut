@@ -6,70 +6,28 @@
         xmlns:local="clr-namespace:CloudClientWpf"
         mc:Ignorable="d"
         Title="ClientWindow" Height="450" Width="800" Closing="Client_FormClosing" WindowStyle="None" AllowsTransparency="True" MouseLeftButtonDown="Window_LeftDown" BorderThickness="1" BorderBrush="Gray">
-    <Window.Resources>
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="Background" Value="#007ACC" />
-            <Setter Property="Margin" Value="12" />
-            <Setter Property="Padding" Value="8" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="MinWidth" Value="100" />
-            <Setter Property="MinHeight" Value="30" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border BorderBrush="#007ACC" BorderThickness="1" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#005A92" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#003145" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="ButtonStyle2" TargetType="Button">
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="Background" Value="#5ab9a9" />
-            <Setter Property="Margin" Value="12" />
-            <Setter Property="Padding" Value="8" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="MinWidth" Value="100" />
-            <Setter Property="MinHeight" Value="30" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border BorderBrush="#4CAF50" BorderThickness="1" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#3E874A" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#2E643B" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="147*"/>
             <ColumnDefinition Width="652*"/>
         </Grid.ColumnDefinitions>
 
-        <Image HorizontalAlignment="Left" Height="397" Margin="-193,-289,-347.6,0" VerticalAlignment="Top" Width="1339" Source="/ImageSource/background.png" Grid.ColumnSpan="2"/>
-        <Label Content="请选择一个本地文件夹：" HorizontalAlignment="Left" Margin="80,24,0,0" VerticalAlignment="Top" Name="label2" Grid.ColumnSpan="2" Foreground="White"/>
-        <Label Content="文件列表：" HorizontalAlignment="Left" Margin="80,118,0,0" VerticalAlignment="Top" Name="label1" Grid.ColumnSpan="2"/>
+        <Image Height="397" Margin="-193,-289,-347.934,0" VerticalAlignment="Top" Source="/ImageSource/back4.jpg" Grid.ColumnSpan="2" Stretch="UniformToFill"/>
 
+        <!--Label Content="请选择一个本地文件夹：" HorizontalAlignment="Left" Margin="80,24,0,0" VerticalAlignment="Top" Name="label2" Grid.ColumnSpan="2" Foreground="White"/-->
+        <TextBlock Text="请选择一个本地文件夹："
+                               Foreground="White"
+                               FontSize="12"
+                               FontWeight="Medium"
+                               FontFamily="Montserrat"                             
+                               Margin="82,31,568.066,2.824" RenderTransformOrigin="1.151,0.42" Grid.ColumnSpan="2"/>
+        <!--Label Content="文件列表：" HorizontalAlignment="Left" Margin="80,118,0,0" VerticalAlignment="Top" Name="label1" Grid.ColumnSpan="2"/-->
+        <TextBlock Text="文件列表："
+                               Foreground="Black"
+                               FontSize="12"
+                               FontWeight="Medium"
+                               FontFamily="Montserrat"                             
+                               Margin="80,118,0,0" RenderTransformOrigin="1.151,0.42" Grid.ColumnSpan="2"/>
         <ListView HorizontalAlignment="Left" Height="273" Margin="80,149,0,0" VerticalAlignment="Top" Width="654" Name="listView1" Grid.ColumnSpan="2">
             <ListView.View>
                 <GridView>
@@ -78,44 +36,150 @@
             </ListView.View>
         </ListView>
 
-        <Button Content="确定" HorizontalAlignment="Left" Margin="376.8,64,0,0" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}" Height="23" Width="85" Name="button3" Click="button3_Click" Grid.Column="1" />
-        <Button Content="选择" HorizontalAlignment="Left" Margin="248.8,64,0,0" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}" Width="85" Name="button2" Click="button2_Click" Grid.Column="1" Height="23"/>
-        <Button Content="同步运行中" HorizontalAlignment="Left" Margin="325,64,0,0" VerticalAlignment="Top" Style="{StaticResource ButtonStyle2}" Height="23" Width="85" Name="button3_f" IsEnabled="False" Grid.Column="1" />
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="80,64,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="278" Name="textBox1" Grid.ColumnSpan="2"/>
+        <Button x:Name="button3"                          
+                            BorderThickness="0"
+                            Content="CONFIRM"
+                            Foreground="White"
+                            FontSize="12"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"                           
+                            Margin="448.363,-87,56.066,237.824"
+                            Click="button3_Click" Grid.Column="1">
 
-
-        <Button x:Name="BtnClose" Click="Click_Close" Grid.Column="1" Margin="613.8,12,10.4,406">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <Grid x:Name="Uc_Grid" VerticalAlignment="Center" Height="25" Width="25">
-                            <Path x:Name="Uc_Path1" Stroke="DodgerBlue" StrokeThickness="3" Data="M0,0 L20,20" VerticalAlignment="Center" HorizontalAlignment="Center"></Path>
-                            <Path x:Name="Uc_Path2" Stroke="DodgerBlue" StrokeThickness="3" Data="M20,0 L0,20" VerticalAlignment="Center" HorizontalAlignment="Center"></Path>
-                            <Grid.RenderTransform>
-                                <RotateTransform x:Name="Uc_Transform" Angle="0" CenterY="12.5" CenterX="12.5"></RotateTransform>
-                            </Grid.RenderTransform>
-                        </Grid>
-                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"></ContentPresenter>
-                    </Grid>
-                    <ControlTemplate.Triggers>
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#87CEEB"/>
+                    <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Uc_Path1" Property="Data" Value="M0,0 L22,22"></Setter>
-                            <Setter TargetName="Uc_Path2" Property="Data" Value="M22,0 L0,22"></Setter>
+                            <Setter Property="Background" Value="#28AEED"/>
                         </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Uc_Path1" Property="Data" Value="M0,0 L24,24"></Setter>
-                            <Setter TargetName="Uc_Path2" Property="Data" Value="M24,0 L0,24"></Setter>
-                        </Trigger>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
-                                <Storyboard TargetName="Uc_Transform" TargetProperty="Angle">
-                                    <DoubleAnimation From="0" To="90" Duration="0:0:0.1"></DoubleAnimation>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </ControlTemplate.Triggers>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Width="150" Height="40"
+                                        CornerRadius="20"
+                                        Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                    </Border>
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        <Button x:Name="button2"                          
+                            BorderThickness="0"
+                            Content="CHOOSE"
+                            Foreground="White"
+                            FontSize="12"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"                           
+                            Margin="251.363,-87,253.066,237.824"
+                            Click="button2_Click" Grid.Column="1">
+
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#87CEEB"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#28AEED"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Width="150" Height="40"
+                                        CornerRadius="20"
+                                        Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="button4"                          
+                    BorderThickness="0"
+                    Content="Running"
+                    Foreground="White"
+                    FontSize="12"
+                    FontFamily="Montserrat"
+                    Cursor="Hand"                           
+                    Margin="350,-86,154,237"
+                     Grid.Column="1">
+
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#9ACD32"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#C2C2C2"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Width="150" Height="40"
+                                CornerRadius="20"
+                                Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <TextBox x:Name="textBox1"
+                             FontSize="13"
+                             FontWeight="Medium"
+                             FontFamily="Montserrat"                            
+                             Foreground="White"
+                             CaretBrush="LightGray"
+                             BorderBrush="DarkGray"
+                             BorderThickness="0,0,0,2"
+                             VerticalContentAlignment="Center"
+                             Margin="80,49,488.066,372.824"
+                             Padding="20,0,0,0" Grid.ColumnSpan="2">
+
+            <TextBox.Background>
+                <ImageBrush ImageSource="ImageSource/wenjian.png"
+                                        AlignmentX="Left" Stretch="None"/>
+            </TextBox.Background>
+        </TextBox>
+        <Button x:Name="btnClose"                          
+                            BorderThickness="0"
+                            Content="X"
+                            Foreground="White"
+                            FontSize="12"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"
+                            Click="Click_Close" Margin="566.363,-210,-61.934,209.824" Grid.Column="1">
+
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#DA34AE"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#C62DAE"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="18" Height="18"
+                                        CornerRadius="9"
+                                        Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
     </Grid>
 </Window>

@@ -46,12 +46,12 @@ namespace Cloud
         private void button2_Click(object sender, EventArgs e) //获取云端文件列表
         {
             listBox2.Items.Clear();
-            listBox2.Items.Add("云端文件路径：./ServerFiles/");
+            listBox2.Items.Add("Cloud FileTag:");
             DataBaseManager dbm = new DataBaseManager(connectionString);
             List<string> cloudFiles = dbm.GetCloudFiles();
             foreach (var i in cloudFiles)
             {
-                listBox2.Items.Add("./ServerFiles/" + i);
+                listBox2.Items.Add(i);
             }
         }
     }

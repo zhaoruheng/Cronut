@@ -41,8 +41,10 @@ namespace Cloud
             byte[] tmp = Encoding.Default.GetBytes(passwd);
             byte[] passMD5 = md5.ComputeHash(tmp);
             string passString = string.Empty;
+
             foreach (var i in passMD5)
-                passString += i.ToString("x2");
+                passString += i.ToString("x2"); //16进制
+
             string queryString = useString +
                 "INSERT INTO UserTable VALUES (" +
                 "'" + userName + "'," +
@@ -220,11 +222,14 @@ namespace Cloud
             fileID = ExecuteScalar(queryString);
 
             if (fileID == 0)
+                //文件不重复
             {
                 string physicalAdd = "./ServerFiles/" + sha1;   //物理地址./ServerFiles/+sha1
                 queryString = string.Format(useString +
                     "INSERT INTO FileTable VALUES('{0}', '{1}', '{2}', '{3}');", sha1, fileSize, physicalAdd, enKey);
                 ExecuteScalar(queryString);
+
+                /*逻辑可能有问题！！！！！！！！！！！！！！！！！！！！！！*/
                 queryString = string.Format(useString +
                     "SELECT * FROM FileTable WHERE HASH='{0}';", sha1);
                 fileID = ExecuteScalar(queryString);
@@ -299,6 +304,7 @@ namespace Cloud
                 "AND FILE_NAME='" + oldFileName + "';";
             return ExecuteScalar(queryString);
         }
+
         public List<string> GetCloudFiles()
         {
             List<string> cloudFiles = new List<string>();

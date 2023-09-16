@@ -127,5 +127,17 @@
   <ItemGroup>
     <Resource Include="ImageSource\loginBotton.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageSource\back2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImageSource\back4.jpg" />
+    <Resource Include="ImageSource\key-icon.png" />
+    <Resource Include="ImageSource\logo %281%29.jpg" />
+    <Resource Include="ImageSource\logo.png" />
+    <Content Include="ImageSource\Properties.Resources.Designer.cs.dll" />
+    <Resource Include="ImageSource\user-icon.png" />
+    <Resource Include="ImageSource\wenjian.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
