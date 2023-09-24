@@ -20,19 +20,28 @@ namespace Cloud
 
         public void MakeResponsePacket(byte code)
         {
-            np = new NetPacket(code, null, null, null, -1, null, null, null);
+            np = new NetPacket(code, null, null,0, null, null, null, null,-1);
         }
-        public void MakeResponsePacket(byte code, string enKey, string enMd5) //用于下载
+
+        public void MakeResponsePacket(NetPacket np)
         {
-            np = new NetPacket(code, null, null, null, -1, null, null, null);
-            np.enMd5 = enMd5;
-            np.enKey = enKey;
+            this.np = np;
         }
+
+        //public void MakeResponsePacket(byte code, string enKey, string enMd5) //用于下载
+        //{
+        //    np = new NetPacket(code, null, null, 0, null, null, null, null, -1);
+        //    np.enMd5 = enMd5;
+        //    np.enKey = enKey;
+        //}
+
         public override void RecvFile(string fname)
         {
             string storePath = "./ServerFiles/" + fname;
             base.RecvFile(storePath);
         }
+
+        
         public void SendFileList(FileInfoList fileList)
         {
             //byte[] bFileList = Encoding.Default.GetBytes(fileList);

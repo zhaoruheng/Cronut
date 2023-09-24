@@ -22,7 +22,6 @@ namespace Cloud
     {
         string tag;
         string connectionString;
-        ServiceManager serviceManager;
 
         public SecondPage()
         {

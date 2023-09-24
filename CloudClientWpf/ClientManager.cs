@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Security.Cryptography;
+using System.Windows;
 using System.Windows.Shapes;
 using NetPublic;
 
@@ -291,7 +292,6 @@ namespace Cloud
                 clientComHelper.RecvFile(downloadPath + fileName);
                 FileCrypto fc = new FileCrypto(downloadPath + fileName,clientComHelper,userName);
 
-                fc.FileUpload();
                 fc.FileDownload();
             }
 

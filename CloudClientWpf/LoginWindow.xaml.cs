@@ -38,7 +38,7 @@ namespace Cloud
         private void button1_Click(object sender, EventArgs e)
         {
             label3.Content = "正在连接...";
-            ClientManager = new ClientManager(ipString, port);
+            ClientManager clientManager = new ClientManager(ipString, port);
             string userName = textBox1.Text.Trim();
             string userPass = textBox2.Password.ToString().Trim();
             byte status = CheckInput(userName, userPass);
@@ -47,22 +47,22 @@ namespace Cloud
             {
                 try
                 {
-                    status = ClientManager.LoginProcess(userName, userPass);
+                    status = clientManager.LoginProcess(userName, userPass);
                 }
                 catch
                 {
-                    label3.Content = "⚠请检查网络连接";
-                    ClientManager = null;
-                    return;
+                label3.Content = "⚠请检查网络连接";
+                clientManager = null;
+                return;
                 }
 
-                switch (status)
+            switch (status)
                 {
                     case NetPublic.DefindedCode.LOGSUCCESS:
                         //DialogResult = DialogResult.OK;
                         label3.Content = "登录成功 正在同步...";
 
-                        ClientWindow clientWindow = new ClientWindow(ClientManager);
+                        ClientWindow clientWindow = new ClientWindow(clientManager);
                         this.Close();
                         clientWindow.Show();
 

@@ -115,7 +115,7 @@ namespace Cloud
                 "FILE_NAME NVARCHAR(50) NOT NULL," +                //用户上传文件名
                 "USER_NAME NVARCHAR(50) NOT NULL," +                //用户登录名
                 "UPLOAD_TIME DATETIME NOT NULL, " +                 // 用户上传文件时间
-                "ENMD5 VARCHAR(70) NOT NULL" +                   //加密后的文件MD5
+                "ENMD5 VARCHAR(70) " +                   //加密后的文件MD5
                 "PRIMARY KEY(USER_ID,FILE_ID)" +
                 ");";
             CreateCommand(queryString);
@@ -339,6 +339,48 @@ namespace Cloud
                 reader.Close();
             }
             return cloudFiles;
+        }
+
+        public int GetFileCountByTag(string fileTag)
+        {
+            string queryString = $"SELECT FILE_ID FROM FileTable WHERE FileTag = '{fileTag}'";
+            return ExecuteScalar(queryString);
+        }
+        public void InsertFileTable(ref long fileID, string fileName, string fileTag, int MHTNum, long fileSize, string serAdd)
+        { 
+            queryString = string.Format(useString +
+                               "INSERT INTO FileTable VALUES('{0}', '{1}', '{2}', '{3}');", fileTag, fileSize, serAdd, MHTNum);
+            ExecuteScalar(queryString);
+
+            queryString = string.Format(useString +
+                               "SELECT * FROM FileTable WHERE FileTag='{0}';", fileTag);
+            fileID = ExecuteScalar(queryString);
+        }
+
+        public void InsertMHTTable(long fileID, int MHTID, string salt, string rootNode)
+        {
+            queryString = string.Format(useString +
+                                                "INSERT INTO MHTTable VALUES('{0}', '{1}', '{2}', '{3}');", fileID, MHTID, salt, rootNode);
+            ExecuteScalar(queryString);
+        }
+
+        public void InsertUpFileTable(long fileID, string fileName, string uploadDateTime,string username)
+        {
+            string userid = string.Empty;
+            queryString = string.Format(useString +
+                                              "SELECT USER_ID FROM UserTable WHERE USER_NAME='{0}';", username);
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                userid = reader[0].ToString();
+                reader.Close();
+            }   
+            queryString = string.Format(useString +
+                                         "INSERT INTO UpFileTable VALUES('{0}', '{1}', '{2}', '{3}','{4}');", fileID, userid, fileName, username,uploadDateTime);
+
         }
     }
 }

@@ -118,9 +118,26 @@ namespace Cloud
         //客户端
         public void FileDownload()
         {
+            clientComHelper.RecvFile(fileDir);
             byte[] plaintext = FileDecrypt();
 
-            Console.WriteLine("\n--------------对文件进行解密----------------");
+            try
+            {
+                // 使用FileStream创建文件流
+                using (FileStream fs = new FileStream(fileDir, FileMode.Create))
+                {
+                    // 使用Write方法将byte数组写入文件流
+                    fs.Write(plaintext, 0, plaintext.Length);
+                }
+
+                Console.WriteLine("文件写入成功");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("写入文件时出错：" + ex.Message);
+            }
+
+                Console.WriteLine("\n--------------对文件进行解密----------------");
             Console.WriteLine("解密文件路径:" + fileDir);
             //Console.WriteLine("解密后的明文:");
             //Console.WriteLine(Encoding.UTF8.GetString(plaintext));
@@ -267,6 +284,7 @@ namespace Cloud
             {
                 Console.WriteLine("写入文件时出错：" + ex.Message);
             }
+            clientComHelper.SendFile(filePath);
         }
 
         //客户端和服务器端都有，请参考具体注释

@@ -9,7 +9,7 @@ namespace Cloud
     {
         public static BigInteger BlindSignature(BigInteger F_prime)
         {
-                  
+            BigInteger p = new BigInteger(100001159);
             //服务器：选取 r∈Zp*
             BigInteger r = 15;
 

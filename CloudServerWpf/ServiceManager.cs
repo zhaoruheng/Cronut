@@ -8,6 +8,7 @@ using System.IO;
 using NetPublic;
 using System.Windows;
 using System.Windows.Shapes;
+using System.Security.Cryptography;
 
 namespace Cloud
 {
@@ -99,7 +100,7 @@ namespace Cloud
             switch (np.code)
             {
                 case DefindedCode.LOGIN:
-                    res = LoginRequest(np.userName, np.enMd5);
+                    res = LoginRequest(np.userName, np.password);
                     serverComHelper.MakeResponsePacket(res);
                     serverComHelper.SendMsg();
                     break;
@@ -113,7 +114,8 @@ namespace Cloud
                     ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + np.userName + "拉取文件列表");
                     break;
                 case DefindedCode.UPLOAD:
-                    FileCrypto fc = new FileCrypto();
+                    DataBaseManager dm = new DataBaseManager(connectionString);
+                    FileCrypto fc = new FileCrypto(serverComHelper,dm,np.userName);
 
                     fc.FileUpload();
                     /*需要修改！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！*/
@@ -133,6 +135,19 @@ namespace Cloud
 
                     break;
                 case DefindedCode.DOWNLOAD:
+
+                    DataBaseManager dm2 = new DataBaseManager(connectionString);
+                    string serPath = dm2.GetFilePath(np.userName, np.fileName);
+                    if (serPath == "")
+                    {
+                        serverComHelper.MakeResponsePacket(DefindedCode.ERROR);
+                        break;
+                    }
+                    serverComHelper.MakeResponsePacket(DefindedCode.FILEDOWNLOAD);
+                    FileCrypto fc2 = new FileCrypto(serverComHelper, dm2, np.userName,serPath);
+
+                    serverComHelper.RecvMsg();
+                    fc2.FileUpload();
                     /*不是很懂！*/
                     //string serFilePath = string.Empty;
                     //string enKey = string.Empty;
@@ -198,14 +213,14 @@ namespace Cloud
             return result;
         }
 
-        private byte UploadRequest(string userName, string userFile, long fileSize, string enMd5, string sha1, string uploadTime, string enKey)
-        {
-            DataBaseManager dm = new DataBaseManager(connectionString);
-            int status = dm.InsertFile(userFile, fileSize, userName, enMd5, sha1, uploadTime, enKey);
-            if (status == 1)
-                return DefindedCode.AGREEUP;
-            return DefindedCode.FILEEXISTED;
-        }
+        //private byte UploadRequest(string userName, string userFile, long fileSize, string enMd5, string sha1, string uploadTime, string enKey)
+        //{
+        //    DataBaseManager dm = new DataBaseManager(connectionString);
+        //    int status = dm.InsertFile(userFile, fileSize, userName, enMd5, sha1, uploadTime, enKey);
+        //    if (status == 1)
+        //        return DefindedCode.AGREEUP;
+        //    return DefindedCode.FILEEXISTED;
+        //}
 
         //serFile是服务器的物理路径
         private byte DownloadRequest(string userName, string userFile, ref string serFile, ref string enKey, ref string enMd5)
