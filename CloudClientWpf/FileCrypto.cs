@@ -6,12 +6,12 @@ using System.Windows.Forms;
 
 namespace Cloud
 {
-    class FileCrypto
+    class FileCrypto_2
     {
         public string encryptedFileDir;
         public string decryptedFileDir;
         string key;
-        public FileCrypto(string e, string d, string k)
+        public FileCrypto_2(string e, string d, string k)
         {
             encryptedFileDir = e;
             decryptedFileDir = d;

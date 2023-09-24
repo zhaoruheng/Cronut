@@ -92,3 +92,5 @@ C:\Users\郭歆越\Desktop\AF-Dedup项目\云盘0.1\源代码\CloudClientWpf\obj
 \\Mac\Home\Desktop\项目\Submitted\源代码\CloudClientWpf\obj\Debug\CloudClientWpf.csproj.CoreCompileInputs.cache
 \\Mac\Home\Desktop\项目\Submitted\源代码\CloudClientWpf\obj\Debug\CloudClientWpf.csproj.CopyComplete
 \\Mac\Home\Desktop\项目\Submitted\源代码\CloudClientWpf\obj\Debug\CloudClientWpf_Content.g.cs
+\\Mac\Home\Desktop\项目\Submitted\源代码\CloudClientWpf\bin\Debug\MathNet.Numerics.dll
+\\Mac\Home\Desktop\项目\Submitted\源代码\CloudClientWpf\bin\Debug\MathNet.Numerics.xml

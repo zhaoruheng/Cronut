@@ -7,6 +7,7 @@ using System.Configuration;
 using System.IO;
 using NetPublic;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace Cloud
 {
@@ -112,34 +113,38 @@ namespace Cloud
                     ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + np.userName + "拉取文件列表");
                     break;
                 case DefindedCode.UPLOAD:
-                    /*需要修改！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！*/
-                    res = UploadRequest(np.userName, np.fileName, np.fileLength, np.enMd5, np.sha1, np.uploadTime, np.enKey);
-                    //UploadRequest判断是否重复
+                    FileCrypto fc = new FileCrypto();
 
-                    serverComHelper.MakeResponsePacket(res);
-                    serverComHelper.SendMsg();
-                    if (res == DefindedCode.AGREEUP)
-                    {
-                        ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":接收来自" + np.userName + "的文件");
-                        serverComHelper.RecvFile(np.sha1);
-                    }
-                    else if (res == DefindedCode.FILEEXISTED)
-                        ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "上传文件已做去重处理");
-                    ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "上传*" + np.fileName + "*成功");
+                    fc.FileUpload();
+                    /*需要修改！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！*/
+                    //res = UploadRequest(np.userName, np.fileName, np.fileLength, np.enMd5, np.sha1, np.uploadTime, np.enKey);
+                    ////UploadRequest判断是否重复
+
+                    //serverComHelper.MakeResponsePacket(res);
+                    //serverComHelper.SendMsg();
+                    //if (res == DefindedCode.AGREEUP)
+                    //{
+                    //    ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":接收来自" + np.userName + "的文件");
+                    //    serverComHelper.RecvFile(np.sha1);
+                    //}
+                    //else if (res == DefindedCode.FILEEXISTED)
+                    //    ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "上传文件已做去重处理");
+                    //ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "上传*" + np.fileName + "*成功");
+
                     break;
                 case DefindedCode.DOWNLOAD:
                     /*不是很懂！*/
-                    string serFilePath = string.Empty;
-                    string enKey = string.Empty;
-                    string enMd5 = string.Empty;
-                    ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "请求下载*" + np.fileName + "*");
-                    res = DownloadRequest(np.userName, np.fileName, ref serFilePath, ref enKey, ref enMd5);
-                    serverComHelper.MakeResponsePacket(res, enKey, enMd5);
-                    serverComHelper.SendMsg(); //发送文件解密的密钥，发送文件被用户加密后的摘要
-                    serverComHelper.RecvMsg();
-                    /*不懂SendFile！！！！！！！！！！！！！！！！！！！*/
-                    serverComHelper.SendFile(serFilePath);
-                    ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "下载完成");
+                    //string serFilePath = string.Empty;
+                    //string enKey = string.Empty;
+                    //string enMd5 = string.Empty;
+                    //ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "请求下载*" + np.fileName + "*");
+                    //res = DownloadRequest(np.userName, np.fileName, ref serFilePath, ref enKey, ref enMd5);
+                    //serverComHelper.MakeResponsePacket(res, enKey, enMd5);
+                    //serverComHelper.SendMsg(); //发送文件解密的密钥，发送文件被用户加密后的摘要
+                    //serverComHelper.RecvMsg();
+                    ///*不懂SendFile！！！！！！！！！！！！！！！！！！！*/
+                    //serverComHelper.SendFile(serFilePath);
+                    //ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "下载完成");
                     break;
                 case DefindedCode.DELETE:
                     res = DeleteRequest(np.userName, np.fileName);

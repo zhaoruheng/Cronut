@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Security.Cryptography;
+using System.Windows.Shapes;
 using NetPublic;
 
 namespace Cloud
@@ -31,8 +33,8 @@ namespace Cloud
             workPath = ConfigurationManager.AppSettings["TargetDir"].ToString();
             salt = ConfigurationManager.AppSettings["Salt"].ToString();
 
-            fileKey = FileCrypto.GetMD5(userName + salt);
-            userKey = FileCrypto.GetMD5(salt + userName);
+            //fileKey = FileCrypto.GetMD5(userName + salt);
+            //userKey = FileCrypto.GetMD5(salt + userName);
             eventQueue = new Queue<WatchEvent>();
             System.Timers.Timer t = new System.Timers.Timer(2000);
             t.Elapsed += new System.Timers.ElapsedEventHandler(HandleQueue);
@@ -50,8 +52,8 @@ namespace Cloud
                 return;
             if (we.fileEvent != 3) //如果是删除操作，文件可能已经不存在
             {
-                string fname = Path.GetFileName(we.filePath);
-                string fextname = Path.GetExtension(we.filePath);
+                string fname = System.IO.Path.GetFileName(we.filePath);
+                string fextname = System.IO.Path.GetExtension(we.filePath);
                 if (fname.Length > 2 && fname.Substring(0, 2) == "~$" || fextname == ".tmp") //word临时文件
                     return;
                 if (File.GetAttributes(we.filePath) == FileAttributes.Hidden) //隐藏文件
@@ -91,14 +93,14 @@ namespace Cloud
                 {
                     //处理删除文件操作
                     //MessageBox.Show("delete:" + we.filePath);
-                    DeleteFileProcess(Path.GetFileName(we.filePath));
+                    DeleteFileProcess(System.IO.Path.GetFileName(we.filePath));
                     return;
                 }
                 if (we.fileEvent == 4)
                 {
                     //处理重命名操作
                     //MessageBox.Show("rename:" + we.filePath);
-                    RenameFileProcess(Path.GetFileName(we.filePath), Path.GetFileName(we.oldFilePath));
+                    RenameFileProcess(System.IO.Path.GetFileName(we.filePath), System.IO.Path.GetFileName(we.oldFilePath));
                     return;
                 }
             }
@@ -185,8 +187,9 @@ namespace Cloud
         {
             this.userName = userName;
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
-            string md5 = FileCrypto.GetMD5(userPass);
-            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.LOGIN, userName, md5, null, null, -1, null, null);
+            string md5 = FileCrypto_2.GetMD5(userPass);
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.LOGIN, userName, md5, 0, null, null, null, null, 0);
+            
             clientComHelper.SendMsg();
             NetPacket np = clientComHelper.RecvMsg();
             return np.code;
@@ -196,7 +199,7 @@ namespace Cloud
         public byte LogoutProcess()
         {
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
-            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.LOGOUT, userName, 0, null, null);
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.LOGOUT, userName, null, 0, null, null, null, null, 0);
             clientComHelper.SendMsg();
             NetPacket np = clientComHelper.RecvMsg();
             clientComHelper = null;
@@ -206,7 +209,7 @@ namespace Cloud
         public void GetFileListProcess()
         {
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
-            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.GETLIST, userName, 0, null, null);
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.GETLIST, userName, null, 0, null, null, null, null, 0);
             clientComHelper.SendMsg();
             fileInfoList = clientComHelper.RecvFileList();
         }
@@ -221,7 +224,13 @@ namespace Cloud
 
         //上传文件
         public byte UploadFileProcess(string filePath)
-        { 
+        {
+            ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
+
+            FileCrypto fc = new FileCrypto(filePath,clientComHelper,userName);
+
+            return fc.FileUpload();
+            /*
 			Console.WriteLine("Upload: " + filePath);
 
             //new一个ClientComHelper对象
@@ -256,9 +265,10 @@ namespace Cloud
                 clientComHelper.SetCryptor(fileKey);
                 clientComHelper.SendFile(filePath);
             }
+            */
 
-            ReturnMsg?.Invoke();
-            return np.code;
+           
+            
         }
 
         //下载文件
@@ -266,19 +276,25 @@ namespace Cloud
         {
             string downloadPath = workPath + "/";
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
-            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.DOWNLOAD, userName, 0, fileName, null);
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.DOWNLOAD, userName, null, 0, null, fileName, null, null, 0);
+            
             clientComHelper.SendMsg();
 
             NetPacket np = clientComHelper.RecvMsg();
             if (np.code == NetPublic.DefindedCode.FILEDOWNLOAD)
             {
-                string deMd5 = FileCrypto.AESDecryptString(np.enMd5, userKey);
-                string deKey = FileCrypto.AESDecryptString(np.enKey, deMd5);
-                clientComHelper.SetCryptor(deKey);
+                //string deMd5 = FileCrypto.AESDecryptString(np.enMd5, userKey);
+                //string deKey = FileCrypto.AESDecryptString(np.enKey, deMd5);
+                //clientComHelper.SetCryptor(deKey);
                 clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.READY);
                 clientComHelper.SendMsg();
                 clientComHelper.RecvFile(downloadPath + fileName);
+                FileCrypto fc = new FileCrypto(downloadPath + fileName,clientComHelper,userName);
+
+                fc.FileUpload();
+                fc.FileDownload();
             }
+
             return np.code;
         }
 
@@ -287,7 +303,7 @@ namespace Cloud
         {
             //MessageBox.Show("DEL:" + fileName);
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
-            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.DELETE, userName, 0, fileName, null);
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.DELETE, userName, null, 0, null, fileName, null, null, 0);
             clientComHelper.SendMsg();
             NetPacket np = clientComHelper.RecvMsg();
             ReturnMsg?.Invoke();
@@ -299,7 +315,7 @@ namespace Cloud
         {
             //MessageBox.Show("RENAME:" + oldName + " to " + fileName);
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
-            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.RENAME, userName, 0, oldName, fileName);
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.RENAME, userName, null, 0, null, oldName, fileName, null, 0);
             clientComHelper.SendMsg();
             NetPacket np = clientComHelper.RecvMsg();
             ReturnMsg?.Invoke();

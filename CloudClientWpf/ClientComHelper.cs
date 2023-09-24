@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using NetPublic;
 using System.Windows;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Cloud
 {
@@ -16,7 +17,7 @@ namespace Cloud
         //ClientComHelper继承了Communication抽象类
     {
         IPAddress targetIP;
-        FileCrypto fc;
+        FileCrypto_2 fc;
         int targetPort;
         string workPath;
 
@@ -58,19 +59,22 @@ namespace Cloud
         /// <param name="fileLength"></param>
         /// <param name="fileName"></param>
         /// <param name="newName"></param>
-        public void MakeRequestPacket(byte code, string userName, string md5, string sha1, 
-            string enkey, long fileLength, string fileName, string newName)
+        public void MakeRequestPacket(byte code, string userName, string password, long fileLength, string fileTag, string fileName, string newName, string uploadTime, long userType)
         {
             FileInfo fi = new FileInfo(workPath + "/" + fileName);
 
             string changeTime = fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
 
-            np = new NetPacket(code, userName, md5, sha1, fileLength, fileName, newName, changeTime);
-            np.enKey = enkey;
+            np = new NetPacket(code, userName, password, fileLength, fileTag, fileName,newName, changeTime, userType);
+            //np.enKey = enkey;
+        }
+        public void MakeRequestPacket(NetPacket np)
+        {
+            this.np = np;
         }
 
         //函数重载
-        
+
         /// <summary>
         /// 对应5个Request:
         /// 登出
@@ -89,14 +93,14 @@ namespace Cloud
             FileInfo fi = new FileInfo(workPath + "/" + fileName);
             string changeTime = fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
 
-            np = new NetPacket(code, userName, null, null, fileLength, fileName, newName, changeTime);
+            np = new NetPacket(code, userName, null, fileLength, null,fileName, newName, null, 0);
             //将enMD5和SHA1置为null
         }
 
         //初始化
         public void MakeRequestPacket(byte code)
         {
-            np = new NetPacket(code, null, null, null, 0, null, null, null);
+            np = new NetPacket(code, null, null, 0, null, null, null, null, 0);
         }
 
 
@@ -116,29 +120,29 @@ namespace Cloud
         public void SetCryptor(string key)
         {
             //FileCrypto是一个类，在FileCrypto.cs文件中
-            fc = new FileCrypto("./tmp/", workPath, key);
+            fc = new FileCrypto_2("./tmp/", workPath, key);
         }
 
         //Communication类中重写SendFile
         public override void SendFile(string sendPath)
         {
-            if (fc == null)
-                MessageBox.Show("加密器没有创建");
-            string enPath = fc.FileEncrypt(sendPath);
-            base.SendFile(enPath);
-            File.Delete(enPath);
+            //if (fc == null)
+            //    MessageBox.Show("加密器没有创建");
+            //string enPath = fc.FileEncrypt(sendPath);
+            base.SendFile(sendPath);
+            File.Delete(sendPath);
         }
 
         //Communication类中重写RecvFile
         public override void RecvFile(string storePath)
         {
-            if (fc == null)
-                MessageBox.Show("加密器没有创建");
-            string enPath = fc.encryptedFileDir + Path.GetFileName(storePath);
-            base.RecvFile(enPath);
-            fc.decryptedFileDir = Path.GetDirectoryName(storePath) + "/";
-            fc.FileDecrypt(enPath);
-            File.Delete(enPath);
+            //if (fc == null)
+            //    MessageBox.Show("加密器没有创建");
+            //string enPath = fc.encryptedFileDir + Path.GetFileName(storePath);
+            base.RecvFile(storePath);
+            //fc.decryptedFileDir = Path.GetDirectoryName(storePath) + "/";
+            //fc.FileDecrypt(enPath);
+            //File.Delete(enPath);
         }
     }
 }

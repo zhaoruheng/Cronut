@@ -72,7 +72,10 @@ namespace Cloud
             if (count != 0)
             {
                 //删表
-                queryString = useString+" If exists(SELECT * FROM INFORMATION_SCHEMA.TABLES where table_name = 'UserTable') DROP TABLE UserTable; If exists(SELECT * FROM INFORMATION_SCHEMA.TABLES where table_name = 'UpFileTable') DROP TABLE UpFileTable;  If exists(SELECT * FROM INFORMATION_SCHEMA.TABLES where table_name = 'FileTable') DROP TABLE FileTable;";
+                queryString = useString+" If exists(SELECT * FROM INFORMATION_SCHEMA.TABLES where table_name = 'UserTable') DROP TABLE UserTable; " +
+                    "If exists(SELECT * FROM INFORMATION_SCHEMA.TABLES where table_name = 'UpFileTable') DROP TABLE UpFileTable; " +
+                    " If exists(SELECT * FROM INFORMATION_SCHEMA.TABLES where table_name = 'FileTable') DROP TABLE FileTable; " +
+                    " If exists(SELECT * FROM INFORMATION_SCHEMA.TABLES where table_name = 'MHTTable') DROP TABLE MHTTable; ";
                 CreateCommand(queryString);
             }
             else
@@ -97,10 +100,10 @@ namespace Cloud
             queryString = useString +
                 "CREATE TABLE FileTable (" +
                 "FILE_ID INT IDENTITY(1,1) PRIMARY KEY," +          //文件ID
-                "HASH VARCHAR(50) NOT NULL," +                     //Hash值 SHA1(F)
+                "FileTag VARCHAR(50) NOT NULL," +                     //Hash值 SHA1(F)
                 "FILE_SIZE BIGINT NOT NULL," +                       //文件大小
                 "PHYSICAL_ADD NVARCHAR(MAX) NOT NULL, " +            //物理地址
-                "ENKEY VARCHAR(70) NOT NULL" +                     //解密密钥
+                "MHT_Num BIGINT NOT NULL,"+
                 ");";
             CreateCommand(queryString);
 
@@ -113,6 +116,18 @@ namespace Cloud
                 "USER_NAME NVARCHAR(50) NOT NULL," +                //用户登录名
                 "UPLOAD_TIME DATETIME NOT NULL, " +                 // 用户上传文件时间
                 "ENMD5 VARCHAR(70) NOT NULL" +                   //加密后的文件MD5
+                "PRIMARY KEY(USER_ID,FILE_ID)" +
+                ");";
+            CreateCommand(queryString);
+
+            //建表MHTTable
+            queryString = useString +
+                "CREATE TABLE MHTTable (" +
+                "FILE_ID INT," +                                   
+                "MHT_ID  INT NOT NULL," +                             
+                "Salt NVARCHAR(50) NOT NULL," +               
+                "RootNode NVARCHAR(50) NOT NULL," + 
+                "PRIMARY KEY(FILE_ID,MHT_ID)" +
                 ");";
             CreateCommand(queryString);
 
@@ -212,13 +227,13 @@ namespace Cloud
             }
             return fil;
         }
-        public int InsertFile(string userFile, long fileSize, string userName, string enMd5, string sha1, string uploadTime, string enKey)
+        public int InsertFile(string userFile, long fileSize, string userName, string enMd5, string sha1, string uploadTime)
         {
             int status = 0; //文件重复
             int fileID;
             queryString = useString +
                 "SELECT * FROM FileTable " +
-                "Where HASH='" + sha1 + "';";
+                "Where FileTag='" + sha1 + "';";
             fileID = ExecuteScalar(queryString);
 
             if (fileID == 0)
@@ -226,12 +241,12 @@ namespace Cloud
             {
                 string physicalAdd = "./ServerFiles/" + sha1;   //物理地址./ServerFiles/+sha1
                 queryString = string.Format(useString +
-                    "INSERT INTO FileTable VALUES('{0}', '{1}', '{2}', '{3}');", sha1, fileSize, physicalAdd, enKey);
+                    "INSERT INTO FileTable VALUES('{0}', '{1}', '{2}');", sha1, fileSize, physicalAdd);
                 ExecuteScalar(queryString);
 
                 /*逻辑可能有问题！！！！！！！！！！！！！！！！！！！！！！*/
                 queryString = string.Format(useString +
-                    "SELECT * FROM FileTable WHERE HASH='{0}';", sha1);
+                    "SELECT * FROM FileTable WHERE FileTag='{0}';", sha1);
                 fileID = ExecuteScalar(queryString);
                 status = 1;  //云端不存在，需要上传
             }
