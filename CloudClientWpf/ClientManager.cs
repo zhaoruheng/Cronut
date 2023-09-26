@@ -228,6 +228,9 @@ namespace Cloud
         {
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
 
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.UPLOAD, userName, 0, null, null);
+            clientComHelper.SendMsg();
+
             FileCrypto fc = new FileCrypto(filePath,clientComHelper,userName);
 
             return fc.FileUpload();

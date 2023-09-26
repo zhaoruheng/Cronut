@@ -47,7 +47,7 @@ namespace Cloud
 
             byte[] hashValue = CalculateSHA1();    //客户端
 
-            blindSignature = BlindSign.BlindSignature(hashValue,clientComHelper);   //客户端和服务器端都有，请点开BlindSignature这个函数，里面有更具体的内容
+            blindSignature = BlindSign.BlindSignature(hashValue,clientComHelper,userName);   //客户端和服务器端都有，请点开BlindSignature这个函数，里面有更具体的内容
 
             fileEncryptKey = Encoding.UTF8.GetString(CalculateSHA256(blindSignature)); //客户端：计算加密密钥
 
@@ -267,7 +267,10 @@ namespace Cloud
         //客户端和服务器端都有，请参考具体注释♪(･ω･)ﾉ
         public void InitialUpload()
         {
-            string filePath = Path.Combine(fileDir, fileTag);
+            System.IO.DirectoryInfo topDir = System.IO.Directory.GetParent(fileDir);
+            string pathto = topDir.FullName;
+
+            string filePath = Path.Combine(pathto, fileTag);
 
             try
             {
@@ -302,6 +305,7 @@ namespace Cloud
             //*************************通信：客户端将ResponseNodeSet发送给服务器*************************************
             NetPacket npR = new NetPacket();
             npR.ResponseNodeSet = ResponseNodeSet;
+            npR.userName = userName;
             clientComHelper.MakeRequestPacket(npR);
             clientComHelper.SendMsg();
 

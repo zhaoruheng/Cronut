@@ -10,7 +10,7 @@ namespace Cloud
 {
     internal class BlindSign
     {
-        public static string BlindSignature(byte[] hashValue,ClientComHelper clientComHelper)
+        public static string BlindSignature(byte[] hashValue,ClientComHelper clientComHelper,string username)
         {
             //客户端：选择一个指定的大素数p
             BigInteger p = new BigInteger(100001159);
@@ -27,6 +27,7 @@ namespace Cloud
             //********************通信：客户端将F_prime发送给服务器*****************************
             NetPacket np = new NetPacket();
             np.F_prime = F_prime;
+            np.userName = username;
             clientComHelper.MakeRequestPacket(np);
             clientComHelper.SendMsg();
 
