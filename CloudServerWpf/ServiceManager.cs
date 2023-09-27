@@ -143,11 +143,14 @@ namespace Cloud
                         serverComHelper.MakeResponsePacket(DefindedCode.ERROR);
                         break;
                     }
-                    serverComHelper.MakeResponsePacket(DefindedCode.FILEDOWNLOAD);
+                    NetPacket npD= new NetPacket();
+                    npD.code = DefindedCode.FILEDOWNLOAD;
+                    npD.enKey= dm2.GetEnKey(np.userName, np.fileName);
+                    serverComHelper.MakeResponsePacket(npD);
                     FileCrypto fc2 = new FileCrypto(serverComHelper, dm2, np.userName,serPath);
 
-                    serverComHelper.RecvMsg();
-                    fc2.FileUpload();
+                    serverComHelper.SendMsg();
+                    fc2.FileDownload();
                     /*不是很懂！*/
                     //string serFilePath = string.Empty;
                     //string enKey = string.Empty;

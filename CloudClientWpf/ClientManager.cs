@@ -290,10 +290,11 @@ namespace Cloud
                 //string deMd5 = FileCrypto.AESDecryptString(np.enMd5, userKey);
                 //string deKey = FileCrypto.AESDecryptString(np.enKey, deMd5);
                 //clientComHelper.SetCryptor(deKey);
+                string enkey = np.enKey;
                 clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.READY);
                 clientComHelper.SendMsg();
                 clientComHelper.RecvFile(downloadPath + fileName);
-                FileCrypto fc = new FileCrypto(downloadPath + fileName,clientComHelper,userName);
+                FileCrypto fc = new FileCrypto(downloadPath + fileName,clientComHelper,userName,enkey);
 
                 fc.FileDownload();
             }

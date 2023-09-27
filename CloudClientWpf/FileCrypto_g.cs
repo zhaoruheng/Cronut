@@ -7,6 +7,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Windows.Input;
 using NetPublic;
 using static Cloud.FileWatcher;
+using System.Windows.Forms;
 
 ///服务器端
 namespace Cloud
@@ -39,6 +40,15 @@ namespace Cloud
             clientComHelper = client;
             this.userName = userName;
         }
+        public FileCrypto(string path, ClientComHelper client, string userName,string enkey)
+        {
+            fileDir = path;
+            rootNode = new List<string>();
+            saltsVal = new List<string>();
+            clientComHelper = client;
+            this.userName = userName;
+            fileEncryptKey = enkey;
+        }
 
         //客户端和服务器端都有
         public byte FileUpload()
@@ -58,7 +68,7 @@ namespace Cloud
             Console.WriteLine("文件标签" + fileTag);
 
 
-            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.UPLOAD, userName, null, fileSize, fileTag, Path.GetFileName(fileDir), null, null, 0);
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.UPLOAD, userName, null, fileSize, fileTag, Path.GetFileName(fileDir), null, null, 0,fileEncryptKey);
             
 
 
@@ -118,7 +128,8 @@ namespace Cloud
         //客户端
         public void FileDownload()
         {
-            clientComHelper.RecvFile(fileDir);
+            
+            fileCiphertext= ReadFileContent();
             byte[] plaintext = FileDecrypt();
 
             try
@@ -300,7 +311,7 @@ namespace Cloud
             int k = np.MHTID;
 
             //客户端：生成响应
-            List<string> ResponseNodeSet = PoW.GenerateResponse(saltsVal[k],challengeLeafNode,fileCiphertext);
+            List<string> ResponseNodeSet = PoW.GenerateResponse(np.enKey,challengeLeafNode,fileCiphertext);
 
             //*************************通信：客户端将ResponseNodeSet发送给服务器*************************************
             NetPacket npR = new NetPacket();

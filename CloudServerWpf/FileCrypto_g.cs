@@ -15,6 +15,7 @@ namespace Cloud
         string fileName;          //客户端：文件名
         long fileSize;             //客户端：文件大小(以字节为单位)
         string fileTag;          //客户端：文件标签   服务器也用了
+        string fileEncryptKey;   //客户端：加密文件的密钥
         const string keyPrivate = "123456789";  //客户端：用户的K_private。别删谢谢！
         byte[] fileCiphertext;   //客户端：文件密文
         const string aesIV= "446C47278157A448F925084476F2A5C2";       //客户端：AES加密的初始化向量
@@ -65,6 +66,8 @@ namespace Cloud
             np = serverComHelper.RecvMsg();//!!!!!!!!!!!!!!!!1
             fileTag = np.fileTag;
             fileDir = "./ServerFiles/" + fileTag;
+            fileName = np.fileName;
+            
             long fileID = UserClassify(np);    //服务器：判断用户类型
             //************************后端：查询fileTag是否存在*****************************
             //fileTag fileName重复
@@ -72,7 +75,7 @@ namespace Cloud
             if (fileID == 0)
             {
                 Console.WriteLine("该用户为初始上传者");
-
+                fileEncryptKey = np.enKey;
                 //**********************通信：服务器发消息给客户端告诉你是初始上传者******************************
                 serverComHelper.MakeResponsePacket(NetPublic.DefindedCode.AGREEUP);
                 serverComHelper.SendMsg();
@@ -86,7 +89,9 @@ namespace Cloud
                 serverComHelper.MakeResponsePacket(NetPublic.DefindedCode.FILEEXISTED);
                 serverComHelper.SendMsg();
                 Console.WriteLine("该用户为后续上传者");
+                MHTNum=dataBaseManager.GetMHTNum(fileTag);  
                 SubsequentUpload(fileID);                         //执行后续上传者的操作
+
         }
     }
 
@@ -122,7 +127,6 @@ namespace Cloud
         {
             FileInfo fileInfo = new FileInfo(fileDir);
             fileSize = fileInfo.Length;
-            fileName = fileInfo.Name;
 
             byte[] fileContent = new byte[fileInfo.Length + 100];
 
@@ -143,9 +147,9 @@ namespace Cloud
             }
             return fileContent;
         }
-        
+
         //客户端：对文件进行加密
-        
+
 
         //客户端：计算文件标签
         public string GetFileTag()
@@ -204,14 +208,14 @@ namespace Cloud
 
             
             long fileID = 0;
-            dataBaseManager.InsertFileTable(ref fileID,fileName,fileTag,MHTNum,fileSize,fileDir); //****************服务器：插入FileTable中********************
+            dataBaseManager.InsertFileTable(ref fileID,fileName,fileTag,MHTNum,fileSize,fileDir,fileEncryptKey); //****************服务器：插入FileTable中********************
 
             for(int i=0;i<MHTNum ;++i)
             {
                 dataBaseManager.InsertMHTTable(fileID, i, saltsVal[i], rootNode[i]);   //****************服务器：插入MHT表****************
             }
 
-            string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss");
+            string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             dataBaseManager.InsertUpFileTable(fileID,fileName,uploadDateTime,username);    //****************服务器：插入文件所有权表****************
         }
 
@@ -220,17 +224,24 @@ namespace Cloud
         {
             //服务器：发起挑战
             int challengeLeafNode=0;
+
             int k = PoW.GenerateChallenge(MHTNum,leafNodeNum, ref challengeLeafNode);  
             Console.WriteLine("\n选中第" + k + "棵树的第" + challengeLeafNode + "个叶子节点作为挑战 (从0开始！)");
+            for (int i = 0; i < MHTNum; ++i)
+            {
+                   saltsVal.Add(dataBaseManager.GetSalt(fileID, i));  //服务器：从数据库中获取盐值
+
+            }
 
             //***********************通信：服务器将challengeLeafNode和k(MHT的编号)发给客户端**************************
             NetPacket np = new NetPacket();
             np.challengeLeafNode = challengeLeafNode;
             np.MHTID = k;
+            np.enKey = saltsVal[k];
             serverComHelper.MakeResponsePacket(np);
+            serverComHelper.SendMsg();
 
-            //客户端：生成响应
-            List<string> ResponseNodeSet = PoW.GenerateResponse(saltsVal[k],challengeLeafNode,fileCiphertext); 
+            
 
             //*************************通信：客户端将ResponseNodeSet发送给服务器*************************************
             np = serverComHelper.RecvMsg();
@@ -252,7 +263,7 @@ namespace Cloud
             {
                 Console.WriteLine("用户通过了PoW验证!");
 
-                string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss");
+                string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 dataBaseManager.InsertUpFileTable(fileID,fileName,uploadDateTime,username); //服务器：更新UploadFileTable
             }
             else

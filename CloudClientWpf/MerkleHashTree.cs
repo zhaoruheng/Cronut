@@ -82,7 +82,7 @@ namespace Cloud
         {
             //确定文件块的大小
             int x = data.Length;
-            int blockSize = (int)(0.009*x);
+            int blockSize = Math.Max( (int)(0.009*x),1);
 
             Console.WriteLine("密文的大小" + data.Length+" 文件块大小"+blockSize);
 

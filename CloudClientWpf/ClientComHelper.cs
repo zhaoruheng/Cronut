@@ -59,13 +59,15 @@ namespace Cloud
         /// <param name="fileLength"></param>
         /// <param name="fileName"></param>
         /// <param name="newName"></param>
-        public void MakeRequestPacket(byte code, string userName, string password, long fileLength, string fileTag, string fileName, string newName, string uploadTime, long userType)
+        public void MakeRequestPacket(byte code, string userName, string password, long fileLength, string fileTag, string fileName, string newName, string uploadTime, long userType,string enkey=null)
         {
             FileInfo fi = new FileInfo(workPath + "/" + fileName);
 
             string changeTime = fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
 
             np = new NetPacket(code, userName, password, fileLength, fileTag, fileName,newName, changeTime, userType);
+            if(enkey != null)
+                np.enKey = enkey;
             //np.enKey = enkey;
         }
         public void MakeRequestPacket(NetPacket np)

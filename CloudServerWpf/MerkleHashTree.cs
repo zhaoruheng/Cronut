@@ -82,7 +82,8 @@ namespace Cloud
         {
             //确定文件块的大小
             int x = data.Length;
-            int blockSize = (int)(0.009*x);
+            int blockSize = Math.Max( (int)(0.009*x),1);
+            
 
             Console.WriteLine("密文的大小" + data.Length+" 文件块大小"+blockSize);
 
@@ -106,7 +107,7 @@ namespace Cloud
         //服务器：计算MHT数量
         public static int CalculateMHTNum(int x)
         {
-            double y = 8.2215 / (1 + Math.Exp(2.4485 - (488.6871 / x)));
+            double y = Math.Max( 8.2215 / (1 + Math.Exp(2.4485 - (488.6871 / x))),1);
             return (int)Math.Round(y);
         }
 
