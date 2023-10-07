@@ -77,7 +77,6 @@
       <DependentUpon>ServerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ServiceManager.cs" />
-    <Compile Include="Test.cs" />
     <Page Include="HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

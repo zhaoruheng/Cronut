@@ -50,6 +50,7 @@ namespace Cloud
                 return true;
             return false;
         }
+
         private void OnProcess(object sender, FileSystemEventArgs e)
         {
             WatchEvent we = new WatchEvent();

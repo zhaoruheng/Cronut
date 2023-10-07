@@ -11,3 +11,5 @@
 #### 9.26 zrh updata:修复了部分bug
 
 #### 9.27 zrh updata:修复了上传和下载的bug；通信仍然存在问题
+
+#### 10.6 gxy updata:修复了通信的问题

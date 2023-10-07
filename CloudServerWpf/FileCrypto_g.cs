@@ -5,6 +5,8 @@ using System.Security.Cryptography;
 using System.IO;
 using System.Numerics;
 using NetPublic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows;
 
 ///服务器端
 namespace Cloud
@@ -58,10 +60,9 @@ namespace Cloud
 
             alpha_Prime = BlindSign.BlindSignature(np.F_prime);   //客户端和服务器端都有，请点开BlindSignature这个函数，里面有更具体的内容
             NetPacket npR=new NetPacket();
-            np.F_prime = alpha_Prime;
+            npR.F_prime = alpha_Prime;
             serverComHelper.MakeResponsePacket(npR); 
             serverComHelper.SendMsg();
-
 
             np = serverComHelper.RecvMsg();//!!!!!!!!!!!!!!!!1
             fileTag = np.fileTag;
@@ -74,7 +75,6 @@ namespace Cloud
             //fileName重复就删了
             if (fileID == 0)
             {
-                Console.WriteLine("该用户为初始上传者");
                 fileEncryptKey = np.enKey;
                 //**********************通信：服务器发消息给客户端告诉你是初始上传者******************************
                 serverComHelper.MakeResponsePacket(NetPublic.DefindedCode.AGREEUP);
@@ -83,17 +83,17 @@ namespace Cloud
                 //**********************通信：客户端将密文fileCiphertext上传给服务器******************************
 
                 InitialUpload();   //执行初始上传者的操作。客户端和服务器都各自有一部分，需要您点开再分呢~
-        }
+            }
             else
             {
                 serverComHelper.MakeResponsePacket(NetPublic.DefindedCode.FILEEXISTED);
                 serverComHelper.SendMsg();
-                Console.WriteLine("该用户为后续上传者");
                 MHTNum=dataBaseManager.GetMHTNum(fileTag);  
                 SubsequentUpload(fileID);                         //执行后续上传者的操作
+            }
 
+            //MessageBox.Show("服务器：文件上传结束");
         }
-    }
 
         //客户端
         byte[] CalculateSHA1()
@@ -116,7 +116,7 @@ namespace Cloud
             return hashVal;
         }
 
-        //客户端
+        //发送密文
         public void FileDownload()
         {
             serverComHelper.SendFile(fileDir);
@@ -213,6 +213,7 @@ namespace Cloud
             for(int i=0;i<MHTNum ;++i)
             {
                 dataBaseManager.InsertMHTTable(fileID, i, saltsVal[i], rootNode[i]);   //****************服务器：插入MHT表****************
+                //MessageBox.Show("插入MHT表：" + fileID + " " + i);    
             }
 
             string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -233,6 +234,11 @@ namespace Cloud
 
             }
 
+            for(int i=0;i<MHTNum ;++i)
+            {
+                rootNode.Add(dataBaseManager.GetRootNode(fileID, i));
+            }
+
             //***********************通信：服务器将challengeLeafNode和k(MHT的编号)发给客户端**************************
             NetPacket np = new NetPacket();
             np.challengeLeafNode = challengeLeafNode;
@@ -241,18 +247,27 @@ namespace Cloud
             serverComHelper.MakeResponsePacket(np);
             serverComHelper.SendMsg();
 
-            
+
 
             //*************************通信：客户端将ResponseNodeSet发送给服务器*************************************
-            np = serverComHelper.RecvMsg();
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //np = serverComHelper.RecvMsg();
+            serverComHelper.RecvFile(fileTag);
+            byte[] ResponseNode = ReadFileContent();
+            List<string> ResponseNodeSet = ByteArrayToListString(ResponseNode);
+            MessageBox.Show("服务器接收Response成功！");
+
+            MessageBox.Show("k的大小:" + k + " saltval大小:" + saltsVal.Count + " rootNode大小:" + rootNode.Count);
 
             //服务器：验证响应
-            bool isPassPow = PoW.VerifyRepsonse(saltsVal[k], np.ResponseNodeSet, rootNode[k]); //CSP验证Response正确性
+            bool isPassPow = PoW.VerifyRepsonse(saltsVal[k], ResponseNodeSet, rootNode[k]); //CSP验证Response正确性
 
             //*************************通信：服务器将验证结果isPassPow发送给客户端**************************************
             if(isPassPow)
             {
+                MessageBox.Show("通过验证!");
                 serverComHelper.MakeResponsePacket(NetPublic.DefindedCode.AGREEUP);
+                serverComHelper.SendMsg();
             }
             else
             {
@@ -272,7 +287,14 @@ namespace Cloud
             }
         }
 
- 
+        public static List<string> ByteArrayToListString(byte[] byteArray)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (MemoryStream memoryStream = new MemoryStream(byteArray))
+            {
+                return (List<string>)formatter.Deserialize(memoryStream);
+            }
+        }
 
     }
 }

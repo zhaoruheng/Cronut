@@ -59,6 +59,7 @@ namespace Cloud
         private void button4_Click(object sender, EventArgs e) //初始化
         {
             serviceManager.InitProcess();
+
             SetAppSettingConf("initTag", "1");
             button4.Visibility = Visibility.Hidden;
             button4_f.Visibility = Visibility.Visible;
@@ -68,6 +69,7 @@ namespace Cloud
         private void button1_Click(object sender, EventArgs e) //启动
         {
             serviceManager.Start();
+
             listBox1.Items.Add(DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ": 服务器启动成功");
             button1.Visibility = Visibility.Hidden;
             button1_f.Visibility = Visibility.Visible;

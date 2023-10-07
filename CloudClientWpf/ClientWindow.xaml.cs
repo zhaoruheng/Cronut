@@ -30,6 +30,7 @@ namespace Cloud
             this.clientManager = clientManager;
             button4.Visibility = Visibility.Hidden;
             button4.IsEnabled = false;
+
             if (!string.IsNullOrEmpty(workPath) && Directory.Exists(workPath)&&!string .IsNullOrEmpty(username)&&string.Equals(username,clientManager.getusername()))
             {
                 textBox1.Text = workPath;
@@ -79,14 +80,17 @@ namespace Cloud
         {
             string fileName = obj as string;
             byte res = clientManager.DownloadFileProcess(fileName);
+
             if (res == NetPublic.DefindedCode.ERROR)
                 MessageBox.Show("下载失败");
             else
+            {
                 MessageBox.Show("下载完成");
+                Console.WriteLine("下载完成！！！！！！！！！！！！！");
+            }
             return;
         }
 
-        //auto
         private void button2_Click(object sender, EventArgs e)  //指定工作目录
         {
             //选择目标目录
@@ -109,15 +113,20 @@ namespace Cloud
                 MessageBox.Show("未指定目标文件夹");
                 return;
             }
+
             clientManager.workPath = workPath;
             SetAppSettingConf("TargetDir", workPath);
             SetAppSettingConf("UserName", clientManager.getusername());
 
+            //上传和下载文件进程
             clientManager.SyncProcess();
-            //修改配置文件
+            MessageBox.Show("上传下载文件进程结束，进入文件监控");
+
             fw = new FileWatcher(workPath, "*.*");
             fw.SendEvent += new FileWatcher.DelegateEventHander(clientManager.AnalysesEvent);
             fw.Start();
+
+            //调整按钮的可见性 和 可用性
             button3.IsEnabled = false;
             button2.IsEnabled = false;
             button3.Visibility=Visibility.Hidden;

@@ -33,8 +33,11 @@ namespace Cloud
 
         public void InitProcess()
         {
+            //删除原有数据库
             DataBaseManager dbm = new DataBaseManager(connectionString);
             dbm.InitProcess();
+
+            //删除云端物理地址下的所有文件和子目录
             DirectoryInfo dir = new DirectoryInfo(serStorePath);
             FileSystemInfo[] fileinfo = dir.GetFileSystemInfos();
             foreach (FileSystemInfo i in fileinfo)
@@ -49,6 +52,7 @@ namespace Cloud
                     File.Delete(i.FullName);
                 }
             }
+
             ReturnMsg?.Invoke("云端初始化完成");
         }
 
@@ -61,7 +65,6 @@ namespace Cloud
                 Thread th = new Thread(ListenTh);  //分出负责监听连接的线程
                 th.IsBackground = true;
                 th.Start();
-
             }
             catch (Exception ex)
             {
@@ -88,7 +91,11 @@ namespace Cloud
         {
             TcpClient client = obj as TcpClient;
             ServerComHelper serverComHelper = new ServerComHelper(client);
+
+            //通信：接收客户端发来的请求
             NetPacket np = serverComHelper.RecvMsg();
+
+            //没有这个用户 && 不是登录操作
             if (!CheckLogin(np.userName) && np.code != DefindedCode.LOGIN)
             {
                 serverComHelper.MakeResponsePacket(DefindedCode.UNLOGIN); //没有登录
@@ -104,20 +111,24 @@ namespace Cloud
                     serverComHelper.MakeResponsePacket(res);
                     serverComHelper.SendMsg();
                     break;
+
                 case DefindedCode.LOGOUT:
                     res = LogoutRequest(np.userName);
                     serverComHelper.MakeResponsePacket(res);
                     serverComHelper.SendMsg();
                     break;
+
                 case DefindedCode.GETLIST:
                     serverComHelper.SendFileList(GetListRequest(np.userName));
                     ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + np.userName + "拉取文件列表");
                     break;
+
                 case DefindedCode.UPLOAD:
                     DataBaseManager dm = new DataBaseManager(connectionString);
                     FileCrypto fc = new FileCrypto(serverComHelper,dm,np.userName);
 
                     fc.FileUpload();
+                    ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + np.userName + "上传文件");
                     /*需要修改！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！*/
                     //res = UploadRequest(np.userName, np.fileName, np.fileLength, np.enMd5, np.sha1, np.uploadTime, np.enKey);
                     ////UploadRequest判断是否重复
@@ -135,22 +146,26 @@ namespace Cloud
 
                     break;
                 case DefindedCode.DOWNLOAD:
-
                     DataBaseManager dm2 = new DataBaseManager(connectionString);
-                    string serPath = dm2.GetFilePath(np.userName, np.fileName);
+                    string serPath = dm2.GetFilePath(np.userName, np.fileName); //获取物理地址
                     if (serPath == "")
                     {
                         serverComHelper.MakeResponsePacket(DefindedCode.ERROR);
                         break;
                     }
+
                     NetPacket npD= new NetPacket();
                     npD.code = DefindedCode.FILEDOWNLOAD;
-                    npD.enKey= dm2.GetEnKey(np.userName, np.fileName);
+                    npD.enKey= dm2.GetEnKey(np.userName, np.fileName);  //获取解密密钥
                     serverComHelper.MakeResponsePacket(npD);
+
                     FileCrypto fc2 = new FileCrypto(serverComHelper, dm2, np.userName,serPath);
 
                     serverComHelper.SendMsg();
                     fc2.FileDownload();
+
+                    ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "下载完成");
+
                     /*不是很懂！*/
                     //string serFilePath = string.Empty;
                     //string enKey = string.Empty;
@@ -164,12 +179,14 @@ namespace Cloud
                     //serverComHelper.SendFile(serFilePath);
                     //ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "下载完成");
                     break;
+
                 case DefindedCode.DELETE:
                     res = DeleteRequest(np.userName, np.fileName);
                     serverComHelper.MakeResponsePacket(res);
                     serverComHelper.SendMsg();
                     ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ":" + np.userName + "删除");
                     break;
+
                 case DefindedCode.RENAME:
                     res = RenameRequest(np.userName, np.fileName, np.newName);
                     serverComHelper.MakeResponsePacket(res);
@@ -181,6 +198,8 @@ namespace Cloud
             }
 
         }
+
+        //通信：响应客户端的登录请求
         private byte LoginRequest(string userName, string userPass)
         {
             DataBaseManager dm = new DataBaseManager(connectionString);
@@ -197,6 +216,7 @@ namespace Cloud
                 return DefindedCode.USERMISS;
         }
 
+        //检查是否有userName这个用户
         private bool CheckLogin(string userName)
         {
             return onlineUser.Contains(userName);
@@ -209,6 +229,7 @@ namespace Cloud
             return DefindedCode.OK;
         }
 
+        //后端：和数据库交互，获得该用户的文件列表
         private FileInfoList GetListRequest(string userName)
         {
             DataBaseManager dm = new DataBaseManager(connectionString);

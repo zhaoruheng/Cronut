@@ -41,7 +41,7 @@ namespace Cloud
             base.RecvFile(storePath);
         }
 
-        
+        //通信：发送文件列表
         public void SendFileList(FileInfoList fileList)
         {
             //byte[] bFileList = Encoding.Default.GetBytes(fileList);

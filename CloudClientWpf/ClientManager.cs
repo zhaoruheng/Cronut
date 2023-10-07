@@ -20,8 +20,6 @@ namespace Cloud
         private string salt;
         private int port;
         private string ipString;
-        private string fileKey; //加密文件的密钥
-        private string userKey; //加密fileKey的密钥   写错了！！！！！！！！
         List<string> upFileList;    //上传文件列表
         List<string> downFileList;  //下载文件列表
         FileInfoList fileInfoList;
@@ -34,8 +32,6 @@ namespace Cloud
             workPath = ConfigurationManager.AppSettings["TargetDir"].ToString();
             salt = ConfigurationManager.AppSettings["Salt"].ToString();
 
-            //fileKey = FileCrypto.GetMD5(userName + salt);
-            //userKey = FileCrypto.GetMD5(salt + userName);
             eventQueue = new Queue<WatchEvent>();
             System.Timers.Timer t = new System.Timers.Timer(2000);
             t.Elapsed += new System.Timers.ElapsedEventHandler(HandleQueue);
@@ -79,32 +75,44 @@ namespace Cloud
 
                 if (we.fileEvent == 1)
                 {
-                    //MessageBox.Show("upload:" + we.filePath);
+                    MessageBox.Show("watch event: upload:" + we.filePath);
                     //UploadFileProcess(we.filePath); 不必处理新建的空文件
                     return;
                 }
                 if (we.fileEvent == 2)
                 {
                     //处理上传文件操作
-                    //MessageBox.Show("change:" + we.filePath);
+                    MessageBox.Show("watch event: change:" + we.filePath);
                     UploadFileProcess(we.filePath);
                     return;
                 }
                 if (we.fileEvent == 3)
                 {
                     //处理删除文件操作
-                    //MessageBox.Show("delete:" + we.filePath);
+                    MessageBox.Show("watch event: delete:" + we.filePath);
                     DeleteFileProcess(System.IO.Path.GetFileName(we.filePath));
                     return;
                 }
                 if (we.fileEvent == 4)
                 {
                     //处理重命名操作
-                    //MessageBox.Show("rename:" + we.filePath);
+                    MessageBox.Show("watch event: rename:" + we.filePath);
                     RenameFileProcess(System.IO.Path.GetFileName(we.filePath), System.IO.Path.GetFileName(we.oldFilePath));
                     return;
                 }
             }
+        }
+
+        public List<string> GetUpFileList()
+        {
+            foreach (string fileName in fileInfoList.nameList)
+            {
+                if (upFileList.Contains(fileName))
+                {
+                    upFileList.Remove(fileName);
+                }
+            }
+            return upFileList;
         }
 
         /// <summary>
@@ -113,31 +121,36 @@ namespace Cloud
         public void SyncProcess()
         {
             Console.WriteLine("In SyncProcess:");
-            GetFileListProcess();
+            GetFileListProcess();   //该用户现有的文件列表，存入fileInfoList
+
             downFileList = fileInfoList.nameList;
+            //upFileList = GetUpFileList();
+
             //MessageBox.Show(workPath);
             Director(workPath);
 
+            MessageBox.Show("要上传的文件数目" + upFileList.Count);
             //上传文件
-            foreach (string file in upFileList)
+            foreach (string file in upFileList) //upFileList为指定文件夹下的所有文件
             {
                 Console.WriteLine("upFile:" + file);
                 UploadFileProcess(workPath + "/" + file);
             }
 
+            MessageBox.Show("要下载的文件数目" + downFileList.Count);
             //下载文件
             foreach (string file in downFileList)
             {
                 Console.WriteLine("downFile:" + file);
                 DownloadFileProcess(file);
             }
+
+            MessageBox.Show("上传和下载文件结束！");
             Console.WriteLine("Sync over");
         }
 
-        /// <summary>
-        /// 遍历工作目录下的所有文件
-        /// </summary>
-        /// <param name="dir"></param>
+
+        //遍历指定文件夹下的所有文件和子文件夹
         private void Director(string dir) 
         {
             Console.WriteLine("Now director in " + dir);
@@ -176,6 +189,7 @@ namespace Cloud
                         downFileList.Remove(f.Name);
                 }
             }
+
             //获取子文件夹内的文件列表，递归遍历  
             foreach (DirectoryInfo dd in directs)
             {
@@ -189,9 +203,12 @@ namespace Cloud
             this.userName = userName;
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
             string md5 = FileCrypto_2.GetMD5(userPass);
+
+            //通信：给服务器发送登录请求
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.LOGIN, userName, md5, 0, null, null, null, null, 0);
-            
             clientComHelper.SendMsg();
+
+            //通信：接收服务器的登录响应
             NetPacket np = clientComHelper.RecvMsg();
             return np.code;
         }
@@ -210,10 +227,15 @@ namespace Cloud
         public void GetFileListProcess()
         {
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
+
+            //通信：请求获取用户文件列表
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.GETLIST, userName, null, 0, null, null, null, null, 0);
             clientComHelper.SendMsg();
+
+            //通信：接收服务器发来的用户文件列表
             fileInfoList = clientComHelper.RecvFileList();
         }
+
         public List<string> GetFileNameList()
         {
             List<string> fileNameList = new List<string>();
@@ -228,6 +250,7 @@ namespace Cloud
         {
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
 
+            //通信：发送上传文件请求
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.UPLOAD, userName, 0, null, null);
             clientComHelper.SendMsg();
 
@@ -269,10 +292,7 @@ namespace Cloud
                 clientComHelper.SetCryptor(fileKey);
                 clientComHelper.SendFile(filePath);
             }
-            */
-
-           
-            
+            */            
         }
 
         //下载文件
@@ -280,25 +300,32 @@ namespace Cloud
         {
             string downloadPath = workPath + "/";
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
-            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.DOWNLOAD, userName, null, 0, null, fileName, null, null, 0);
             
+            //通信：发送下载文件请求
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.DOWNLOAD, userName, null, 0, null, fileName, null, null, 0); 
             clientComHelper.SendMsg();
 
+            //通信：接收解密密钥
             NetPacket np = clientComHelper.RecvMsg();
+
             if (np.code == NetPublic.DefindedCode.FILEDOWNLOAD)
             {
                 //string deMd5 = FileCrypto.AESDecryptString(np.enMd5, userKey);
                 //string deKey = FileCrypto.AESDecryptString(np.enKey, deMd5);
                 //clientComHelper.SetCryptor(deKey);
                 string enkey = np.enKey;
+
+                //通信：接收密文
                 clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.READY);
                 clientComHelper.SendMsg();
+
                 clientComHelper.RecvFile(downloadPath + fileName);
                 FileCrypto fc = new FileCrypto(downloadPath + fileName,clientComHelper,userName,enkey);
 
                 fc.FileDownload();
             }
 
+            MessageBox.Show("此时的np.code:"+np.code);
             return np.code;
         }
 

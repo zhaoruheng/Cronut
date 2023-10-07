@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Security.Cryptography;
 using NetPublic;
 using System.Windows;
+using System.Security.RightsManagement;
 
 namespace Cloud
 {
@@ -54,6 +55,7 @@ namespace Cloud
             CreateCommand(queryString);
         }
 
+        //检查数据库是否存在，若存在则删除所有表并新建空表
         public void InitProcess()
         {
             queryString = string.Format("SELECT database_id FROM sys.databases WHERE Name = '{0}'", dbName);
@@ -278,6 +280,8 @@ namespace Cloud
             }
             return status;
         }
+
+        //查询该用户某个文件的物理地址
         public string GetFilePath(string userName, string fileName)
         {
             queryString = useString +
@@ -456,6 +460,23 @@ namespace Cloud
                 reader.Close();
             }
             return salt;
+        }
+
+        public string GetRootNode(long fileID,int MHTID)
+        {
+            string queryString = $"SELECT RootNode FROM MHTTABLE WHERE FILE_ID = '{fileID}' AND MHT_ID='{MHTID}'";
+            string rootNode = string.Empty;
+
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                rootNode = (string)reader[0];
+                reader.Close();
+            }
+            return rootNode;
         }
     }
 }

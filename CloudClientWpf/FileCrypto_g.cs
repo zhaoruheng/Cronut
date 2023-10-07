@@ -8,6 +8,7 @@ using System.Windows.Input;
 using NetPublic;
 using static Cloud.FileWatcher;
 using System.Windows.Forms;
+using System.Runtime.Serialization.Formatters.Binary;
 
 ///服务器端
 namespace Cloud
@@ -67,16 +68,9 @@ namespace Cloud
 
             Console.WriteLine("文件标签" + fileTag);
 
-
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.UPLOAD, userName, null, fileSize, fileTag, Path.GetFileName(fileDir), null, null, 0,fileEncryptKey);
-            
-
-
-
 
             clientComHelper.SendMsg();
-
-
             //**********************通信：服务器发消息给客户端告诉你是初始上传者******************************
 
             //**********************通信：客户端将密文fileCiphertext上传给服务器******************************
@@ -93,15 +87,16 @@ namespace Cloud
             if (np.code == NetPublic.DefindedCode.AGREEUP)
             {
                 InitialUpload();
+                //MessageBox.Show("初始上传者完成");
             }
             else if(np.code == NetPublic.DefindedCode.FILEEXISTED)
             {
                 SubsequentUpload(np.userType);      
             }
             ReturnMsg?.Invoke();
+
+            MessageBox.Show("客户端：文件上传结束");
             return np.code;
-
-
         }
 
         //客户端
@@ -125,7 +120,7 @@ namespace Cloud
             return hashVal;
         }
 
-        //客户端
+        //客户端：对密文进行解密，将明文重新写入原文件
         public void FileDownload()
         {
             
@@ -148,10 +143,10 @@ namespace Cloud
                 Console.WriteLine("写入文件时出错：" + ex.Message);
             }
 
-                Console.WriteLine("\n--------------对文件进行解密----------------");
+            Console.WriteLine("\n--------------对文件进行解密----------------");
             Console.WriteLine("解密文件路径:" + fileDir);
-            //Console.WriteLine("解密后的明文:");
-            //Console.WriteLine(Encoding.UTF8.GetString(plaintext));
+            Console.WriteLine("解密后的明文:");
+            Console.WriteLine(Encoding.UTF8.GetString(plaintext));
         }
 
         //客户端
@@ -254,7 +249,6 @@ namespace Cloud
                     return fileBytes;
                 }
             }
-            
         }
 
         //客户端：计算文件标签
@@ -301,6 +295,32 @@ namespace Cloud
             clientComHelper.SendFile(filePath);
         }
 
+        public void SendResponseNode(byte[] ResponseNode)
+        {
+            System.IO.DirectoryInfo topDir = System.IO.Directory.GetParent(fileDir);
+            string pathto = topDir.FullName;
+            string filePath = Path.Combine(pathto, fileTag);
+
+            try
+            {
+                // 使用FileStream创建文件流
+                using (FileStream fs = new FileStream(filePath, FileMode.Create))
+                {
+                    // 使用Write方法将byte数组写入文件流
+                    fs.Write(ResponseNode, 0, ResponseNode.Length);
+                }
+
+                Console.WriteLine("文件写入成功");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("写入文件时出错：" + ex.Message);
+            }
+
+            clientComHelper.SendFile(filePath);
+        }
+
+
         //客户端和服务器端都有，请参考具体注释
         public void SubsequentUpload(long fileID)
         {
@@ -314,20 +334,24 @@ namespace Cloud
             List<string> ResponseNodeSet = PoW.GenerateResponse(np.enKey,challengeLeafNode,fileCiphertext);
 
             //*************************通信：客户端将ResponseNodeSet发送给服务器*************************************
-            NetPacket npR = new NetPacket();
-            npR.ResponseNodeSet = ResponseNodeSet;
-            npR.userName = userName;
-            clientComHelper.MakeRequestPacket(npR);
-            clientComHelper.SendMsg();
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //NetPacket npR = new NetPacket();
+            //npR.ResponseNodeSet = ResponseNodeSet;
+            //npR.userName = userName;
+            //clientComHelper.MakeRequestPacket(npR);
+            //clientComHelper.SendMsg();
+
+            byte[] ResponseNode = ListStringToByteArray(ResponseNodeSet);
+            SendResponseNode(ResponseNode);
+            MessageBox.Show("客户端成功将Response发送！");
 
 
             //*************************通信：服务器将验证结果isPassPow发送给客户端**************************************
             np = clientComHelper.RecvMsg();
-            
 
             if (np.code == NetPublic.DefindedCode.AGREEUP)
             {
-                Console.WriteLine("用户通过了PoW验证!");
+                MessageBox.Show("用户通过了PoW验证!");
 
                 string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss");
             }
@@ -337,6 +361,14 @@ namespace Cloud
             }
         }
 
-        
+        public static byte[] ListStringToByteArray(List<string> stringList)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                formatter.Serialize(memoryStream, stringList);
+                return memoryStream.ToArray();
+            }
+        }
     }
 }
