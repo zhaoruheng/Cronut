@@ -30,6 +30,8 @@ namespace Cloud
             port = p;
             ipString = ip;
             workPath = ConfigurationManager.AppSettings["TargetDir"].ToString();
+            if (!Directory.Exists(workPath))
+                workPath = string.Empty;
             salt = ConfigurationManager.AppSettings["Salt"].ToString();
 
             eventQueue = new Queue<WatchEvent>();
