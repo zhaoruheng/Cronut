@@ -129,7 +129,7 @@ namespace Cloud
         public override void SendFile(string sendPath)
         {
             //if (fc == null)
-            //    MessageBox.Show("加密器没有创建");
+            //    //MessageBox.Show("加密器没有创建");
             //string enPath = fc.FileEncrypt(sendPath);
             base.SendFile(sendPath);
             File.Delete(sendPath);
@@ -139,7 +139,7 @@ namespace Cloud
         public override void RecvFile(string storePath)
         {
             //if (fc == null)
-            //    MessageBox.Show("加密器没有创建");
+            //    //MessageBox.Show("加密器没有创建");
             //string enPath = fc.encryptedFileDir + Path.GetFileName(storePath);
             base.RecvFile(storePath);
             //fc.decryptedFileDir = Path.GetDirectoryName(storePath) + "/";

@@ -68,7 +68,7 @@ namespace Cloud
 
             Console.WriteLine("文件标签" + fileTag);
 
-            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.UPLOAD, userName, null, fileSize, fileTag, Path.GetFileName(fileDir), null, null, 0,fileEncryptKey);
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.OK, userName, null, fileSize, fileTag, Path.GetFileName(fileDir), null, null, 0,fileEncryptKey);
 
             clientComHelper.SendMsg();
             //**********************通信：服务器发消息给客户端告诉你是初始上传者******************************
@@ -87,7 +87,7 @@ namespace Cloud
             if (np.code == NetPublic.DefindedCode.AGREEUP)
             {
                 InitialUpload();
-                //MessageBox.Show("初始上传者完成");
+                ////MessageBox.Show("初始上传者完成");
             }
             else if(np.code == NetPublic.DefindedCode.FILEEXISTED)
             {
@@ -95,7 +95,7 @@ namespace Cloud
             }
             ReturnMsg?.Invoke();
 
-            MessageBox.Show("客户端：文件上传结束");
+            //MessageBox.Show("客户端：文件上传结束");
             return np.code;
         }
 
@@ -123,7 +123,6 @@ namespace Cloud
         //客户端：对密文进行解密，将明文重新写入原文件
         public void FileDownload()
         {
-            
             fileCiphertext= ReadFileContent();
             byte[] plaintext = FileDecrypt();
 
@@ -343,7 +342,7 @@ namespace Cloud
 
             byte[] ResponseNode = ListStringToByteArray(ResponseNodeSet);
             SendResponseNode(ResponseNode);
-            MessageBox.Show("客户端成功将Response发送！");
+            //MessageBox.Show("客户端成功将Response发送！");
 
 
             //*************************通信：服务器将验证结果isPassPow发送给客户端**************************************
@@ -351,7 +350,7 @@ namespace Cloud
 
             if (np.code == NetPublic.DefindedCode.AGREEUP)
             {
-                MessageBox.Show("用户通过了PoW验证!");
+                //MessageBox.Show("用户通过了PoW验证!");
 
                 string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss");
             }

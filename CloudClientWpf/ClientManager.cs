@@ -30,9 +30,9 @@ namespace Cloud
             port = p;
             ipString = ip;
             workPath = ConfigurationManager.AppSettings["TargetDir"].ToString();
+            salt = ConfigurationManager.AppSettings["Salt"].ToString();
             if (!Directory.Exists(workPath))
                 workPath = string.Empty;
-            salt = ConfigurationManager.AppSettings["Salt"].ToString();
 
             eventQueue = new Queue<WatchEvent>();
             System.Timers.Timer t = new System.Timers.Timer(2000);
@@ -72,33 +72,33 @@ namespace Cloud
             WatchEvent we;
             while (eventQueue.Count > 0)
             {
-                //MessageBox.Show(eventQueue.Count.ToString());
+                ////MessageBox.Show(eventQueue.Count.ToString());
                 we = eventQueue.Dequeue();
 
                 if (we.fileEvent == 1)
                 {
-                    MessageBox.Show("watch event: upload:" + we.filePath);
+                    //MessageBox.Show("watch event: upload:" + we.filePath);
                     //UploadFileProcess(we.filePath); 不必处理新建的空文件
                     return;
                 }
                 if (we.fileEvent == 2)
                 {
                     //处理上传文件操作
-                    MessageBox.Show("watch event: change:" + we.filePath);
+                    //MessageBox.Show("watch event: change:" + we.filePath);
                     UploadFileProcess(we.filePath);
                     return;
                 }
                 if (we.fileEvent == 3)
                 {
                     //处理删除文件操作
-                    MessageBox.Show("watch event: delete:" + we.filePath);
+                    //MessageBox.Show("watch event: delete:" + we.filePath);
                     DeleteFileProcess(System.IO.Path.GetFileName(we.filePath));
                     return;
                 }
                 if (we.fileEvent == 4)
                 {
                     //处理重命名操作
-                    MessageBox.Show("watch event: rename:" + we.filePath);
+                    //MessageBox.Show("watch event: rename:" + we.filePath);
                     RenameFileProcess(System.IO.Path.GetFileName(we.filePath), System.IO.Path.GetFileName(we.oldFilePath));
                     return;
                 }
@@ -125,13 +125,13 @@ namespace Cloud
             Console.WriteLine("In SyncProcess:");
             GetFileListProcess();   //该用户现有的文件列表，存入fileInfoList
 
-            downFileList = fileInfoList.nameList;
+            downFileList = fileInfoList.nameList;   //获取downFileList
             //upFileList = GetUpFileList();
 
-            //MessageBox.Show(workPath);
-            Director(workPath);
+            ////MessageBox.Show(workPath);
+            Director(workPath);     //获取upFileList
 
-            MessageBox.Show("要上传的文件数目" + upFileList.Count);
+            //MessageBox.Show("要上传的文件数目" + upFileList.Count);
             //上传文件
             foreach (string file in upFileList) //upFileList为指定文件夹下的所有文件
             {
@@ -139,7 +139,7 @@ namespace Cloud
                 UploadFileProcess(workPath + "/" + file);
             }
 
-            MessageBox.Show("要下载的文件数目" + downFileList.Count);
+            //MessageBox.Show("要下载的文件数目" + downFileList.Count);
             //下载文件
             foreach (string file in downFileList)
             {
@@ -147,7 +147,7 @@ namespace Cloud
                 DownloadFileProcess(file);
             }
 
-            MessageBox.Show("上传和下载文件结束！");
+            //MessageBox.Show("上传和下载文件结束！");
             Console.WriteLine("Sync over");
         }
 
@@ -176,18 +176,20 @@ namespace Cloud
                     string localT = fi.LastWriteTime.ToString();
                     DateTime cloudTime = Convert.ToDateTime(fileInfoList.upTimeList[index]);
                     DateTime localTime = Convert.ToDateTime(localT);
-                    int res = DateTime.Compare(cloudTime, localTime);
+                    int res = DateTime.Compare(cloudTime, localTime);   //比较同一份文件的云端时间和本地时间
+
                     Console.WriteLine("res:" + res);
-                    if (res > 0)
+                   
+                    if (res > 0) //如果 res 大于0，表示cloudTime> localTime，云端是新的文件
                     {
                         File.Delete(f.FullName);
                     }
-                    else if (res < 0)
+                    else if (res < 0) //如果 res 小于0，本地的文件新
                     {
                         upFileList.Add(f.Name);
                         downFileList.Remove(f.Name);
                     }
-                    else
+                    else //如果 res 等于0，表示两者时间相同
                         downFileList.Remove(f.Name);
                 }
             }
@@ -258,7 +260,9 @@ namespace Cloud
 
             FileCrypto fc = new FileCrypto(filePath,clientComHelper,userName);
 
+            //返回DefindedCode.AGREEUP 或 DefineCode.FILEEXISTED
             return fc.FileUpload();
+
             /*
 			Console.WriteLine("Upload: " + filePath);
 
@@ -327,14 +331,14 @@ namespace Cloud
                 fc.FileDownload();
             }
 
-            MessageBox.Show("此时的np.code:"+np.code);
+           // //MessageBox.Show("此时的np.code:"+np.code);
             return np.code;
         }
 
         //删除文件
         public byte DeleteFileProcess(string fileName)
         {
-            //MessageBox.Show("DEL:" + fileName);
+            ////MessageBox.Show("DEL:" + fileName);
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.DELETE, userName, null, 0, null, fileName, null, null, 0);
             clientComHelper.SendMsg();
@@ -346,7 +350,7 @@ namespace Cloud
         //重命名
         public byte RenameFileProcess(string fileName, string oldName)
         {
-            //MessageBox.Show("RENAME:" + oldName + " to " + fileName);
+            ////MessageBox.Show("RENAME:" + oldName + " to " + fileName);
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.RENAME, userName, null, 0, null, oldName, fileName, null, 0);
             clientComHelper.SendMsg();

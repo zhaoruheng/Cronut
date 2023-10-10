@@ -51,7 +51,7 @@ namespace Cloud
             {
                 byte[] sendData = new byte[DATA_LENGTH];
                 long leftSize = fs.Length;
-                //MessageBox.Show(leftSize.ToString());
+                ////MessageBox.Show(leftSize.ToString());
                 int start = 8;
                 Buffer.BlockCopy(BitConverter.GetBytes(leftSize), 0, sendData, 0, 8);
                 int readLength;
@@ -72,7 +72,7 @@ namespace Cloud
                 int readLength;
                 readLength = nstream.Read(fileData, 0, DATA_LENGTH);
                 long fileSize = BitConverter.ToInt64(fileData, 0);
-                //MessageBox.Show(fileSize.ToString());
+                ////MessageBox.Show(fileSize.ToString());
                 long recvLength = readLength - 8;
                 fs.Write(fileData, 8, readLength - 8);
                 while (recvLength < fileSize)

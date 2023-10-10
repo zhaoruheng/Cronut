@@ -68,7 +68,7 @@ namespace Cloud
             }
             catch (Exception ex)
             {
-                MessageBox.Show("启动失败，检查端口是否被占用。错误信息： \r\n" + ex.ToString());
+                //MessageBox.Show("启动失败，检查端口是否被占用。错误信息： \r\n" + ex.ToString());
             }
         }
 

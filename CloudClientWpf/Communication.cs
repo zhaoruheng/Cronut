@@ -128,7 +128,7 @@ namespace Cloud
             {
                 byte[] sendData = new byte[DATA_LENGTH];    //要发送的数据
                 long leftSize = fs.Length;
-                //MessageBox.Show(leftSize.ToString());
+                ////MessageBox.Show(leftSize.ToString());
                 int start = 8;
 
                 //拷贝到sendData数组中
@@ -162,7 +162,7 @@ namespace Cloud
 
                 long fileSize = BitConverter.ToInt64(fileData, 0);//将fileData数组转化成int64
 
-                //MessageBox.Show(fileSize.ToString());
+                ////MessageBox.Show(fileSize.ToString());
                 long recvLength = readLength - 8;
                 fs.Write(fileData, 8, readLength - 8);
                 while (recvLength < fileSize)

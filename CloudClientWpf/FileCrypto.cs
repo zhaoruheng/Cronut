@@ -21,7 +21,7 @@ namespace Cloud
             else
             {
                 key = "12345678123456781234567812345678";
-                MessageBox.Show("由于key格式不正确，被指定为默认值");
+                //MessageBox.Show("由于key格式不正确，被指定为默认值");
             }
         }
 
@@ -94,13 +94,13 @@ namespace Cloud
                 return null;
             if (string.IsNullOrEmpty(key))
             {
-                MessageBox.Show("Key is empty");
+                //MessageBox.Show("Key is empty");
                 return null;
             }
             byte[] bKey = Encoding.Default.GetBytes(key);
             if (bKey.Length % 32 != 0)
             {
-                MessageBox.Show("Key must be divided 32");
+                //MessageBox.Show("Key must be divided 32");
                 return null;
             }
 
@@ -123,13 +123,13 @@ namespace Cloud
                 return null;
             if (string.IsNullOrEmpty(key))
             {
-                MessageBox.Show("Key is empty");
+                //MessageBox.Show("Key is empty");
                 return null;
             }
             byte[] bKey = Encoding.Default.GetBytes(key);
             if (bKey.Length % 32 != 0)
             {
-                MessageBox.Show("Key must be divided 32");
+                //MessageBox.Show("Key must be divided 32");
                 return null;
             }
             byte[] decrypted;
@@ -159,21 +159,21 @@ namespace Cloud
                     {
                         if (readCount != inbuffer.Length)
                         {
-                            //MessageBox.Show(readCount);
+                            ////MessageBox.Show(readCount);
                             byte[] tmp = new byte[readCount];
                             Buffer.BlockCopy(inbuffer, 0, tmp, 0, readCount);
                             //byte[] enbyte = AESEncrypt(tmp);
                             byte[] enbyte = sM4Utils.EncryptData(tmp);
                             fwriter.Write(enbyte, 0, enbyte.Length);
-                            //MessageBox.Show(enbyte.Length);
+                            ////MessageBox.Show(enbyte.Length);
                         }
                         else
                         {
-                            //MessageBox.Show(inbuffer.Length);
+                            ////MessageBox.Show(inbuffer.Length);
                             //byte[] enbyte = AESEncrypt(inbuffer);
                             byte[] enbyte = sM4Utils.EncryptData(inbuffer);
                             fwriter.Write(enbyte, 0, enbyte.Length);
-                            //MessageBox.Show(enbyte.Length);
+                            ////MessageBox.Show(enbyte.Length);
                         }
                     }
                     fwriter.Close();

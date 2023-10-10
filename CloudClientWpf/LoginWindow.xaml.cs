@@ -39,6 +39,7 @@ namespace Cloud
         private void button1_Click(object sender, EventArgs e)
         {
             label3.Content = "正在连接...";
+
             ClientManager clientManager = new ClientManager(ipString, port);
 
             //处理用户名和密码 前导or尾部 空白字符

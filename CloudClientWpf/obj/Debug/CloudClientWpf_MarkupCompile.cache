@@ -4,28 +4,16 @@
 winexe
 C#
 .cs
-<<<<<<< HEAD
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码0.6\CloudClientWpf\obj\Debug\
-=======
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\
->>>>>>> yunpan/main
 CloudClientWpf
 none
 false
 DEBUG;TRACE
-<<<<<<< HEAD
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码0.6\CloudClientWpf\App.xaml
 214660708
 1-960574097
 16-583423577
 20-788273195
-=======
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\App.xaml
-214660708
-1-960574097
-171605783417
-201252358331
->>>>>>> yunpan/main
 ClientWindow.xaml;LoginWindow.xaml;
 
 False

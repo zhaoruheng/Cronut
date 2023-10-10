@@ -30,20 +30,23 @@ namespace Cloud
 
 		public FileWatcher(string path, string filter)
         {
-            watcher = new FileSystemWatcher();
+            watcher = new FileSystemWatcher();     //侦听文件系统更改通知，并在目录或目录中的文件发生更改时引发事件。
+
             watcher.Path = path;
             watcher.IncludeSubdirectories = true;
             watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite;
             watcher.Filter = filter;
-            watcher.Changed += new FileSystemEventHandler(OnProcess);
-            watcher.Created += new FileSystemEventHandler(OnProcess);
-            watcher.Deleted += new FileSystemEventHandler(OnProcess);
-            watcher.Renamed += new RenamedEventHandler(OnRenamed);
+            watcher.Changed += new FileSystemEventHandler(OnProcess);   //更改文件
+            watcher.Created += new FileSystemEventHandler(OnProcess);   //在指定文件夹中创建文件
+            watcher.Deleted += new FileSystemEventHandler(OnProcess);   //删除
+            watcher.Renamed += new RenamedEventHandler(OnRenamed);      //重命名
         }
+
         public void Start()
         {
             watcher.EnableRaisingEvents = true;
         }
+
         private bool CheckPath(string path)
         {
             if (File.Exists(path))
@@ -51,10 +54,11 @@ namespace Cloud
             return false;
         }
 
+        //处理 创建、删除、修改
         private void OnProcess(object sender, FileSystemEventArgs e)
         {
             WatchEvent we = new WatchEvent();
-            if (e.ChangeType == WatcherChangeTypes.Deleted)
+            if (e.ChangeType == WatcherChangeTypes.Deleted) //删除
             {
                 we.fileEvent = 3;
                 we.filePath = e.FullPath;
@@ -63,12 +67,12 @@ namespace Cloud
             {
                 we.fileEvent = 0;
             }
-            else if (e.ChangeType == WatcherChangeTypes.Created)
+            else if (e.ChangeType == WatcherChangeTypes.Created)    //新建
             {
                 we.filePath = e.FullPath;
                 we.fileEvent = 1; 
             }
-            else if (e.ChangeType == WatcherChangeTypes.Changed)
+            else if (e.ChangeType == WatcherChangeTypes.Changed)    //修改
             {
 				if (IsLocked(e.FullPath))
 					return;
@@ -89,6 +93,7 @@ namespace Cloud
 			Console.WriteLine(string.Format("type: {0}， filePath:{1}", we.fileEvent, we.filePath));
         }
 
+        //处理 重命名
         private void OnRenamed(object sender, RenamedEventArgs e)
         {
             WatchEvent we = new WatchEvent();

@@ -94,7 +94,6 @@ C:\Users\郭歆越\Desktop\AF-Dedup项目\云盘0.1\源代码\CloudClientWpf\obj
 \\Mac\Home\Desktop\项目\Submitted\源代码\CloudClientWpf\obj\Debug\CloudClientWpf.csproj.CopyComplete
 \\Mac\Home\Desktop\项目\Submitted\源代码\CloudClientWpf\obj\Debug\CloudClientWpf.exe
 \\Mac\Home\Desktop\项目\Submitted\源代码\CloudClientWpf\obj\Debug\CloudClientWpf.pdb
-<<<<<<< HEAD
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码\CloudClientWpf\bin\Debug\App.config
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码\CloudClientWpf\bin\Debug\CloudClientWpf.exe.config
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码\CloudClientWpf\bin\Debug\CloudClientWpf.exe
@@ -139,27 +138,3 @@ C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码0.6\Clo
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码0.6\CloudClientWpf\obj\Debug\CloudClientWpf.csproj.CopyComplete
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码0.6\CloudClientWpf\obj\Debug\CloudClientWpf.exe
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码0.6\CloudClientWpf\obj\Debug\CloudClientWpf.pdb
-=======
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\bin\Debug\App.config
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\bin\Debug\CloudClientWpf.exe.config
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\bin\Debug\CloudClientWpf.exe
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\bin\Debug\CloudClientWpf.pdb
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\bin\Debug\MathNet.Numerics.dll
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\bin\Debug\MathNet.Numerics.xml
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\CloudClientWpf.csproj.AssemblyReference.cache
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\ClientWindow.g.cs
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\LoginWindow.g.cs
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\App.g.cs
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\CloudClientWpf_Content.g.cs
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\CloudClientWpf_MarkupCompile.cache
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\CloudClientWpf_MarkupCompile.lref
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\ClientWindow.baml
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\LoginWindow.baml
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\CloudClientWpf.g.resources
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\CloudClientWpf.Properties.Resources.resources
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\CloudClientWpf.csproj.GenerateResource.cache
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\CloudClientWpf.csproj.CoreCompileInputs.cache
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\CloudClientWpf.csproj.CopyComplete
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\CloudClientWpf.exe
-C:\Users\Rune0\Desktop\项目代码\CloudClientWpf\obj\Debug\CloudClientWpf.pdb
->>>>>>> yunpan/main

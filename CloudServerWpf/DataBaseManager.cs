@@ -112,14 +112,13 @@ namespace Cloud
 
             //建表 UpFileTable
             queryString = useString +
-                "CREATE TABLE UpFileTable (" +
-                "FILE_ID INT," +                                    //文件标识
-                "USER_ID  INT NOT NULL," +                          //用户标识    
-                "FILE_NAME NVARCHAR(256) NOT NULL," +                //用户上传文件名
-                "USER_NAME NVARCHAR(50) NOT NULL," +                //用户登录名
-                "UPLOAD_TIME DATETIME NOT NULL, " +                 // 用户上传文件时间
-                "PRIMARY KEY(USER_ID,FILE_ID)" +
-                ");";
+               "CREATE TABLE UpFileTable (" +
+               "FILE_ID INT," +                                    //文件标识
+               "USER_ID  INT NOT NULL," +                          //用户标识    
+               "FILE_NAME NVARCHAR(256) NOT NULL," +                //用户上传文件名
+               "USER_NAME NVARCHAR(50) NOT NULL," +                //用户登录名
+               "UPLOAD_TIME DATETIME NOT NULL, " +                 // 用户上传文件时间
+               ");";
             CreateCommand(queryString);
 
             //建表MHTTable
@@ -330,14 +329,17 @@ namespace Cloud
             }
             return enKey;
         }
+
         public int RemoveFile(string userName, string fileName)
         {
+            //删除UpFileTable记录
             queryString = useString +
                 "DELETE  FROM UpFileTable " +
                 "Where USER_NAME='" + userName + "' " +
                 "AND FILE_NAME='" + fileName + "';";
             return ExecuteScalar(queryString);
         }
+
         public int RenameFile(string userName, string oldFileName, string fileName)
         {
             queryString = useString +
@@ -374,7 +376,7 @@ namespace Cloud
             string queryString = $"SELECT FILE_ID FROM FileTable WHERE FileTag = '{fileTag}'";
             return ExecuteScalar(queryString);
         }
-        public void InsertFileTable(ref long fileID, string fileName, string fileTag, int MHTNum, long fileSize, string serAdd,string enKey)
+        public void InsertFileTable(ref int fileID, string fileName, string fileTag, int MHTNum, long fileSize, string serAdd,string enKey)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -406,14 +408,14 @@ namespace Cloud
             fileID = ExecuteScalar(queryString);
         }
 
-        public void InsertMHTTable(long fileID, int MHTID, string salt, string rootNode)
+        public void InsertMHTTable(int fileID, int MHTID, string salt, string rootNode)
         {
             queryString = string.Format(useString +
                                                 "INSERT INTO MHTTable VALUES('{0}', '{1}', '{2}', '{3}');", fileID, MHTID, salt, rootNode);
             ExecuteScalar(queryString);
         }
 
-        public void InsertUpFileTable(long fileID, string fileName, string uploadDateTime,string username)
+        public void InsertUpFileTable(int fileID, string fileName, string uploadDateTime,string username)
         {
             int userid = -1;
             queryString = string.Format(useString +
@@ -427,8 +429,9 @@ namespace Cloud
                 userid= (int)reader[0];
                 reader.Close();
             }   
+
             queryString = string.Format(useString +
-                                         "INSERT INTO UpFileTable VALUES('{0}', '{1}', '{2}', '{3}','{4}');", (int)fileID, userid, fileName, username,uploadDateTime);
+                                         "INSERT INTO UpFileTable VALUES('{0}', '{1}', '{2}', '{3}','{4}');",  fileID, userid, fileName, username,uploadDateTime);
             
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -446,7 +449,7 @@ namespace Cloud
             return ExecuteScalar(queryString);
         }
 
-        public string GetSalt(long fileID,int MHTID)
+        public string GetSalt(int fileID,int MHTID)
         {
             string queryString = $"SELECT Salt FROM MHTTable WHERE FILE_ID = '{fileID}' AND MHT_ID = '{MHTID}'";
             string salt = string.Empty;
@@ -462,7 +465,7 @@ namespace Cloud
             return salt;
         }
 
-        public string GetRootNode(long fileID,int MHTID)
+        public string GetRootNode(int fileID,int MHTID)
         {
             string queryString = $"SELECT RootNode FROM MHTTABLE WHERE FILE_ID = '{fileID}' AND MHT_ID='{MHTID}'";
             string rootNode = string.Empty;

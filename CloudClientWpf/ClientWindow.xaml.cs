@@ -73,7 +73,7 @@ namespace Cloud
         {
             string filePath = fp as string;
             clientManager.UploadFileProcess(filePath);
-            //MessageBox.Show(clientManager.filetag(filePath));
+            ////MessageBox.Show(clientManager.filetag(filePath));
         }
 
         private void DownloadTh(object obj)
@@ -82,10 +82,13 @@ namespace Cloud
             byte res = clientManager.DownloadFileProcess(fileName);
 
             if (res == NetPublic.DefindedCode.ERROR)
-                MessageBox.Show("下载失败");
+            {
+                //MessageBox.Show("下载失败");
+            }
+                
             else
             {
-                MessageBox.Show("下载完成");
+                //MessageBox.Show("下载完成");
                 Console.WriteLine("下载完成！！！！！！！！！！！！！");
             }
             return;
@@ -110,7 +113,7 @@ namespace Cloud
         {
             if (string.IsNullOrEmpty(workPath))
             {
-                MessageBox.Show("未指定目标文件夹");
+                //MessageBox.Show("未指定目标文件夹");
                 return;
             }
 
@@ -120,7 +123,7 @@ namespace Cloud
 
             //上传和下载文件进程
             clientManager.SyncProcess();
-            MessageBox.Show("上传下载文件进程结束，进入文件监控");
+            //MessageBox.Show("上传下载文件进程结束，进入文件监控");
 
             fw = new FileWatcher(workPath, "*.*");
             fw.SendEvent += new FileWatcher.DelegateEventHander(clientManager.AnalysesEvent);
@@ -154,7 +157,7 @@ namespace Cloud
             List<string> fileList = clientManager.GetFileNameList();
             if (fileList == null)
             {
-                MessageBox.Show("获取文件列表失败");
+                //MessageBox.Show("获取文件列表失败");
                 return;
             }
             ClearListView("");

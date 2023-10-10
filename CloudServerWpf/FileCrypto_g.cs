@@ -69,7 +69,7 @@ namespace Cloud
             fileDir = "./ServerFiles/" + fileTag;
             fileName = np.fileName;
             
-            long fileID = UserClassify(np);    //服务器：判断用户类型
+            int fileID = UserClassify(np);    //服务器：判断用户类型
             //************************后端：查询fileTag是否存在*****************************
             //fileTag fileName重复
             //fileName重复就删了
@@ -92,7 +92,7 @@ namespace Cloud
                 SubsequentUpload(fileID);                         //执行后续上传者的操作
             }
 
-            //MessageBox.Show("服务器：文件上传结束");
+            ////MessageBox.Show("服务器：文件上传结束");
         }
 
         //客户端
@@ -148,6 +148,31 @@ namespace Cloud
             return fileContent;
         }
 
+        public byte[] ReadFileContent2(string workdir)
+        {
+            FileInfo fileInfo = new FileInfo(workdir);
+            fileSize = fileInfo.Length;
+
+            byte[] fileContent = new byte[fileInfo.Length + 100];
+
+            try
+            {
+                using (FileStream fileStream = new FileStream(workdir, FileMode.Open, FileAccess.Read))
+                {
+                    using (BinaryReader reader = new BinaryReader(fileStream))
+                    {
+                        int fileSize = (int)new FileInfo(workdir).Length;
+                        fileContent = reader.ReadBytes(fileSize);
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("文件读取错误:" + e.Message);
+            }
+            return fileContent;
+        }
+
         //客户端：对文件进行加密
 
 
@@ -159,7 +184,7 @@ namespace Cloud
         }
 
         //服务器
-        public long UserClassify(NetPacket np)
+        public int UserClassify(NetPacket np)
         {
             //需要服务器端在数据库的文件表中查询，fileTag是否存在
             //如果存在，返回fileID（fileID是从1开始编号的）
@@ -207,13 +232,13 @@ namespace Cloud
             }
 
             
-            long fileID = 0;
+            int fileID = 0;
             dataBaseManager.InsertFileTable(ref fileID,fileName,fileTag,MHTNum,fileSize,fileDir,fileEncryptKey); //****************服务器：插入FileTable中********************
 
             for(int i=0;i<MHTNum ;++i)
             {
                 dataBaseManager.InsertMHTTable(fileID, i, saltsVal[i], rootNode[i]);   //****************服务器：插入MHT表****************
-                //MessageBox.Show("插入MHT表：" + fileID + " " + i);    
+                ////MessageBox.Show("插入MHT表：" + fileID + " " + i);    
             }
 
             string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -221,7 +246,7 @@ namespace Cloud
         }
 
         //客户端和服务器端都有，请参考具体注释
-        public void SubsequentUpload(long fileID)
+        public void SubsequentUpload(int fileID)
         {
             //服务器：发起挑战
             int challengeLeafNode=0;
@@ -252,20 +277,25 @@ namespace Cloud
             //*************************通信：客户端将ResponseNodeSet发送给服务器*************************************
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             //np = serverComHelper.RecvMsg();
-            serverComHelper.RecvFile(fileTag);
-            byte[] ResponseNode = ReadFileContent();
+            string tmpdir = fileTag + "_MHT";
+            serverComHelper.RecvFile(tmpdir);
+            byte[] ResponseNode = ReadFileContent2("./ServerFiles/"+tmpdir);
             List<string> ResponseNodeSet = ByteArrayToListString(ResponseNode);
-            MessageBox.Show("服务器接收Response成功！");
 
-            MessageBox.Show("k的大小:" + k + " saltval大小:" + saltsVal.Count + " rootNode大小:" + rootNode.Count);
+
+            //MessageBox.Show("服务器接收Response成功！");
+
+            //MessageBox.Show("k的大小:" + k + " saltval大小:" + saltsVal.Count + " rootNode大小:" + rootNode.Count);
 
             //服务器：验证响应
             bool isPassPow = PoW.VerifyRepsonse(saltsVal[k], ResponseNodeSet, rootNode[k]); //CSP验证Response正确性
 
+
+            File.Delete(tmpdir);
             //*************************通信：服务器将验证结果isPassPow发送给客户端**************************************
             if(isPassPow)
             {
-                MessageBox.Show("通过验证!");
+                //MessageBox.Show("通过验证!");
                 serverComHelper.MakeResponsePacket(NetPublic.DefindedCode.AGREEUP);
                 serverComHelper.SendMsg();
             }
