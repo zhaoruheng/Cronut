@@ -58,7 +58,12 @@ namespace Cloud
         private void OnProcess(object sender, FileSystemEventArgs e)
         {
             WatchEvent we = new WatchEvent();
-            if (e.ChangeType == WatcherChangeTypes.Deleted) //删除
+            //忽略开头为。的文件
+            if (e.FullPath.StartsWith("."))
+            {
+                we.fileEvent = 0;
+            }
+            else if (e.ChangeType == WatcherChangeTypes.Deleted) //删除
             {
                 we.fileEvent = 3;
                 we.filePath = e.FullPath;

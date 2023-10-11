@@ -17,3 +17,17 @@
 **10.6 gxy updata:修复了部分通信的问题**
 
 **10.8 gxy updata:修复了部分通信及崩溃的问题**
+
+**10.11 zrh updata:修复了部分通信及问题，通信错误已基本解决**
+
+---
+### 待更新内容
+
+更换UI为Avalonia
+
+更换数据库为MySQL
+
+fileEncryptKey加密
+
+解决sql注入问题
+

@@ -415,6 +415,16 @@ namespace Cloud
             ExecuteScalar(queryString);
         }
 
+        public void FindUpFileTable(int fileID, string fileName, string uploadDateTime, string username)
+        {
+            queryString = string.Format(useString +
+                                                             "SELECT * FROM UpFileTable WHERE FILE_NAME='{0}' AND USER_NAME='{1}';", fileName, username);
+            int res = ExecuteScalar(queryString);
+            if (res == 0)
+                InsertUpFileTable(fileID, fileName, uploadDateTime, username);
+            else
+                UpdateUpFileTable(fileID, fileName, uploadDateTime, username);
+        }
         public void InsertUpFileTable(int fileID, string fileName, string uploadDateTime,string username)
         {
             int userid = -1;
@@ -441,6 +451,32 @@ namespace Cloud
             }
 
 
+        }
+        public void UpdateUpFileTable(int fileID, string fileName, string uploadDateTime, string username)
+        {
+            int userid = -1;
+            queryString = string.Format(useString +
+                                                             "SELECT USER_ID FROM UserTable WHERE USER_NAME='{0}';", username);
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                userid = (int)reader[0];
+                reader.Close();
+            }
+
+            queryString = string.Format(useString +
+                                                        "UPDATE UpFileTable SET FILE_ID = '{0}', UPLOAD_TIME = '{1}'" +
+                                                                                                "WHERE FILE_NAME = '{2}' AND USER_NAME = '{3}';", fileID, uploadDateTime, fileName, username);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }   
         }
 
         public int GetMHTNum(string fileTag)

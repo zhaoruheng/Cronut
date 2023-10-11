@@ -20,6 +20,7 @@ namespace Cloud
         private string salt;
         private int port;
         private string ipString;
+        private bool protect=false;
         List<string> upFileList;    //上传文件列表
         List<string> downFileList;  //下载文件列表
         FileInfoList fileInfoList;
@@ -53,7 +54,7 @@ namespace Cloud
             {
                 string fname = System.IO.Path.GetFileName(we.filePath);
                 string fextname = System.IO.Path.GetExtension(we.filePath);
-                if (fname.Length > 2 && fname.Substring(0, 2) == "~$" || fextname == ".tmp") //word临时文件
+                if (fname.Length > 2 && fname.Substring(0, 2) == "~$" || fextname == ".tmp"||fname.Substring(0,1)==".") //word临时文件
                     return;
                 if (File.GetAttributes(we.filePath) == FileAttributes.Hidden) //隐藏文件
                     return;
@@ -74,7 +75,11 @@ namespace Cloud
             {
                 ////MessageBox.Show(eventQueue.Count.ToString());
                 we = eventQueue.Dequeue();
-
+                //如果文件名以.开头，直接return
+                if(System.IO.Path.GetFileName(we.filePath).Substring(0,1)=="."||protect==true)
+                {
+                    return;
+                }
                 if (we.fileEvent == 1)
                 {
                     //MessageBox.Show("watch event: upload:" + we.filePath);
@@ -122,6 +127,7 @@ namespace Cloud
         /// </summary>
         public void SyncProcess()
         {
+            protect = true;
             Console.WriteLine("In SyncProcess:");
             GetFileListProcess();   //该用户现有的文件列表，存入fileInfoList
 
@@ -149,6 +155,8 @@ namespace Cloud
 
             //MessageBox.Show("上传和下载文件结束！");
             Console.WriteLine("Sync over");
+            protect = false;
+           
         }
 
 
@@ -164,6 +172,10 @@ namespace Cloud
             foreach (FileInfo f in files)
             {
                 string tmp = f.Name.Replace(workPath, "");
+                if(tmp.Substring(0,1)==".")
+                {
+                    continue;
+                }
                 int index;
                 if ((index = fileInfoList.nameList.IndexOf(tmp)) < 0)
                 {
@@ -182,12 +194,14 @@ namespace Cloud
                    
                     if (res > 0) //如果 res 大于0，表示cloudTime> localTime，云端是新的文件
                     {
-                        File.Delete(f.FullName);
+                        //File.Delete(f.FullName);
+                        //MessageBox.Show("云端新，删除" + f.FullName);
                     }
                     else if (res < 0) //如果 res 小于0，本地的文件新
                     {
                         upFileList.Add(f.Name);
                         downFileList.Remove(f.Name);
+                        //MessageBox.Show("本地新，上传" + f.FullName);
                     }
                     else //如果 res 等于0，表示两者时间相同
                         downFileList.Remove(f.Name);
@@ -256,8 +270,9 @@ namespace Cloud
 
             //通信：发送上传文件请求
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.UPLOAD, userName, 0, null, null);
+            //MessageBox.Show("上传" + filePath);
             clientComHelper.SendMsg();
-
+            NetPacket np = clientComHelper.RecvMsg();
             FileCrypto fc = new FileCrypto(filePath,clientComHelper,userName);
 
             //返回DefindedCode.AGREEUP 或 DefineCode.FILEEXISTED
@@ -308,7 +323,8 @@ namespace Cloud
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
             
             //通信：发送下载文件请求
-            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.DOWNLOAD, userName, null, 0, null, fileName, null, null, 0); 
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.DOWNLOAD, userName, null, 0, null, fileName, null, null, 0);
+            //MessageBox.Show("下载" + fileName);
             clientComHelper.SendMsg();
 
             //通信：接收解密密钥
@@ -325,13 +341,13 @@ namespace Cloud
                 clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.READY);
                 clientComHelper.SendMsg();
 
-                clientComHelper.RecvFile(downloadPath + fileName);
-                FileCrypto fc = new FileCrypto(downloadPath + fileName,clientComHelper,userName,enkey);
+                clientComHelper.RecvFile(downloadPath + "."+fileName);
+                FileCrypto fc = new FileCrypto(downloadPath + fileName, downloadPath + "." + fileName, clientComHelper,userName,enkey);
 
                 fc.FileDownload();
             }
 
-           // //MessageBox.Show("此时的np.code:"+np.code);
+           //MessageBox.Show("此时的np.code:"+np.code);
             return np.code;
         }
 
@@ -339,6 +355,7 @@ namespace Cloud
         public byte DeleteFileProcess(string fileName)
         {
             ////MessageBox.Show("DEL:" + fileName);
+            //MessageBox.Show("删除" + fileName);
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.DELETE, userName, null, 0, null, fileName, null, null, 0);
             clientComHelper.SendMsg();

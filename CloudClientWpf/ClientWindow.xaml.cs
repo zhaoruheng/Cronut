@@ -124,7 +124,7 @@ namespace Cloud
             //上传和下载文件进程
             clientManager.SyncProcess();
             //MessageBox.Show("上传下载文件进程结束，进入文件监控");
-
+           
             fw = new FileWatcher(workPath, "*.*");
             fw.SendEvent += new FileWatcher.DelegateEventHander(clientManager.AnalysesEvent);
             fw.Start();
@@ -135,6 +135,8 @@ namespace Cloud
             button3.Visibility=Visibility.Hidden;
             button2.Visibility=Visibility.Hidden;
             button4.Visibility=Visibility.Visible;
+            UpdateFileList2();
+            clientManager.ReturnMsg += new ClientManager.DelegateEventHander(UpdateFileList2);
         }
 
 

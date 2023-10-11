@@ -309,7 +309,8 @@ namespace Cloud
                 Console.WriteLine("用户通过了PoW验证!");
 
                 string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                dataBaseManager.InsertUpFileTable(fileID,fileName,uploadDateTime,username); //服务器：更新UploadFileTable
+
+                dataBaseManager.FindUpFileTable(fileID,fileName,uploadDateTime,username); //服务器：更新UploadFileTable
             }
             else
             {

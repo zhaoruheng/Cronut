@@ -126,8 +126,15 @@ namespace Cloud
                 case DefindedCode.UPLOAD:
                     DataBaseManager dm = new DataBaseManager(connectionString);
                     FileCrypto fc = new FileCrypto(serverComHelper,dm,np.userName);
-
-                    fc.FileUpload();
+                    serverComHelper.MakeResponsePacket(NetPublic.DefindedCode.OK);
+                    serverComHelper.SendMsg();
+                    try {
+                        fc.FileUpload(); 
+                    }
+                    catch (Exception e) {
+                        ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + np.userName + "上传文件失败");
+                        break;
+                    }
                     ReturnMsg?.Invoke(DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + np.userName + "上传文件");
                     /*需要修改！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！*/
                     //res = UploadRequest(np.userName, np.fileName, np.fileLength, np.enMd5, np.sha1, np.uploadTime, np.enKey);

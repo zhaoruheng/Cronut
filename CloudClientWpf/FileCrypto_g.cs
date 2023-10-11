@@ -16,6 +16,7 @@ namespace Cloud
     internal class FileCrypto
     {
         string fileDir;          //客户端：文件路径
+        string readdir;
         string fileName;          //客户端：文件名
         long fileSize;             //客户端：文件大小(以字节为单位)
         string fileTag;          //客户端：文件标签
@@ -41,9 +42,10 @@ namespace Cloud
             clientComHelper = client;
             this.userName = userName;
         }
-        public FileCrypto(string path, ClientComHelper client, string userName,string enkey)
+        public FileCrypto(string path,string readdir, ClientComHelper client, string userName,string enkey)
         {
             fileDir = path;
+            this.readdir = readdir;
             rootNode = new List<string>();
             saltsVal = new List<string>();
             clientComHelper = client;
@@ -123,7 +125,8 @@ namespace Cloud
         //客户端：对密文进行解密，将明文重新写入原文件
         public void FileDownload()
         {
-            fileCiphertext= ReadFileContent();
+            fileCiphertext= ReadFileContent2(readdir);
+            File.Delete(readdir);
             byte[] plaintext = FileDecrypt();
 
             try
@@ -174,7 +177,33 @@ namespace Cloud
             }
             return fileContent;
         }
-        
+
+        public byte[] ReadFileContent2(string workpath)
+        {
+            FileInfo fileInfo = new FileInfo(workpath);
+            fileSize = fileInfo.Length;
+            fileName = fileInfo.Name;
+
+            byte[] fileContent = new byte[fileInfo.Length + 100];
+
+            try
+            {
+                using (FileStream fileStream = new FileStream(workpath, FileMode.Open, FileAccess.Read))
+                {
+                    using (BinaryReader reader = new BinaryReader(fileStream))
+                    {
+                        int fileSize = (int)new FileInfo(workpath).Length;
+                        fileContent = reader.ReadBytes(fileSize);
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("文件读取错误:" + e.Message);
+            }
+            return fileContent;
+        }
+
         //客户端：对文件进行加密
         public byte[] FileEncrypt()
         {
@@ -274,8 +303,8 @@ namespace Cloud
             System.IO.DirectoryInfo topDir = System.IO.Directory.GetParent(fileDir);
             string pathto = topDir.FullName;
 
-            string filePath = Path.Combine(pathto, fileTag);
-
+            string filePath = Path.Combine(pathto, "."+fileTag);
+            //MessageBox.Show(filePath);
             try
             {
                 // 使用FileStream创建文件流
@@ -298,7 +327,7 @@ namespace Cloud
         {
             System.IO.DirectoryInfo topDir = System.IO.Directory.GetParent(fileDir);
             string pathto = topDir.FullName;
-            string filePath = Path.Combine(pathto, fileTag);
+            string filePath = Path.Combine(pathto, "."+fileTag);
 
             try
             {
