@@ -22,6 +22,8 @@
 
 **10.24 gxy updata:更换UI为Avalonia，基本功能已完善**
 
+**10.24 zrh updata:修复临时文件未删除的bug**
+
 ---
 ### 待更新内容
 

@@ -11,12 +11,12 @@ namespace Cloud
 {
     class FileCrypto
     {
-        string fileDir;          //客户端：文件路径
-        string readdir;
-        string fileName;          //客户端：文件名
+        string fileDir=string.Empty;          //客户端：文件路径
+        string readdir=string.Empty;
+        string fileName = string.Empty;          //客户端：文件名
         long fileSize;             //客户端：文件大小(以字节为单位)
-        string fileTag;          //客户端：文件标签
-        string fileEncryptKey;   //客户端：加密文件的密钥
+        string fileTag = string.Empty;          //客户端：文件标签
+        string fileEncryptKey = string.Empty;   //客户端：加密文件的密钥
         const string keyPrivate = "123456789";  //客户端：用户的K_private。别删谢谢！
         byte[] fileCiphertext;   //客户端：文件密文
         const string aesIV = "446C47278157A448F925084476F2A5C2";       //客户端：AES加密的初始化向量
@@ -25,7 +25,7 @@ namespace Cloud
         int leafNodeNum;                //服务器&客户端：文件分块数（叶子节点数）
         int MHTNum;                     //服务器：文件的MHT数量
         ClientComHelper clientComHelper;
-        string userName;
+        string userName = string.Empty;
         public delegate void DelegateEventHander();
         public DelegateEventHander ReturnMsg;
 
@@ -94,6 +94,15 @@ namespace Cloud
             ReturnMsg?.Invoke();
 
             //MessageBox.Show("客户端：文件上传结束");
+
+            System.IO.DirectoryInfo topDir = System.IO.Directory.GetParent(fileDir);
+            string pathto = topDir.FullName;
+
+            string filePath = Path.Combine(pathto, "." + fileTag);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
             return np.code;
         }
 
@@ -145,6 +154,11 @@ namespace Cloud
             Console.WriteLine("解密文件路径:" + fileDir);
             Console.WriteLine("解密后的明文:");
             Console.WriteLine(Encoding.UTF8.GetString(plaintext));
+            
+            if (File.Exists(readdir))
+            {
+                File.Delete(readdir);
+            }
         }
 
         //客户端
