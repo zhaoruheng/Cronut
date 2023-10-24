@@ -33,3 +33,5 @@ fileEncryptKey加密
 
 解决sql注入问题
 
+增加注册功能
+
