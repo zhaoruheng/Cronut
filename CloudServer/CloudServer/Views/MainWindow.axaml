@@ -1,0 +1,146 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:CloudServer.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+        xmlns:views="clr-namespace:CloudServer.Views"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="600"
+        x:Class="CloudServer.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="CloudServer"
+		Height="600" Width="1200">
+
+	<Window.DataContext>
+		<vm:MainViewModel />
+	</Window.DataContext>
+	
+	<Grid RowDefinitions="10*,90*">
+		
+		<!--上方的菜单栏-->
+		<Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*,*" Background="White">
+			<StackPanel Orientation="Horizontal">
+				<!--初始化按钮-->
+				<Button Grid.Column="0" x:Name="InitializeButton" Width="72.5" HorizontalContentAlignment="Center" Margin="10" Content="Initialize" Background="#0075b5" 
+						Foreground="White" FontSize="12" FontFamily="Times" FontWeight="Bold" 
+						CornerRadius="10" VerticalAlignment="Center" Click="Initialize_Click"/>
+				
+				<!--开始按钮-->
+				<Button Grid.Column="1" x:Name="StartButton" Width="57.8" Margin="3" HorizontalContentAlignment="Center" Content="Start" Background="#0075b5"
+						Foreground="White" FontSize="12" FontFamily="Times" FontWeight="Bold" 
+						CornerRadius="10" VerticalAlignment="Center" Click="Start_Click"/>
+				
+				<!--无忧网盘文本块-->
+				<TextBlock Grid.Column="2" Foreground="#0572b0" FontSize="20" Margin="330,15,-6,1" FontWeight="Bold" FontFamily="Times">Carefree</TextBlock>
+				<Border Grid.Column="2" Margin="11,16" VerticalAlignment="Top"  HorizontalAlignment="Left"
+						Background="#0572b0" CornerRadius="3" Height="23" Width="65">
+					<TextBlock Text="Cloud" Margin="2,1,1,1" FontWeight="Bold" FontSize="20" Foreground="White"/>
+				</Border>
+			</StackPanel>
+		</Grid>
+
+		<!--主体部分-->
+		<Grid Grid.Row="1" Background="#d4e6f3">
+			<!--左侧的TableControl-->
+			<TabControl Margin="5" TabStripPlacement="Left">
+				
+				<!--主页部分-->
+				<TabItem>
+					<TabItem.Header>
+						<Image Source="{SvgImage /Assets/Images/Home.svg}" Width="20" Height="20"/>
+					</TabItem.Header>
+
+					<!--实时图表-->
+					<Grid ColumnDefinitions="*,*,*">
+						<Border CornerRadius="14" BorderThickness="2" Background="#ebf3fa" HorizontalAlignment="Left" VerticalAlignment="Center" Width="380" Height="520">
+							<Grid Grid.Column="0" RowDefinitions="0.2*,2*,0.2*,2*,0.2*,2*" Margin="0,7">
+								<TextBlock Grid.Row="0" Text="实时文件总数:" Margin="5,7"/>
+								<lvc:CartesianChart Grid.Row="1" Series="{Binding Series}">
+								</lvc:CartesianChart>
+
+								<TextBlock Grid.Row="2" Text="实时去重后的文件数:" Margin="5,7"/>
+								<lvc:CartesianChart Grid.Row="3" Series="{Binding Series}">
+								</lvc:CartesianChart>
+
+								<TextBlock Grid.Row="4" Text="实时用户总数:" Margin="5,7"/>
+								<lvc:CartesianChart Grid.Row="5" Series="{Binding Series}">
+								</lvc:CartesianChart>
+							
+							</Grid>
+						</Border>
+						
+						<!--用户动态-->
+						<Grid Grid.Column="1">
+							<Border Background="#ebf3fa" CornerRadius="14" BorderThickness="2" HorizontalAlignment="Left"
+									VerticalAlignment="Center" MinWidth="420" Height="520" Margin="15">
+								<StackPanel>
+									<Border Background="#8bb3db" CornerRadius="3" Height="33">
+										<TextBlock Text="Real-time Information:" Margin="5,7" Foreground="White" FontFamily="Times" FontWeight="Bold"/>
+									</Border>
+									
+									<ScrollViewer Height="470" VerticalScrollBarVisibility="Auto">
+										<ListBox x:Name="RealTimeInfo" Background="Transparent" FontSize="2" >
+											<ListBox.ItemTemplate>
+												<DataTemplate>
+													<TextBlock Text="{Binding}" TextWrapping="Wrap"></TextBlock>
+													
+												</DataTemplate>
+												
+											</ListBox.ItemTemplate>
+										</ListBox>
+									</ScrollViewer>
+								</StackPanel>
+							</Border>
+							
+							
+						</Grid>
+						
+						<!--具体算法过程-->
+						<Grid Grid.Column="2">
+							<Border Background="#ebf3fa" CornerRadius="14" BorderThickness="2" HorizontalAlignment="Right"  Margin="0,5" VerticalAlignment="Top" Width="300" Height="320" >
+								<StackPanel>
+									<Border Background="#8bb3db" CornerRadius="3" Height="33">
+										<TextBlock Text="Detailed Algorithm Parameter:" Foreground="White" Margin="5,7" FontFamily="Times" FontWeight="Bold"/>
+									</Border>
+									<ScrollViewer Height="300" VerticalScrollBarVisibility="Auto">
+										<ListBox x:Name="DatailedParameter" Background="Transparent"/>
+									</ScrollViewer>
+
+									<Image Source="{SvgImage /Assets/Images/Working.svg}" Height="300" Margin="0,-30"/>
+								</StackPanel>
+							</Border>
+						</Grid>
+
+					</Grid>
+				</TabItem>
+					
+				<!--用户部分-->
+				<TabItem>
+					<TabItem.Header>
+						<Image Source="{SvgImage /Assets/Images/User.svg}" Width="20" Height="20"/>
+					</TabItem.Header>
+
+					<DataGrid Margin="20" ItemsSource="{Binding UserList}"
+          AutoGenerateColumns="True" IsReadOnly="True"
+          GridLinesVisibility="All"
+          BorderThickness="1" BorderBrush="Gray">
+					</DataGrid>
+					
+				</TabItem>
+					
+				<!--文件部分-->
+				<TabItem>
+					<TabItem.Header>
+						<Image Source="{SvgImage /Assets/Images/File.svg}" Height="20" Width="20"/>
+					</TabItem.Header>
+
+					<DataGrid Margin="20" ItemsSource="{Binding FileList}"
+							  AutoGenerateColumns="True" IsReadOnly="True"
+							  GridLinesVisibility="All" BorderThickness="1"
+							  BorderBrush="Gray">
+					</DataGrid>
+				</TabItem>
+			</TabControl> 
+			</Grid>
+	</Grid>
+</Window>

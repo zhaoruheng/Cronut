@@ -20,10 +20,10 @@
 
 **10.11 zrh updata:修复了部分通信及问题，通信错误已基本解决**
 
+**10.24 gxy updata:更换UI为Avalonia，基本功能已完善**
+
 ---
 ### 待更新内容
-
-更换UI为Avalonia
 
 更换数据库为MySQL
 

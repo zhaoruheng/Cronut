@@ -1,0 +1,110 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:CloudClient.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:CloudClient.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="CloudClient.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="CloudClient"
+		Height="450" Width="800">
+
+	
+	<Border CornerRadius="20">
+	<Grid ColumnDefinitions="420 Auto,120*">
+		
+		<!--Login Picture-->
+		<Grid Grid.Column="0">
+			<Image Source="{SvgImage /Assets/Images/Working.svg}" Stretch="UniformToFill"/>
+			<TextBlock Foreground="#0572b0" FontSize="20" Margin="30,20,1,1" FontWeight="Bold" FontFamily="Times">Carefree</TextBlock>
+		
+			<Border Margin="112,20,1,1" VerticalAlignment="Top"  HorizontalAlignment="Left"
+					Background="#0572b0" CornerRadius="3" Height="23" Width="65">
+				<TextBlock Text="Cloud" Margin="2,1,1,1" FontWeight="Bold" FontSize="20" Foreground="White"/>
+			</Border>
+		</Grid>
+		
+		<!--Login Part-->
+			<!--Welcome-->
+		<Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto,Auto">
+			
+			<Grid Grid.Row="0">
+				<TextBlock Foreground="#0572b0" FontFamily="Black" FontSize="30" FontWeight="DemiBold" Margin="32,90,1,1">Welcome</TextBlock>
+			</Grid>
+			
+			<!--输入用户名和密码-->
+			<Grid Grid.Row="1">
+				<StackPanel>
+					<StackPanel.Styles>
+						<Style Selector="Border:pointerover">
+							<Setter Property="Background" Value="#ebf2fa"></Setter>
+							<Setter Property="BorderThickness" Value="0"></Setter>
+							<Setter Property="BorderBrush" Value="Transparent"></Setter>
+						</Style>
+					</StackPanel.Styles>
+
+					<TextBox x:Name="UserNameBox" VerticalAlignment="Center" HorizontalAlignment="Left"
+							 Width="250" Height="20" Margin="32,10,1,1"
+							 BorderBrush="Transparent" Background="#ebf2fa"
+							 Watermark="UserName" FontSize="12" Foreground="#0572b0"
+							 VerticalContentAlignment="Center" HorizontalContentAlignment="Left" CornerRadius="0">
+					</TextBox>
+
+					<TextBox x:Name="PasswordBox" VerticalAlignment="Center" HorizontalAlignment="Left"
+							 Width="250" Height="20" Margin="32,10,1,1"
+							 BorderBrush="Transparent" Background="#ebf2fa"
+							 Watermark="Password" FontSize="12" Foreground="#0572b0"
+							 VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+							 PasswordChar="*" CornerRadius="0">					
+					</TextBox>
+
+					<TextBlock Margin="32,9,1,1" FontSize="9" Foreground="#0572b0" ToolTip.Tip="Find your password">Forgot password?</TextBlock>
+				</StackPanel>
+			</Grid>
+			
+			<!--登录按钮-->
+			<Grid Grid.Row="2">
+				<Grid.Styles>
+					<Style Selector="Button /template/ContentPresenter">
+						<Setter Property="Transitions">
+							<Transitions>
+								<TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1"/>
+							</Transitions>
+						</Setter>
+					</Style>
+
+					<Style Selector="Button:pointerover /template/ContentPresenter">
+						<Setter Property="Background" Value="#0075b5"/>
+						<Setter Property="RenderTransform" Value="scale(1.01)"/>
+						<Setter Property="Opacity" Value="0.4"/>
+						<Setter Property="CornerRadius" Value="4"></Setter>
+					</Style>
+				</Grid.Styles>
+
+				<Button Margin="32,45,1,1" Height="35" Width="90" 
+						Background="#0075b5" Content="Login" 
+						FontSize="12" Foreground="White" FontWeight="Black"
+						VerticalAlignment="Center" HorizontalAlignment="Left"
+						HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+						CornerRadius="4" Click="LoginButton_Click">
+				</Button>
+
+				<Button Margin="152,45,1,1" Height="35" Width="90"
+						Background="#0075b5" Content="Sing up"
+						FontSize="12" Foreground="White" FontWeight="Black"
+						VerticalAlignment="Center" HorizontalAlignment="Left"
+						HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+						CornerRadius="4">
+				</Button>
+			</Grid>
+
+			<!--Lable-->
+			<Grid Grid.Row="3">
+				<Label x:Name="LabelProcess" Margin="260,100,1,1" FontSize="11" Foreground="#0075b5"/>
+			</Grid>
+		
+		</Grid>
+	</Grid>
+	</Border>
+</Window>

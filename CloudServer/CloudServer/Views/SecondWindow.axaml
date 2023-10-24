@@ -1,0 +1,52 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="CloudServer.Views.SecondWindow"
+        Title="SecondWindow"
+		Height="450" Width="800">
+
+	<Grid RowDefinitions="10*,90*">
+		<TabControl Grid.Row="0" Margin="0,0,-0.4,0" BorderBrush="White">
+
+			<TabItem Header="首页" FontFamily="Letter Gothic Std" FontSize="14" Margin="0,-5,-400.4,-12.6" BorderThickness="1" BorderBrush="Gray" Background="#CBCBCB"/>
+
+			<TabItem Header="文件列表" FontFamily="Letter Gothic Std" FontSize="14" Margin="400,-5,-177.6,-12.6" HorizontalAlignment="Right" Width="429" Background="#CBCBCB" BorderThickness="1" BorderBrush="Gray"/>
+		</TabControl>
+		
+		<Button x:Name="BtnClose"
+                            BorderThickness="0"
+                            Content="X"
+                            Foreground="White"
+                            FontSize="12"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"
+                            Margin="770,1,-1,10"
+							Background="#DA34AE">
+		</Button>
+
+		<Grid Grid.Row="1">
+			<Image Source="/Assets/Images/back2.jpg" Stretch="Fill"/>
+
+			<TextBlock Margin="63,32,0,0" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Cloud FileTag：" VerticalAlignment="Top" FontSize="14" />
+
+			<Button x:Name="button2"
+                            BorderThickness="0"
+                            Content="刷新"
+                            Foreground="White"
+                            FontSize="12"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"
+                            Margin="572,-130,-272,205"
+                            RenderTransformOrigin="0.5,0.425"
+					        Height="40" Width="100"
+					        CornerRadius="13"
+					        Background="#C4B3C1">
+            </Button>
+
+			<ListBox HorizontalAlignment="Left" Margin="63,77,0,0" VerticalAlignment="Top" Height="297" Width="679" Name="listBox2"/>
+
+		</Grid>
+	</Grid>
+</Window>

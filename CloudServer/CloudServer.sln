@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34018.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudServer", "CloudServer\CloudServer.csproj", "{45D0BEBD-E1B4-4004-8A67-4130D7CA755D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudServer.Desktop", "CloudServer.Desktop\CloudServer.Desktop.csproj", "{082970A4-C974-4C85-A980-F34A71A429B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{87DE9A9E-99A1-43E4-B7E2-6A9CEAF5B60D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45D0BEBD-E1B4-4004-8A67-4130D7CA755D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45D0BEBD-E1B4-4004-8A67-4130D7CA755D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45D0BEBD-E1B4-4004-8A67-4130D7CA755D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45D0BEBD-E1B4-4004-8A67-4130D7CA755D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{082970A4-C974-4C85-A980-F34A71A429B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{082970A4-C974-4C85-A980-F34A71A429B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{082970A4-C974-4C85-A980-F34A71A429B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{082970A4-C974-4C85-A980-F34A71A429B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0D0A6B05-3E39-435A-80CA-E39C9014E0AE}
+	EndGlobalSection
+EndGlobal
