@@ -35,3 +35,5 @@ fileEncryptKey加密
 
 增加注册功能
 
+完善密码校验
+
