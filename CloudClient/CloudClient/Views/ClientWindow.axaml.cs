@@ -21,20 +21,19 @@ namespace CloudClient.Views
         private string userName=string.Empty;
         private ClientManager clientManager;
         private FileWatcher fw;
+        public static ListBox lb;
 
         public ClientWindow()
         {
             InitializeComponent();
-
-            foreach (var uploadingFile in new string[] { "111.txt申请上传", "111.txt上传中...", "111.txt上传成功", "heihei.jpg", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中...", "111.txt上传中..." }.OrderBy(x => x))
-            {
-                UploadingFileList.Items.Add(uploadingFile);
-            }
         }
 
         public ClientWindow(ClientManager clientManager)
         {
             InitializeComponent();
+
+            lb = this.FindControl<ListBox>("UploadingFileList");
+            UploadingFileList.Items.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ": 用户登陆成功");
 
             workPath = ConfigurationManager.AppSettings["TargetDir"];
             userName = ConfigurationManager.AppSettings["UserName"];
@@ -42,15 +41,20 @@ namespace CloudClient.Views
 
             if (!string.IsNullOrEmpty(workPath) && Directory.Exists(workPath) && !string.IsNullOrEmpty(userName) && string.Equals(userName, clientManager.getusername()))
             {
+                UploadingFileList.Items.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ": 用户已选择文件夹");
+
                 ShowFilePath.Watermark = workPath;
                 ShowFilePath.IsEnabled = false;
                 ChooseButton.IsEnabled = false;
                 ConfirmButton.IsEnabled = false;
 
+                UploadingFileList.Items.Add("云端文件同步中...");
+
                 Thread th = new Thread(SyncTh);
                 th.IsBackground = true;
                 th.Start();
 
+                UploadingFileList.Items.Add("进入文件夹监控...");
                 fw = new FileWatcher(workPath, "*.*");
                 fw.SendEvent += new FileWatcher.DelegateEventHander(clientManager.AnalysesEvent);
                 fw.Start();
@@ -99,13 +103,14 @@ namespace CloudClient.Views
 
             ConfirmButton.IsEnabled = false;
 
+            UploadingFileList.Items.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ": 用户已选择文件路径");
+
             clientManager.workPath = workPath;
             SetAppSettingConf("TargetDir", workPath);
             SetAppSettingConf("UserName", clientManager.getusername());
 
             //上传和下载文件进程
             clientManager.SyncProcess();
-            //MessageBox.Show("上传下载文件进程结束，进入文件监控");
 
             fw = new FileWatcher(workPath, "*.*");
             fw.SendEvent += new FileWatcher.DelegateEventHander(clientManager.AnalysesEvent);

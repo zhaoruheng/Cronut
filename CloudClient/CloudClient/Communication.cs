@@ -55,6 +55,7 @@ namespace Cloud
 #pragma warning disable SYSLIB0011
             return np;
         }
+
         public virtual void SendFile(string sendPath)
         //虚函数是因为子类要对发送和接收文件做额外操作
         {

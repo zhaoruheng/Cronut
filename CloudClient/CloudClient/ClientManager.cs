@@ -150,7 +150,6 @@ namespace Cloud
             //MessageBox.Show("上传和下载文件结束！");
             Console.WriteLine("Sync over");
             protect = false;
-
         }
 
 
@@ -225,6 +224,20 @@ namespace Cloud
             return np.code;
         }
 
+        public byte SignUpProcess(string userName,string userPass)
+        {
+            this.userName = userName;
+            ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
+            string md5 = FileCrypto_2.GetMD5(userPass);
+
+            //给服务器发送注册请求
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.SIGNUP, userName, md5, 0, null, null, null, null, 0);
+            clientComHelper.SendMsg();
+
+            NetPacket np = clientComHelper.RecvMsg();
+            return np.code;
+        }
+
         //用户登出
         public byte LogoutProcess()
         {
@@ -265,50 +278,12 @@ namespace Cloud
             //通信：发送上传文件请求
             string fileName = Path.GetFileName(filePath);
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.UPLOAD, userName, 0, fileName, null);
-            //MessageBox.Show("上传" + filePath);
             clientComHelper.SendMsg();
             NetPacket np = clientComHelper.RecvMsg();
             FileCrypto fc = new FileCrypto(filePath, clientComHelper, userName);
 
             //返回DefindedCode.AGREEUP 或 DefineCode.FILEEXISTED
             return fc.FileUpload();
-
-            /*
-			Console.WriteLine("Upload: " + filePath);
-
-            //new一个ClientComHelper对象
-            ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
-            long fileSize;
-
-            //通过文件路径找到文件，打开文件，进行读操作
-            FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            fileSize = fs.Length;
-
-            //获取文件MD5
-            string fileMd5 = FileCrypto.GetMD5(fs);
-            fs.Position = 0;
-
-            //获取文件SHA1
-            string fileSha1 = FileCrypto.GetSHA1(fs);
-            fs.Close();
-
-            //加密filekey，然后用userkey加密fileMd5
-            string enMd5 = FileCrypto.AESEncryptString(fileMd5, userKey);  //加密的文件摘要
-            string enKey = FileCrypto.AESEncryptString(fileKey, fileMd5);//加密访问文件的密钥
-            
-            //发送上传请求
-            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.UPLOAD, userName, enMd5, fileSha1, enKey, fileSize, Path.GetFileName(filePath), null);
-            clientComHelper.SendMsg();
-
-            //检测服务器是否收到消息
-            NetPacket np = clientComHelper.RecvMsg();
-            if (np.code == NetPublic.DefindedCode.AGREEUP)
-                //如果同意上传
-            {
-                clientComHelper.SetCryptor(fileKey);
-                clientComHelper.SendFile(filePath);
-            }
-            */
         }
 
         //下载文件
@@ -327,9 +302,6 @@ namespace Cloud
 
             if (np.code == NetPublic.DefindedCode.FILEDOWNLOAD)
             {
-                //string deMd5 = FileCrypto.AESDecryptString(np.enMd5, userKey);
-                //string deKey = FileCrypto.AESDecryptString(np.enKey, deMd5);
-                //clientComHelper.SetCryptor(deKey);
                 string enkey = np.enKey;
 
                 //通信：接收密文

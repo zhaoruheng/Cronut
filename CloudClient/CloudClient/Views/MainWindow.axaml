@@ -47,16 +47,16 @@
 					<TextBox x:Name="UserNameBox" VerticalAlignment="Center" HorizontalAlignment="Left"
 							 Width="250" Height="20" Margin="32,10,1,1"
 							 BorderBrush="Transparent" Background="#ebf2fa"
-							 Watermark="UserName" FontSize="12" Foreground="#0572b0"
+							 Watermark="UserName" FontSize="12" Foreground="#0572b0" FontFamily="Times" FontWeight="Medium"
 							 VerticalContentAlignment="Center" HorizontalContentAlignment="Left" CornerRadius="0">
 					</TextBox>
 
 					<TextBox x:Name="PasswordBox" VerticalAlignment="Center" HorizontalAlignment="Left"
-							 Width="250" Height="20" Margin="32,10,1,1"
+							 Width="250" Height="20" Margin="32,10,1,1" FontWeight="Medium"
 							 BorderBrush="Transparent" Background="#ebf2fa"
 							 Watermark="Password" FontSize="12" Foreground="#0572b0"
 							 VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
-							 PasswordChar="*" CornerRadius="0">					
+							 PasswordChar="●" CornerRadius="0">					
 					</TextBox>
 
 					<TextBlock Margin="32,9,1,1" FontSize="9" Foreground="#0572b0" ToolTip.Tip="Find your password">Forgot password?</TextBlock>
@@ -95,7 +95,7 @@
 						FontSize="12" Foreground="White" FontWeight="Black"
 						VerticalAlignment="Center" HorizontalAlignment="Left"
 						HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-						CornerRadius="4">
+						CornerRadius="4" Click="SignUpButton_Click">
 				</Button>
 			</Grid>
 

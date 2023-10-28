@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cloud
 {
-    class BlindSign
+    internal class BlindSign
     {
         public static BigInteger BlindSignature(BigInteger F_prime)
         {
@@ -16,7 +16,7 @@ namespace Cloud
             BigInteger r = 15;
 
             //服务器: alpha_prime = r * F_prime (mod p)
-            BigInteger alpha_prime = (r * F_prime) % p;
+            BigInteger alpha_prime = r * F_prime % p;
 
             return alpha_prime;
         }

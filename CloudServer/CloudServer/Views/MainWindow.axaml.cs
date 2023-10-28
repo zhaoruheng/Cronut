@@ -1,18 +1,23 @@
 ﻿using Avalonia.Controls;
 using System;
 using System.Configuration;
-using System.Linq;
 using Cloud;
 using Avalonia.Interactivity;
+using CloudServer.ViewModels;
+using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Notifications;
 
 namespace CloudServer.Views;
 
 public partial class MainWindow : Window
 {
-    private string tag;
-    private string connectionString;
-    private ServiceManager serviceManager;
-    
+    private readonly string tag;
+    private readonly string connectionString;
+    private readonly ServiceManager serviceManager;
+    public static ListBox lb;
+    private MainViewModel mvm;
+    private WindowNotificationManager? _manager;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -21,16 +26,23 @@ public partial class MainWindow : Window
         int listenPort = int.Parse(ConfigurationManager.AppSettings["Port"].ToString());
         serviceManager = new ServiceManager(listenPort, connectionString);
         serviceManager.RealTimeItemAdded += OnRealTimeInfoItemAdded;
-        
-        foreach (var para in new string[] { "alpha:13y9r5y42", "file tag: wca3uiewbcfk", "MHT Num:7", "Challenge MHT Index: 4", "Challenge Leaf Index: 0" }.OrderBy(x => x))
+        lb = this.FindControl<ListBox>("DatailedParameter");
+        mvm = new();
+    }
+
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+
+        base.OnApplyTemplate(e);
+        _manager = new WindowNotificationManager(this)
         {
-            DatailedParameter.Items.Add(para);
-        }
+            MaxItems = 3
+        };
     }
 
     private void OnRealTimeInfoItemAdded(string item)
     {
-        RealTimeInfo.Items.Add(item);
+        _ = RealTimeInfo.Items.Add(item);
     }
 
     public void SetAppSettingConf(string key, string value)
@@ -53,9 +65,35 @@ public partial class MainWindow : Window
     public void Start_Click(object sender, RoutedEventArgs e)   //启动
     {
         serviceManager.Start();
-        RealTimeInfo.Items.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  服务器启动成功");
+        _ = RealTimeInfo.Items.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  服务器启动成功");
 
         StartButton.IsEnabled = false;
         StartButton.Content = "Started";
+    }
+
+    private void RefreshUserInfo_Click(object sender, RoutedEventArgs e)
+    {
+        if (StartButton.IsEnabled==false)
+        {
+            mvm.RefreshUserInfo();
+            uuserList.DataContext = mvm;
+        }
+        else
+        {
+            _manager?.Show(new Notification("错误!", "请先启动服务器!", NotificationType.Error));
+        }
+    }
+
+    private void RefreshFileInfo_Click(object sender, RoutedEventArgs e)
+    {
+        if (StartButton.IsEnabled == false)
+        {
+            mvm.RefreshFileInfo();
+            ffileList.DataContext = mvm;
+        }
+        else
+        {
+            _manager?.Show(new Notification("错误!", "请先启动服务器!", NotificationType.Error));
+        }
     }
 }

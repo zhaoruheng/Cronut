@@ -12,7 +12,7 @@
 		Height="600" Width="1200">
 
 	<Window.DataContext>
-		<vm:MainViewModel />
+		<vm:MainViewModel/>
 	</Window.DataContext>
 	
 	<Grid RowDefinitions="10*,90*">
@@ -75,14 +75,14 @@
 									VerticalAlignment="Center" MinWidth="420" Height="520" Margin="15">
 								<StackPanel>
 									<Border Background="#8bb3db" CornerRadius="3" Height="33">
-										<TextBlock Text="Real-time Information:" Margin="5,7" Foreground="White" FontFamily="Times" FontWeight="Bold"/>
+									<TextBlock Text="Real-time Information:" Margin="5,7" Foreground="White" FontFamily="Times" FontWeight="Bold"/>
 									</Border>
 									
 									<ScrollViewer Height="470" VerticalScrollBarVisibility="Auto">
 										<ListBox x:Name="RealTimeInfo" Background="Transparent" FontSize="2" >
 											<ListBox.ItemTemplate>
 												<DataTemplate>
-													<TextBlock Text="{Binding}" TextWrapping="Wrap"></TextBlock>
+													<TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="12"></TextBlock>
 													
 												</DataTemplate>
 												
@@ -97,16 +97,24 @@
 						
 						<!--具体算法过程-->
 						<Grid Grid.Column="2">
-							<Border Background="#ebf3fa" CornerRadius="14" BorderThickness="2" HorizontalAlignment="Right"  Margin="0,5" VerticalAlignment="Top" Width="300" Height="320" >
+							<Border Background="#ebf3fa" CornerRadius="14" BorderThickness="2" HorizontalAlignment="Right"  Margin="0,5" VerticalAlignment="Top" Width="300" Height="520" >
 								<StackPanel>
 									<Border Background="#8bb3db" CornerRadius="3" Height="33">
 										<TextBlock Text="Detailed Algorithm Parameter:" Foreground="White" Margin="5,7" FontFamily="Times" FontWeight="Bold"/>
 									</Border>
-									<ScrollViewer Height="300" VerticalScrollBarVisibility="Auto">
-										<ListBox x:Name="DatailedParameter" Background="Transparent"/>
+									<ScrollViewer Height="480" VerticalScrollBarVisibility="Auto">
+										<ListBox x:Name="DatailedParameter" Background="Transparent">
+											<ListBox.ItemTemplate>
+												<DataTemplate>
+													<TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="12"></TextBlock>
+													
+												</DataTemplate>
+												
+											</ListBox.ItemTemplate>
+										</ListBox>
+											
 									</ScrollViewer>
 
-									<Image Source="{SvgImage /Assets/Images/Working.svg}" Height="300" Margin="0,-30"/>
 								</StackPanel>
 							</Border>
 						</Grid>
@@ -120,11 +128,20 @@
 						<Image Source="{SvgImage /Assets/Images/User.svg}" Width="20" Height="20"/>
 					</TabItem.Header>
 
-					<DataGrid Margin="20" ItemsSource="{Binding UserList}"
-          AutoGenerateColumns="True" IsReadOnly="True"
-          GridLinesVisibility="All"
-          BorderThickness="1" BorderBrush="Gray">
-					</DataGrid>
+					<StackPanel Orientation="Vertical">
+						<Button Content="Update User Information List" Click="RefreshUserInfo_Click" VerticalAlignment="Top" Margin="20,5,0,3"
+								Background="#0075b5" Width="400" Height="30" HorizontalContentAlignment="Center"
+								Foreground="White" FontSize="12" FontFamily="Times" FontWeight="Bold"
+								CornerRadius="5"/>
+						
+						<DataGrid x:Name="uuserList" Margin="20,0" ItemsSource="{Binding UserList,Mode=TwoWay}"
+						AutoGenerateColumns="True" IsReadOnly="True"
+						GridLinesVisibility="All"
+						BorderThickness="1" BorderBrush="Gray" Width="500" HorizontalAlignment="Left">
+							
+						</DataGrid>
+					</StackPanel>
+					
 					
 				</TabItem>
 					
@@ -134,11 +151,18 @@
 						<Image Source="{SvgImage /Assets/Images/File.svg}" Height="20" Width="20"/>
 					</TabItem.Header>
 
-					<DataGrid Margin="20" ItemsSource="{Binding FileList}"
+					<StackPanel Orientation="Vertical">
+						<Button Content="Update File Information List" Click="RefreshFileInfo_Click" VerticalAlignment="Top" Margin="20,5,0,3" 
+								Background="#0075b5" Width="400" Height="30" HorizontalContentAlignment="Center"
+								Foreground="White" FontSize="12" FontFamily="Times" FontWeight="Bold"
+								CornerRadius="5"/>
+						
+						<DataGrid x:Name="ffileList" Margin="20,0" ItemsSource="{Binding UpFileList,Mode=TwoWay}"
 							  AutoGenerateColumns="True" IsReadOnly="True"
 							  GridLinesVisibility="All" BorderThickness="1"
-							  BorderBrush="Gray">
-					</DataGrid>
+							  BorderBrush="Gray"/>
+					</StackPanel>
+					
 				</TabItem>
 			</TabControl> 
 			</Grid>

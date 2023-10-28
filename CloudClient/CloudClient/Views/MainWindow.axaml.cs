@@ -35,7 +35,7 @@ public partial class MainWindow : Window
 
         ClientManager clientManager = new ClientManager(ipString, port);
 
-        //处理用户名和密码 前导or尾部 空白字符
+        //处理用户名和密码
         string userName = UserNameBox.Text;
         string userPass = PasswordBox.Text;
         byte status = CheckInput(userName, userPass);
@@ -76,13 +76,71 @@ public partial class MainWindow : Window
             }
         }
         else if (status == NetPublic.DefindedCode.TOOLONG)
+        {
             LabelProcess.Content = "⚠输入过长";
+        }/*改了**********************************/
+        else if(status == NetPublic.DefindedCode.ERROR)
+        {
+            LabelProcess.Content = "⚠用户名或密码不能为空";
+        }
     }
 
     private byte CheckInput(string userName, string userPass)
     {
         if (userName.Length > maxInput || userPass.Length > maxInput)
+        {
             return NetPublic.DefindedCode.TOOLONG;
+        }/*改了********************************/
+        else if(userName.Length == 0 || userPass.Length == 0)
+        {
+            return NetPublic.DefindedCode.ERROR;
+        }
         return NetPublic.DefindedCode.OK;
+    }
+
+    private void SignUpButton_Click(object sender, RoutedEventArgs e)
+    {
+        ClientManager clientManager = new ClientManager(ipString, port);
+        string userName = UserNameBox.Text;
+        string userPass = PasswordBox.Text;
+
+        byte status = CheckInput(userName, userPass);
+
+        if (status == NetPublic.DefindedCode.OK)
+        {
+            try
+            {
+                status = clientManager.SignUpProcess(userName, userPass);
+            }
+            catch
+            {
+                LabelProcess.Content = "⚠请检查网络连接";
+                clientManager = null;
+                return;
+            }
+
+            switch (status)
+            {
+                case NetPublic.DefindedCode.SIGNUPSUCCESS:
+                    LabelProcess.Content = "注册成功!";
+                    break;
+                    /*改了****************/
+                case NetPublic.DefindedCode.ERROR:
+                    LabelProcess.Content = "⚠用户已存在";
+                    break;
+
+                default:
+                    LabelProcess.Content = "⚠注册失败";
+                    Debug.WriteLine("收到" + status);
+                    break;
+            }
+        }
+        else if(status==NetPublic.DefindedCode.TOOLONG)
+        {
+            LabelProcess.Content = "⚠输入的密码过长";
+        }
+
+        UserNameBox.Clear();
+        PasswordBox.Clear();
     }
 }

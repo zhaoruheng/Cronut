@@ -29,8 +29,6 @@ namespace Cloud
             clientComHelper.MakeRequestPacket(np);
             clientComHelper.SendMsg();
 
-
-
             //******************通信：服务器将alpha_prime发给客户端*****************************
             np = clientComHelper.RecvMsg();
             BigInteger alpha_prime = np.F_prime;

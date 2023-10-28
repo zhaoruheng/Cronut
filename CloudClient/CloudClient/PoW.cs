@@ -12,7 +12,6 @@ namespace Cloud
         public static int GenerateChallenge(int MHTNum, int leafNodeNum, ref int challengeLeafNode)
         {
             //后端大哥不要把我的函数参数leafNodeNum删掉！后面有用！！！
-
             int chooseMHT;
 
             using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())  //随机选择一棵MHT

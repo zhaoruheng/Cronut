@@ -2,32 +2,32 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Numerics;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
+using CloudServer.Views;
+using Avalonia.Threading;
 
 namespace Cloud
 {
-    class FileCrypto
+    internal class FileCrypto
     {
-        string fileDir;          //客户端：文件路径
-        string fileName;          //客户端：文件名
-        long fileSize;             //客户端：文件大小(以字节为单位)
-        string fileTag;          //客户端：文件标签   服务器也用了
-        string fileEncryptKey;   //客户端：加密文件的密钥
-        const string keyPrivate = "123456789";  //客户端：用户的K_private。别删谢谢！
-        byte[] fileCiphertext;   //客户端：文件密文
-        const string aesIV = "446C47278157A448F925084476F2A5C2";       //客户端：AES加密的初始化向量
-        List<string> saltsVal;          //服务器：每棵树的盐值
-        List<string> rootNode;          //服务器：每个盐值对应的根节点
-        int leafNodeNum;                //服务器&客户端：文件分块数（叶子节点数）
-        int MHTNum;                     //服务器：文件的MHT数量
-        ServerComHelper serverComHelper;
-        DataBaseManager dataBaseManager;
-        string username;
+        private string fileDir;          //客户端：文件路径
+        private string fileName;          //客户端：文件名
+        private long fileSize;             //客户端：文件大小(以字节为单位)
+        private string fileTag;          //客户端：文件标签   服务器也用了
+        private string fileEncryptKey;   //客户端：加密文件的密钥
+        private const string keyPrivate = "123456789";  //客户端：用户的K_private。别删谢谢！
+        private byte[] fileCiphertext;   //客户端：文件密文
+        private const string aesIV = "446C47278157A448F925084476F2A5C2";       //客户端：AES加密的初始化向量
+        private List<string> saltsVal;          //服务器：每棵树的盐值
+        private readonly List<string> rootNode;          //服务器：每个盐值对应的根节点
+        private int leafNodeNum;                //服务器&客户端：文件分块数（叶子节点数）
+        private int MHTNum;                     //服务器：文件的MHT数量
+        private readonly ServerComHelper serverComHelper;
+        private readonly DataBaseManager dataBaseManager;
+        private readonly string username;
 
         //客户端
         public FileCrypto(ServerComHelper serverComHelper, DataBaseManager dataBaseManager, string username)
@@ -37,6 +37,14 @@ namespace Cloud
             this.serverComHelper = serverComHelper;
             this.dataBaseManager = dataBaseManager;
             this.username = username;
+        }
+
+        private void AddDetailedParaItem(string str)
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                _ = MainWindow.lb.Items.Add(str);
+            });
         }
 
         public FileCrypto(ServerComHelper serverComHelper, DataBaseManager dataBaseManager, string username, string path)
@@ -61,48 +69,52 @@ namespace Cloud
             BigInteger alpha_Prime;
             NetPacket np = serverComHelper.RecvMsg();
 
-
+            AddDetailedParaItem("F': " + np.F_prime);
             alpha_Prime = BlindSign.BlindSignature(np.F_prime);   //客户端和服务器端都有，请点开BlindSignature这个函数，里面有更具体的内容
-            NetPacket npR = new NetPacket();
-            npR.F_prime = alpha_Prime;
+            AddDetailedParaItem("alpha': " + alpha_Prime);
+
+            NetPacket npR = new()
+            {
+                F_prime = alpha_Prime,
+            };
+
             serverComHelper.MakeResponsePacket(npR);
             serverComHelper.SendMsg();
 
-            np = serverComHelper.RecvMsg();//!!!!!!!!!!!!!!!!1
+            np = serverComHelper.RecvMsg();
             fileTag = np.fileTag;
             fileDir = "./ServerFiles/" + fileTag;
             fileName = np.fileName;
+            AddDetailedParaItem("fileTag: " + fileTag);
 
             int fileID = UserClassify(np);    //服务器：判断用户类型
+
             //************************后端：查询fileTag是否存在*****************************
             //fileTag fileName重复
             //fileName重复就删了
             if (fileID == 0)
             {
+                AddDetailedParaItem("该用户为初始上传者");
                 fileEncryptKey = np.enKey;
-                //**********************通信：服务器发消息给客户端告诉你是初始上传者******************************
-                serverComHelper.MakeResponsePacket(NetPublic.DefindedCode.AGREEUP);
+                serverComHelper.MakeResponsePacket(DefindedCode.AGREEUP);
                 serverComHelper.SendMsg();
 
-                //**********************通信：客户端将密文fileCiphertext上传给服务器******************************
 
-                InitialUpload();   //执行初始上传者的操作。客户端和服务器都各自有一部分，需要您点开再分呢~
+                InitialUpload();
             }
             else
             {
-                serverComHelper.MakeResponsePacket(NetPublic.DefindedCode.FILEEXISTED);
+                AddDetailedParaItem("该用户为后续上传者");
+                serverComHelper.MakeResponsePacket(DefindedCode.FILEEXISTED);
                 serverComHelper.SendMsg();
                 MHTNum = dataBaseManager.GetMHTNum(fileTag);
                 SubsequentUpload(fileID);                         //执行后续上传者的操作
             }
-
-            ////MessageBox.Show("服务器：文件上传结束");
         }
 
-        //客户端
-        byte[] CalculateSHA1()
+        public byte[] CalculateSHA1()
         {
-            using (FileStream fileStream = new FileStream(fileDir, FileMode.Open))
+            using (FileStream fileStream = new(fileDir, FileMode.Open))
             {
                 SHA1 sha1 = SHA1.Create();
                 byte[] hashValue = sha1.ComputeHash(fileStream);
@@ -111,8 +123,7 @@ namespace Cloud
             }
         }
 
-        //客户端：计算SHA256
-        byte[] CalculateSHA256(string str)
+        public byte[] CalculateSHA256(string str)
         {
             SHA256 sha256 = SHA256.Create();
             byte[] hashVal = sha256.ComputeHash(Encoding.UTF8.GetBytes(str));
@@ -120,25 +131,23 @@ namespace Cloud
             return hashVal;
         }
 
-        //发送密文
         public void FileDownload()
         {
             serverComHelper.SendFile(fileDir);
         }
 
-        //客户端
         public byte[] ReadFileContent()
         {
-            FileInfo fileInfo = new FileInfo(fileDir);
+            FileInfo fileInfo = new(fileDir);
             fileSize = fileInfo.Length;
 
             byte[] fileContent = new byte[fileInfo.Length + 100];
 
             try
             {
-                using (FileStream fileStream = new FileStream(fileDir, FileMode.Open, FileAccess.Read))
+                using (FileStream fileStream = new(fileDir, FileMode.Open, FileAccess.Read))
                 {
-                    using (BinaryReader reader = new BinaryReader(fileStream))
+                    using (BinaryReader reader = new(fileStream))
                     {
                         int fileSize = (int)new FileInfo(fileDir).Length;
                         fileContent = reader.ReadBytes(fileSize);
@@ -154,16 +163,16 @@ namespace Cloud
 
         public byte[] ReadFileContent2(string workdir)
         {
-            FileInfo fileInfo = new FileInfo(workdir);
+            FileInfo fileInfo = new(workdir);
             fileSize = fileInfo.Length;
 
             byte[] fileContent = new byte[fileInfo.Length + 100];
 
             try
             {
-                using (FileStream fileStream = new FileStream(workdir, FileMode.Open, FileAccess.Read))
+                using (FileStream fileStream = new(workdir, FileMode.Open, FileAccess.Read))
                 {
-                    using (BinaryReader reader = new BinaryReader(fileStream))
+                    using (BinaryReader reader = new(fileStream))
                     {
                         int fileSize = (int)new FileInfo(workdir).Length;
                         fileContent = reader.ReadBytes(fileSize);
@@ -177,9 +186,6 @@ namespace Cloud
             return fileContent;
         }
 
-        //客户端：对文件进行加密
-
-
         //客户端：计算文件标签
         public string GetFileTag()
         {
@@ -187,16 +193,11 @@ namespace Cloud
             return fileTag;
         }
 
-        //服务器
         public int UserClassify(NetPacket np)
         {
-            //需要服务器端在数据库的文件表中查询，fileTag是否存在
-            //如果存在，返回fileID（fileID是从1开始编号的）
-            //不存在返回0
             return dataBaseManager.GetFileCountByTag(np.fileTag);
         }
 
-        //客户端和服务器端都有，请参考具体注释♪(･ω･)ﾉ
         public void InitialUpload()
         {
             serverComHelper.RecvFile(fileTag);
@@ -204,27 +205,25 @@ namespace Cloud
 
             List<string> list = MerkleHashTree.FileSplit(fileCiphertext);  //服务器：对文件分块
             leafNodeNum = list.Count;
-            Console.WriteLine("文件分块数量" + list.Count);
+            AddDetailedParaItem("MHT叶节点数目: " + leafNodeNum);
 
             MHTNum = MerkleHashTree.CalculateMHTNum(list.Count);   //服务器：计算MHT的数量
-            Console.WriteLine("MHT的数量" + MHTNum);
+            AddDetailedParaItem("MHT数量: " + MHTNum);
+            AddDetailedParaItem("随机生成的盐值序列:");
 
             saltsVal = MerkleHashTree.GenerateSalVal(MHTNum, 8);  //服务器：生成y个随机盐值序列，8指定了每个序列的长度
 
-            //这段是服务器：生成MHTNum个MHT
             for (int i = 0; i < MHTNum; ++i)
             {
-                MerkleHashTree mht = new MerkleHashTree(list, saltsVal[i]);  //将list中的string加盐哈希作为叶子结点，生成MHT
-                Console.WriteLine("这棵MHT对应的盐值" + saltsVal[i] + " 得到的根节点值为" + mht.GetRootHash());
+                MerkleHashTree mht = new(list, saltsVal[i]);  //将list中的string加盐哈希作为叶子结点，生成MHT
+                AddDetailedParaItem("id: " + (i + 1) + " salt: " + saltsVal[i]);
                 rootNode.Add(mht.GetRootHash());
             }
 
             try
             {
-                // 使用FileStream创建文件流
-                using (FileStream fs = new FileStream(fileDir, FileMode.Create))
+                using (FileStream fs = new(fileDir, FileMode.Create))
                 {
-                    // 使用Write方法将byte数组写入文件流
                     fs.Write(fileCiphertext, 0, fileCiphertext.Length);
                 }
 
@@ -241,26 +240,23 @@ namespace Cloud
 
             for (int i = 0; i < MHTNum; ++i)
             {
-                dataBaseManager.InsertMHTTable(fileID, i, saltsVal[i], rootNode[i]);   //****************服务器：插入MHT表****************
-                ////MessageBox.Show("插入MHT表：" + fileID + " " + i);    
+                dataBaseManager.InsertMHTTable(fileID, i, saltsVal[i], rootNode[i]);   
             }
 
             string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            dataBaseManager.InsertUpFileTable(fileID, fileName, uploadDateTime, username);    //****************服务器：插入文件所有权表****************
+            dataBaseManager.InsertUpFileTable(fileID, fileName, uploadDateTime, username);    
         }
 
-        //客户端和服务器端都有，请参考具体注释
         public void SubsequentUpload(int fileID)
         {
-            //服务器：发起挑战
             int challengeLeafNode = 0;
 
             int k = PoW.GenerateChallenge(MHTNum, leafNodeNum, ref challengeLeafNode);
-            Console.WriteLine("\n选中第" + k + "棵树的第" + challengeLeafNode + "个叶子节点作为挑战 (从0开始！)");
+            AddDetailedParaItem("Challenge: 选中第" + (k + 1) + "棵树的第" + (challengeLeafNode + 1) + "个叶子节点");
+
             for (int i = 0; i < MHTNum; ++i)
             {
-                saltsVal.Add(dataBaseManager.GetSalt(fileID, i));  //服务器：从数据库中获取盐值
-
+                saltsVal.Add(dataBaseManager.GetSalt(fileID, i));
             }
 
             for (int i = 0; i < MHTNum; ++i)
@@ -268,52 +264,52 @@ namespace Cloud
                 rootNode.Add(dataBaseManager.GetRootNode(fileID, i));
             }
 
-            //***********************通信：服务器将challengeLeafNode和k(MHT的编号)发给客户端**************************
-            NetPacket np = new NetPacket();
-            np.challengeLeafNode = challengeLeafNode;
-            np.MHTID = k;
-            np.enKey = saltsVal[k];
+            NetPacket np = new()
+            {
+                challengeLeafNode = challengeLeafNode,
+                MHTID = k,
+                enKey = saltsVal[k]
+            };
+
             serverComHelper.MakeResponsePacket(np);
             serverComHelper.SendMsg();
 
-
-
-            //*************************通信：客户端将ResponseNodeSet发送给服务器*************************************
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //np = serverComHelper.RecvMsg();
             string tmpdir = fileTag + "_MHT";
             serverComHelper.RecvFile(tmpdir);
             byte[] ResponseNode = ReadFileContent2("./ServerFiles/" + tmpdir);
             List<string> ResponseNodeSet = ByteArrayToListString(ResponseNode);
 
+            AddDetailedParaItem("Response: 收到的相应集合:");
+            foreach (string str in ResponseNodeSet)
+            {
+                AddDetailedParaItem(str);
+            }
 
-            //MessageBox.Show("服务器接收Response成功！");
-
-            //MessageBox.Show("k的大小:" + k + " saltval大小:" + saltsVal.Count + " rootNode大小:" + rootNode.Count);
-
-            //服务器：验证响应
             bool isPassPow = PoW.VerifyRepsonse(saltsVal[k], ResponseNodeSet, rootNode[k]); //CSP验证Response正确性
-
-
-            File.Delete(tmpdir);
-            //*************************通信：服务器将验证结果isPassPow发送给客户端**************************************
+            AddDetailedParaItem("Verify: ");
             if (isPassPow)
             {
-                //MessageBox.Show("通过验证!");
-                serverComHelper.MakeResponsePacket(NetPublic.DefindedCode.AGREEUP);
+                AddDetailedParaItem("用户通过了所有权验证! 文件去重成功!");
+            }
+            else
+            {
+                AddDetailedParaItem("用户未通过所有权验证!");
+            }
+
+            File.Delete(tmpdir);
+            if (isPassPow)
+            {
+                serverComHelper.MakeResponsePacket(DefindedCode.AGREEUP);
                 serverComHelper.SendMsg();
             }
             else
             {
-                serverComHelper.MakeResponsePacket(NetPublic.DefindedCode.DENIED);
+                serverComHelper.MakeResponsePacket(DefindedCode.DENIED);
             }
 
             if (isPassPow)
             {
-                Console.WriteLine("用户通过了PoW验证!");
-
                 string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
                 dataBaseManager.FindUpFileTable(fileID, fileName, uploadDateTime, username); //服务器：更新UploadFileTable
             }
             else
@@ -324,8 +320,8 @@ namespace Cloud
 
         public static List<string> ByteArrayToListString(byte[] byteArray)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (MemoryStream memoryStream = new MemoryStream(byteArray))
+            BinaryFormatter formatter = new();
+            using (MemoryStream memoryStream = new(byteArray))
             {
 #pragma warning disable SYSLIB0011
                 return (List<string>)formatter.Deserialize(memoryStream);

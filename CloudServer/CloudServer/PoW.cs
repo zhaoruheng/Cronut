@@ -33,9 +33,9 @@ namespace Cloud
         {
             List<string> list = MerkleHashTree.FileSplit(ciphetext); //用户对文件分块
 
-            MerkleHashTree mht = new MerkleHashTree(list, salt, 1);  //生成MHT，带3个参数的构造函数是User的，2个参数的构造函数是CSP的！请不要改谢谢！！
+            MerkleHashTree mht = new(list, salt, 1);  //生成MHT，带3个参数的构造函数是User的，2个参数的构造函数是CSP的！请不要改谢谢！！
 
-            List<string> ResponseNodeSet = mht.GenerateResponseNodeSet(list, salt, challengeLeafNode);  //生成响应
+            List<string> ResponseNodeSet = mht.GenerateResponseNodeSet(list, salt, challengeLeafNode);  
 
             return ResponseNodeSet;
         }

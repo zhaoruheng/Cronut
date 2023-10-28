@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Avalonia.Threading;
+using CloudClient.Views;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -54,6 +57,14 @@ namespace Cloud
             return false;
         }
 
+        private void AddUploadingFileList(string str)
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                ClientWindow.lb.Items.Add(str);
+            });
+        }
+
         //处理 创建、删除、修改
         private void OnProcess(object sender, FileSystemEventArgs e)
         {
@@ -67,6 +78,11 @@ namespace Cloud
             {
                 we.fileEvent = 3;
                 we.filePath = e.FullPath;
+
+                string fileName = Path.GetFileName(we.filePath);
+                if (!fileName.StartsWith("."))
+                    AddUploadingFileList(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ": 删除文件" + fileName);
+              
             }
             else if (!CheckPath(e.FullPath))
             {
@@ -76,6 +92,9 @@ namespace Cloud
             {
                 we.filePath = e.FullPath;
                 we.fileEvent = 1;
+                string fileName = Path.GetFileName(we.filePath);
+                if (!fileName.StartsWith("."))
+                    AddUploadingFileList(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ": 新建文件"+fileName);
             }
             else if (e.ChangeType == WatcherChangeTypes.Changed)    //修改
             {
@@ -91,6 +110,10 @@ namespace Cloud
                 //we.fileEvent = 2;
                 else
                     we.fileEvent = 0;
+
+                string fileName = Path.GetFileName(we.filePath);
+                if (!fileName.StartsWith("."))
+                    AddUploadingFileList(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ": 修改文件"+fileName);
             }
             else
                 we.fileEvent = 0;

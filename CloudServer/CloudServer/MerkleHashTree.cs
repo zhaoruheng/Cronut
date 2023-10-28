@@ -9,11 +9,11 @@ namespace Cloud
 {
     public class MerkleHashTree
     {
-        Queue<string> hashQueue;    //客户端&服务器：用于建树的队列
-        List<string> hashList;      //客户端&服务器：存放每个节点的哈希值
-        string rootNodeVal;         //客户端&服务器：根节点哈希值
-        string salt;                //客户端&服务器：这棵树对应的盐值
-        int leafNodeNum;            //客户端&服务器：叶子节点数目
+        private Queue<string> hashQueue;    //客户端&服务器：用于建树的队列
+        private readonly List<string> hashList;      //客户端&服务器：存放每个节点的哈希值
+        private readonly string rootNodeVal;         //客户端&服务器：根节点哈希值
+        private readonly string salt;                //客户端&服务器：这棵树对应的盐值
+        private readonly int leafNodeNum;            //客户端&服务器：叶子节点数目
 
         //客户端的构造函数
         public MerkleHashTree(List<string> data, string salt, int code)
@@ -45,7 +45,6 @@ namespace Cloud
             rootNodeVal = hashQueue.First();   //给根节点赋值
         }
 
-        //服务器：建MHT
         private void BuildTree()
         {
             while (hashQueue.Count > 1)
