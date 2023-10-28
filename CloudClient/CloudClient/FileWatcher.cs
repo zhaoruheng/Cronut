@@ -112,7 +112,7 @@ namespace Cloud
                     we.fileEvent = 0;
 
                 string fileName = Path.GetFileName(we.filePath);
-                if (!fileName.StartsWith("."))
+                if (fileName!=null&&!fileName.StartsWith("."))
                     AddUploadingFileList(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ": 修改文件"+fileName);
             }
             else

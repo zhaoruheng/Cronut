@@ -80,6 +80,7 @@ namespace Cloud
             }
         }
 
+
         //检查数据库是否存在，若存在则删除所有表并新建空表
         public void InitProcess()
         {
@@ -174,54 +175,118 @@ namespace Cloud
             return count;
         }
 
+        //public string GetEnKey(string userName, string fileName)
+        //{
+        //    queryString = string.Format(useString +
+        //        "SELECT FILE_ID FROM UpFileTable WHERE USER_NAME = '{0}' AND FILE_NAME = '{1}';", userName, fileName);
+        //    int fileID = ExecuteScalar(queryString);
+        //    queryString = string.Format(useString +
+        //        "SELECT ENKEY FROM FileTable WHERE FILE_ID = '{0}';", fileID);
+        //    string enKey = string.Empty;
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        SqlCommand command = new SqlCommand(queryString, connection);
+        //        connection.Open();
+        //        SqlDataReader reader = command.ExecuteReader();
+        //        reader.Read();
+        //        enKey = (string)reader[0];
+        //        reader.Close();
+        //    }
+        //    return enKey;
+        //}
         public string GetEnMd5(string userName, string fileName)
         {
-            queryString = string.Format(useString +
-                "SELECT ENMD5 FROM UpFileTable WHERE USER_NAME = '{0}' AND FILE_NAME = '{1}';", userName, fileName);
+            string queryString = useString + "SELECT ENMD5 FROM UpFileTable WHERE USER_NAME = @UserName AND FILE_NAME = @FileName;";
             string enMd5 = string.Empty;
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@UserName", userName);
+                command.Parameters.AddWithValue("@FileName", fileName);
+
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
-                reader.Read();
-                enMd5 = (string)reader[0];
+
+                if (reader.Read())
+                {
+                    enMd5 = (string)reader["ENMD5"];
+                }
+
                 reader.Close();
             }
+
             return enMd5;
         }
+
         public int LoginAuthentication(string userName, string passwd)
         {
             int result = 0;
-            queryString = useString +
-                "SELECT * FROM UserTable " +
-                "Where USER_NAME='" + userName + "';";
-            result = ExecuteScalar(queryString);
+            string query1 = useString + "SELECT * FROM UserTable WHERE USER_NAME = @UserName1;";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query1, connection))
+                {
+                    command.Parameters.AddWithValue("@UserName1", userName);
+                    connection.Open();
+                    //result = (int)command.ExecuteScalar();
+                    object tmp = command.ExecuteScalar();
+                    if (tmp == null)
+                    {
+                        result = 0;
+                    }
+                    else
+                    {
+                        result = (int)tmp;
+                    }
+                }
+            }
+
             if (result == 0)
             {
                 return -1;
             }
 
-            queryString = useString +
-                "SELECT * FROM UserTable " +
-                "Where USER_NAME='" + userName + "'" +
-               "AND PASSWORD='" + passwd + "';";
-            return ExecuteScalar(queryString);
+            string query2 = useString + "SELECT * FROM UserTable WHERE USER_NAME = @UserName2 AND PASSWORD = @Password;";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query2, connection))
+                {
+                    
+                    command.Parameters.AddWithValue("@UserName2", userName);
+                    command.Parameters.AddWithValue("@Password", passwd);
+                    connection.Open();
+                    object tmp= command.ExecuteScalar();
+                    if (tmp == null)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        result = (int)tmp;
+                    }
+                }
+            }
+
+            return result;
         }
+
 
         public FileInfoList GetFileList(string userName)
         {
             queryString = useString +
                 "SELECT FILE_NAME, UPLOAD_TIME FROM UpFileTable " +
-                "Where USER_NAME='" + userName + "';";
+                "Where USER_NAME=@UserName;";
 
             FileInfoList fil = new FileInfoList();
 
-            using (SqlConnection connection =
-                       new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command =
-                    new SqlCommand(queryString, connection);
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@UserName", userName); // 使用参数化查询
+
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -232,8 +297,10 @@ namespace Cloud
                 }
                 reader.Close();
             }
+
             return fil;
         }
+
         public int InsertFile(string userFile, long fileSize, string userName, string enMd5, string sha1, string uploadTime)
         {
             int status = 0; //文件重复
@@ -291,18 +358,42 @@ namespace Cloud
         {
             queryString = useString +
                 "SELECT * FROM UpFileTable " +
-                "Where USER_NAME='" + userName + "' " +
-               "AND FILE_NAME='" + fileName + "';";
-            int fileID = ExecuteScalar(queryString);
+                "Where USER_NAME=@UserName " +
+                "AND FILE_NAME=@FileName;";
+
+            int fileID;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@UserName", userName); // 使用参数化查询
+                command.Parameters.AddWithValue("@FileName", fileName); // 使用参数化查询
+
+                connection.Open();
+                //fileID = (int)command.ExecuteScalar();
+                object tmp = command.ExecuteScalar();
+                if (tmp == null)
+                {
+                    fileID = 0;
+                }
+                else
+                {
+                    fileID = (int)tmp;
+                }
+            }
+
             if (fileID <= 0)
                 return "";
+
             queryString = useString +
                 "SELECT PHYSICAL_ADD FROM FileTable " +
-                "Where FILE_ID='" + fileID + "';";
+                "Where FILE_ID=@FileID;";
+
             string physicalAdd;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@FileID", fileID); // 使用参数化查询
+
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 reader.Read();
@@ -311,22 +402,47 @@ namespace Cloud
             }
             return physicalAdd;
         }
+
         public string GetEnKey(string userName, string fileName)
         {
             queryString = useString +
                 "SELECT * FROM UpFileTable " +
-                "Where USER_NAME='" + userName + "' " +
-               "AND FILE_NAME='" + fileName + "';";
-            int fileID = ExecuteScalar(queryString);
+                "Where USER_NAME=@UserName " +
+               "AND FILE_NAME=@FileName;";
+
+            int fileID;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@UserName", userName); // 使用参数化查询
+                command.Parameters.AddWithValue("@FileName", fileName); // 使用参数化查询
+
+                connection.Open();
+                //fileID = (int)command.ExecuteScalar();
+                object tmp = command.ExecuteScalar();
+                if (tmp == null)
+                {
+                    fileID = 0;
+                }
+                else
+                {
+                    fileID = (int)tmp;
+                }
+            }
+
             if (fileID <= 0)
                 return "";
+
             queryString = useString +
                 "SELECT ENKEY FROM FileTable " +
-                "Where FILE_ID='" + fileID + "';";
+                "Where FILE_ID=@FileID;";
+
             string enKey;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@FileID", fileID); // 使用参数化查询
+
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 reader.Read();
@@ -336,25 +452,48 @@ namespace Cloud
             return enKey;
         }
 
+
         public int RemoveFile(string userName, string fileName)
         {
             //删除UpFileTable记录
             queryString = useString +
-                "DELETE  FROM UpFileTable " +
-                "Where USER_NAME='" + userName + "' " +
-                "AND FILE_NAME='" + fileName + "';";
-            return ExecuteScalar(queryString);
+                "DELETE FROM UpFileTable " +
+                "Where USER_NAME=@UserName " +
+                "AND FILE_NAME=@FileName;";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@UserName", userName); // 使用参数化查询
+                command.Parameters.AddWithValue("@FileName", fileName); // 使用参数化查询
+
+                connection.Open();
+                return command.ExecuteNonQuery();
+            }
         }
+
 
         public int RenameFile(string userName, string oldFileName, string fileName)
         {
+            // 更新UpFileTable记录
             queryString = useString +
                 "UPDATE UpFileTable " +
-                "SET FILE_NAME='" + fileName + "' " +
-                "Where USER_NAME='" + userName + "' " +
-                "AND FILE_NAME='" + oldFileName + "';";
-            return ExecuteScalar(queryString);
+                "SET FILE_NAME=@NewFileName " +
+                "Where USER_NAME=@UserName " +
+                "AND FILE_NAME=@OldFileName;";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@NewFileName", fileName); // 使用参数化查询
+                command.Parameters.AddWithValue("@UserName", userName); // 使用参数化查询
+                command.Parameters.AddWithValue("@OldFileName", oldFileName); // 使用参数化查询
+
+                connection.Open();
+                return command.ExecuteNonQuery();
+            }
         }
+
 
         public List<string> GetCloudFiles()
         {
@@ -379,9 +518,27 @@ namespace Cloud
 
         public int GetFileCountByTag(string fileTag)
         {
-            string queryString = $"SELECT FILE_ID FROM FileTable WHERE FileTag = '{fileTag}'";
-            return ExecuteScalar(queryString);
+            string queryString = "SELECT FILE_ID FROM FileTable WHERE FileTag = @FileTag";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@FileTag", fileTag); // 使用参数化查询
+
+                connection.Open();
+                object tmp = command.ExecuteScalar();
+                if (tmp == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return (int)tmp;
+                }
+                
+            }
         }
+
         public void InsertFileTable(ref int fileID, string fileName, string fileTag, int MHTNum, long fileSize, string serAdd, string enKey)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -416,113 +573,207 @@ namespace Cloud
 
         public void InsertMHTTable(int fileID, int MHTID, string salt, string rootNode)
         {
-            queryString = string.Format(useString +
-                                                "INSERT INTO MHTTable VALUES('{0}', '{1}', '{2}', '{3}');", fileID, MHTID, salt, rootNode);
-            ExecuteScalar(queryString);
+            queryString = useString +
+                "INSERT INTO MHTTable VALUES(@FileID, @MHTID, @Salt, @RootNode);";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@FileID", fileID);
+                command.Parameters.AddWithValue("@MHTID", MHTID);
+                command.Parameters.AddWithValue("@Salt", salt);
+                command.Parameters.AddWithValue("@RootNode", rootNode);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
         }
+
 
         public void FindUpFileTable(int fileID, string fileName, string uploadDateTime, string username)
         {
-            queryString = string.Format(useString +
-                                                             "SELECT * FROM UpFileTable WHERE FILE_NAME='{0}' AND USER_NAME='{1}';", fileName, username);
-            int res = ExecuteScalar(queryString);
-            if (res == 0)
-                InsertUpFileTable(fileID, fileName, uploadDateTime, username);
-            else
-                UpdateUpFileTable(fileID, fileName, uploadDateTime, username);
+            queryString = useString + "SELECT * FROM UpFileTable WHERE FILE_NAME=@FileName AND USER_NAME=@UserName;";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@FileName", fileName);
+                command.Parameters.AddWithValue("@UserName", username);
+
+                connection.Open();
+
+                //int res = (int)command.ExecuteScalar();
+                object tmp = command.ExecuteScalar();
+                int res;
+                if (tmp == null)
+                {
+                    res = 0;
+                }
+                else
+                {
+                    res = (int)tmp;
+                }
+                if (res == 0)
+                    InsertUpFileTable(fileID, fileName, uploadDateTime, username);
+                else
+                    UpdateUpFileTable(fileID, fileName, uploadDateTime, username);
+            }
         }
+
         public void InsertUpFileTable(int fileID, string fileName, string uploadDateTime, string username)
         {
             int userid = -1;
-            queryString = string.Format(useString +
-                                              "SELECT USER_ID FROM UserTable WHERE USER_NAME='{0}';", username);
+            string selectQueryString = useString + "SELECT USER_ID FROM UserTable WHERE USER_NAME=@UserName;";
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand selectCommand = new SqlCommand(selectQueryString, connection);
+                selectCommand.Parameters.AddWithValue("@UserName", username);
+
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-                reader.Read();
-                userid = (int)reader[0];
+                SqlDataReader reader = selectCommand.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    userid = (int)reader[0];
+                }
+
                 reader.Close();
             }
+            //按照filename，username查询，如果有重复的则删除
+            string deleteQueryString = useString + "DELETE FROM UpFileTable WHERE FILE_NAME=@FileName AND USER_NAME=@UserName;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand deleteCommand = new SqlCommand(deleteQueryString, connection);
+                deleteCommand.Parameters.AddWithValue("@FileName", fileName);
+                deleteCommand.Parameters.AddWithValue("@UserName", username);
 
-            queryString = string.Format(useString +
-                                         "INSERT INTO UpFileTable VALUES('{0}', '{1}', '{2}', '{3}','{4}');", fileID, userid, fileName, username, uploadDateTime);
+                connection.Open();
+                deleteCommand.ExecuteNonQuery();
+            }
+
+            string insertQueryString = useString + "INSERT INTO UpFileTable VALUES(@FileID, @UserID, @FileName, @UserName, @UploadDateTime);";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand insertCommand = new SqlCommand(insertQueryString, connection);
+                insertCommand.Parameters.AddWithValue("@FileID", fileID);
+                insertCommand.Parameters.AddWithValue("@UserID", userid);
+                insertCommand.Parameters.AddWithValue("@FileName", fileName);
+                insertCommand.Parameters.AddWithValue("@UserName", username);
+                insertCommand.Parameters.AddWithValue("@UploadDateTime", uploadDateTime);
+
                 connection.Open();
-                command.ExecuteNonQuery();
+                insertCommand.ExecuteNonQuery();
             }
-
-
         }
+
+
         public void UpdateUpFileTable(int fileID, string fileName, string uploadDateTime, string username)
         {
             int userid = -1;
-            queryString = string.Format(useString +
-                                                             "SELECT USER_ID FROM UserTable WHERE USER_NAME='{0}';", username);
+            string selectQueryString = string.Format(useString + "SELECT USER_ID FROM UserTable WHERE USER_NAME = @UserName;");
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand selectCommand = new SqlCommand(selectQueryString, connection);
+                selectCommand.Parameters.AddWithValue("@UserName", username);
+
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-                reader.Read();
-                userid = (int)reader[0];
+                SqlDataReader reader = selectCommand.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    userid = (int)reader[0];
+                }
+
                 reader.Close();
             }
 
-            queryString = string.Format(useString +
-                                                        "UPDATE UpFileTable SET FILE_ID = '{0}', UPLOAD_TIME = '{1}'" +
-                                                                                                "WHERE FILE_NAME = '{2}' AND USER_NAME = '{3}';", fileID, uploadDateTime, fileName, username);
+            string updateQueryString = string.Format(useString + "UPDATE UpFileTable SET FILE_ID = @FileID, UPLOAD_TIME = @UploadTime " +
+                                                      "WHERE FILE_NAME = @FileName AND USER_NAME = @UserName;");
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand updateCommand = new SqlCommand(updateQueryString, connection);
+                updateCommand.Parameters.AddWithValue("@FileID", fileID);
+                updateCommand.Parameters.AddWithValue("@UploadTime", uploadDateTime);
+                updateCommand.Parameters.AddWithValue("@FileName", fileName);
+                updateCommand.Parameters.AddWithValue("@UserName", username);
+
                 connection.Open();
-                command.ExecuteNonQuery();
+                updateCommand.ExecuteNonQuery();
             }
         }
 
+
         public int GetMHTNum(string fileTag)
         {
-            string queryString = $"SELECT MHT_Num FROM FileTable WHERE FileTag = '{fileTag}'";
-            return ExecuteScalar(queryString);
+            string queryString = "SELECT MHT_Num FROM FileTable WHERE FileTag = @FileTag";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@FileTag", fileTag);
+                connection.Open();
+                //return (int)command.ExecuteScalar();
+                object tmp = command.ExecuteScalar();
+                if (tmp == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return (int)(long)tmp;
+                }
+            }
         }
+
 
         public string GetSalt(int fileID, int MHTID)
         {
-            string queryString = $"SELECT Salt FROM MHTTable WHERE FILE_ID = '{fileID}' AND MHT_ID = '{MHTID}'";
+            string queryString = "SELECT Salt FROM MHTTable WHERE FILE_ID = @FileID AND MHT_ID = @MHTID";
             string salt = string.Empty;
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@FileID", fileID);
+                command.Parameters.AddWithValue("@MHTID", MHTID);
+
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 reader.Read();
                 salt = (string)reader[0];
                 reader.Close();
             }
+
             return salt;
         }
 
+
         public string GetRootNode(int fileID, int MHTID)
         {
-            string queryString = $"SELECT RootNode FROM MHTTABLE WHERE FILE_ID = '{fileID}' AND MHT_ID='{MHTID}'";
+            string queryString = "SELECT RootNode FROM MHTTABLE WHERE FILE_ID = @FileID AND MHT_ID = @MHTID";
             string rootNode = string.Empty;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@FileID", fileID);
+                command.Parameters.AddWithValue("@MHTID", MHTID);
+
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 reader.Read();
                 rootNode = (string)reader[0];
                 reader.Close();
             }
+
             return rootNode;
         }
+
 
         public int GetUpfileNum()
         {
@@ -574,7 +825,7 @@ namespace Cloud
         }
         public List<string> GetFileInfo()
         {
-            //获取filetable的id,tag,size,seradd，利用id查询upfiletable的name，存储到List
+            // 获取filetable的id, tag, size, seradd，利用id查询upfiletable的name，存储到List
             List<string> fileInfo = new List<string>();
             queryString = useString +
                 "SELECT FILE_ID, FileTag, FILE_SIZE, PHYSICAL_ADD FROM FileTable;";
@@ -592,26 +843,34 @@ namespace Cloud
                     string fileName = string.Empty;
                     string userName = string.Empty;
                     string uploadTime = string.Empty;
+
+                    // 使用参数化查询
                     queryString = useString +
                         "SELECT FILE_NAME, USER_NAME, UPLOAD_TIME FROM UpFileTable " +
-                        "Where FILE_ID='" + fileID + "';";
+                        "Where FILE_ID=@FileID;";
                     using (SqlConnection connection1 = new SqlConnection(connectionString))
                     {
                         SqlCommand command1 = new SqlCommand(queryString, connection1);
+                        command1.Parameters.AddWithValue("@FileID", fileID); // 添加参数
                         connection1.Open();
                         SqlDataReader reader1 = command1.ExecuteReader();
                         reader1.Read();
-                        fileName = (string)reader1[0];
-                        userName = (string)reader1[1];
-                        uploadTime = ((DateTime)reader1[2]).ToString();
+                        if(reader1.HasRows)
+                        {
+                            fileName = (string)reader1[0];
+                            userName = (string)reader1[1];
+                            uploadTime = ((DateTime)reader1[2]).ToString();
+                        }
                         reader1.Close();
                     }
+
                     fileInfo.Add(fileID.ToString() + "," + fileTag + "," + fileSize.ToString() + "," + serAdd + "," + fileName + "," + userName + "," + uploadTime);
                 }
                 reader.Close();
             }
             return fileInfo;
         }
+
     }
 }
 

@@ -7,6 +7,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using NetPublic;
+using System.Diagnostics;
 
 namespace Cloud
 {
@@ -26,8 +27,18 @@ namespace Cloud
             targetIP = IPAddress.Parse(ipStr);  
             targetPort = port;
 
-            tcpClient.Connect(targetIP, targetPort);    
-            nstream = tcpClient.GetStream();    
+            //tcpClient.Connect(targetIP, targetPort);
+            //nstream = tcpClient.GetStream(); 
+            try
+            {
+                tcpClient.Connect(targetIP, targetPort);
+                nstream = tcpClient.GetStream(); 
+            }
+            catch (Exception e)
+            {
+                //连接失败
+            }
+               
         }
 
         ~ClientComHelper()
@@ -117,7 +128,15 @@ namespace Cloud
             //    //MessageBox.Show("加密器没有创建");
             //string enPath = fc.FileEncrypt(sendPath);
             base.SendFile(sendPath);
-            File.Delete(sendPath);
+            //File.Delete(sendPath);
+            try
+            {
+                File.Delete(sendPath);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
         }
 
         //Communication类中重写RecvFile

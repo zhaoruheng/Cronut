@@ -43,7 +43,17 @@ namespace Cloud
         public NetPublic.NetPacket RecvMsg()
         {
             byte[] resMsg = new byte[MSG_LENGTH];
-            int len = nstream.Read(resMsg, 0, MSG_LENGTH);
+            //int len = nstream.Read(resMsg, 0, MSG_LENGTH);
+            int len = 0;
+            try
+            {
+                len = nstream.Read(resMsg, 0, MSG_LENGTH);
+            }
+            catch (Exception e)
+            {
+                //连接中断
+                Debug.WriteLine(e.Message);
+            }
             MemoryStream memory = new MemoryStream();
             BinaryFormatter bf = new BinaryFormatter();
             memory.Write(resMsg, 0, len);

@@ -109,6 +109,7 @@ namespace Cloud
         //客户端
         byte[] CalculateSHA1()
         {
+
             using (FileStream fileStream = new FileStream(fileDir, FileMode.Open))
             {
                 SHA1 sha1 = SHA1.Create();

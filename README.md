@@ -26,6 +26,8 @@
 
 **10.28 gxy updata:改进了UI，增加注册功能**
 
+**10.28 zrh updata:修复了部分bug及崩溃**
+
 ---
 ### 待更新内容
 
@@ -34,4 +36,6 @@
 fileEncryptKey加密
 
 解决sql注入问题
+
+
 
