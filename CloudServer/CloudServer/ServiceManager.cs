@@ -19,16 +19,14 @@ namespace Cloud
         private readonly string connectionString;
         private const int resLength = 1025;
         private const int reqLength = 256;
-        public HashSet<string> onlineUser;
+        public static HashSet<string> onlineUser = new();
+        public event Action<string> RealTimeItemAdded;  //Real time info更新
 
         public ServiceManager(int p, string con)  //以端口号为参数的构造函数
         {
-            onlineUser = new HashSet<string>();
             Port = p;
             connectionString = con;
         }
-
-        public event Action<string> RealTimeItemAdded;
 
         public void AddRealTimeInfoItem(string item)
         {
@@ -99,7 +97,6 @@ namespace Cloud
             TcpClient client = obj as TcpClient;
             ServerComHelper serverComHelper = new(client);
 
-            //通信：接收客户端发来的请求
             NetPacket np = serverComHelper.RecvMsg();
 
             if (!CheckLogin(np.userName) && np.code != DefindedCode.LOGIN && np.code != DefindedCode.SIGNUP)
@@ -113,7 +110,6 @@ namespace Cloud
             switch (np.code)
             {
                 case DefindedCode.SIGNUP:
-                    Debug.WriteLine("收到的用户名密码：" + np.userName + " " + np.password);
                     res = SignUpRequest(np.userName, np.password);
                     serverComHelper.MakeResponsePacket(res);
                     serverComHelper.SendMsg();
@@ -129,7 +125,7 @@ namespace Cloud
                     res = LogoutRequest(np.userName);
                     serverComHelper.MakeResponsePacket(res);
                     serverComHelper.SendMsg();
-                    ClearDetailedParaList();
+                    ClearDetailedParaList();    //每次登出清空Detailed Alg Para列表
                     break;
 
                 case DefindedCode.GETLIST:
@@ -140,7 +136,7 @@ namespace Cloud
                 case DefindedCode.UPLOAD:
                     DataBaseManager dm = new(connectionString);
 
-                    AddDetailedParaItem("文件名：" + np.fileName);
+                    AddDetailedParaItem("---文件名：" + np.fileName + "---");
                     FileCrypto fc = new(serverComHelper, dm, np.userName);
 
                     serverComHelper.MakeResponsePacket(DefindedCode.OK);
@@ -193,21 +189,13 @@ namespace Cloud
                     serverComHelper.SendMsg();
                     AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  用户" + np.userName + "重命名文件" + np.fileName + "完成");
                     break;
+
                 default:
                     break;
             }
 
         }
 
-        private void AddDetailedParaItem(string str)
-        {
-            Dispatcher.UIThread.Post(() =>
-            {
-                _ = MainWindow.lb.Items.Add(str);
-            });
-        }
-
-        /*改了**********************/
         private byte SignUpRequest(string userName,string userPass)
         {
             DataBaseManager dm = new(connectionString);
@@ -223,7 +211,6 @@ namespace Cloud
             }
         }
 
-        //通信：响应客户端的登录请求
         private byte LoginRequest(string userName, string userPass)
         {
             DataBaseManager dm = new(connectionString);
@@ -294,15 +281,13 @@ namespace Cloud
             return dm.RenameFile(userName, fileName, newName) > 0 ? DefindedCode.OK : DefindedCode.DENIED;
         }
 
-        //获取实时在线用户数量
-        public List<string> GetOnlineUser()
+        //前端：Detailed Alg Para列表更新
+        private void AddDetailedParaItem(string str)
         {
-            List<string> result = new();
-            foreach (string i in onlineUser)
+            Dispatcher.UIThread.Post(() =>
             {
-                result.Add(i);
-            }
-            return result;
+                _ = MainWindow.lb.Items.Add(str);
+            });
         }
     }
 }

@@ -106,8 +106,6 @@ namespace Cloud
                     we.fileEvent = 2;
                     dateTimeDictionary[e.FullPath] = File.GetLastWriteTime(e.FullPath);
                 }
-                //we.filePath = e.FullPath;
-                //we.fileEvent = 2;
                 else
                     we.fileEvent = 0;
 

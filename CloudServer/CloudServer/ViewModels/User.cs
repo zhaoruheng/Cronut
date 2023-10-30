@@ -1,5 +1,4 @@
-﻿
-namespace CloudServer.ViewModels
+﻿namespace CloudServer.ViewModels
 {
     public class User
     {

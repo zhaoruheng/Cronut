@@ -27,8 +27,6 @@ namespace Cloud
             targetIP = IPAddress.Parse(ipStr);  
             targetPort = port;
 
-            //tcpClient.Connect(targetIP, targetPort);
-            //nstream = tcpClient.GetStream(); 
             try
             {
                 tcpClient.Connect(targetIP, targetPort);
@@ -61,7 +59,6 @@ namespace Cloud
         {
             this.np = np;
         }
-
      
         public void MakeRequestPacket(byte code, string userName, long fileLength, string fileName, string newName)
         {
@@ -69,7 +66,6 @@ namespace Cloud
             string changeTime = fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
 
             np = new NetPacket(code, userName, null, fileLength, null, fileName, newName, null, 0);
-            //将enMD5和SHA1置为null
         }
 
         //初始化
@@ -77,26 +73,6 @@ namespace Cloud
         {
             np = new NetPacket(code, null, null, 0, null, null, null, null, 0);
         }
-
-
-        //public FileInfoList RecvFileList()
-        //{
-        //    byte[] recvData = new byte[DATA_LENGTH];
-        //    int len = nstream.Read(recvData, 0, DATA_LENGTH);
-        //    MemoryStream ms = new MemoryStream();
-        //
-        //
-        //
-        //
-        //
-        //
-        //  bf = new BinaryFormatter();
-        //    ms.Write(recvData, 0, len);
-        //    ms.Flush();
-        //    ms.Position = 0;
-        //    FileInfoList fil = bf.Deserialize(ms) as FileInfoList;
-        //    return fil;
-        //}
 
         public FileInfoList RecvFileList()
         {
@@ -114,7 +90,6 @@ namespace Cloud
             return fil;
         }
 
-
         public void SetCryptor(string key)
         {
             //FileCrypto是一个类，在FileCrypto.cs文件中
@@ -124,11 +99,7 @@ namespace Cloud
         //Communication类中重写SendFile
         public override void SendFile(string sendPath)
         {
-            //if (fc == null)
-            //    //MessageBox.Show("加密器没有创建");
-            //string enPath = fc.FileEncrypt(sendPath);
             base.SendFile(sendPath);
-            //File.Delete(sendPath);
             try
             {
                 File.Delete(sendPath);
@@ -139,16 +110,9 @@ namespace Cloud
             }
         }
 
-        //Communication类中重写RecvFile
         public override void RecvFile(string storePath)
         {
-            //if (fc == null)
-            //    //MessageBox.Show("加密器没有创建");
-            //string enPath = fc.encryptedFileDir + Path.GetFileName(storePath);
             base.RecvFile(storePath);
-            //fc.decryptedFileDir = Path.GetDirectoryName(storePath) + "/";
-            //fc.FileDecrypt(enPath);
-            //File.Delete(enPath);
         }
     }
 }

@@ -9,6 +9,10 @@
         x:Class="CloudServer.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="CloudServer"
+		ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaChromeHints="NoChrome"
+		ExtendClientAreaTitleBarHeightHint="-1"
+		SystemDecorations="None"
 		Height="600" Width="1200">
 
 	<Window.DataContext>
@@ -18,7 +22,7 @@
 	<Grid RowDefinitions="10*,90*">
 		
 		<!--上方的菜单栏-->
-		<Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*,*" Background="White">
+		<Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*,*,Auto" Background="White">
 			<StackPanel Orientation="Horizontal">
 				<!--初始化按钮-->
 				<Button Grid.Column="0" x:Name="InitializeButton" Width="72.5" HorizontalContentAlignment="Center" Margin="10" Content="Initialize" Background="#0075b5" 
@@ -32,10 +36,23 @@
 				
 				<!--无忧网盘文本块-->
 				<TextBlock Grid.Column="2" Foreground="#0572b0" FontSize="20" Margin="330,15,-6,1" FontWeight="Bold" FontFamily="Times">Carefree</TextBlock>
-				<Border Grid.Column="2" Margin="11,16" VerticalAlignment="Top"  HorizontalAlignment="Left"
+				<Border Grid.Column="3" Margin="11,16" VerticalAlignment="Top"  HorizontalAlignment="Left"
 						Background="#0572b0" CornerRadius="3" Height="23" Width="65">
 					<TextBlock Text="Cloud" Margin="2,1,1,1" FontWeight="Bold" FontSize="20" Foreground="White"/>
 				</Border>
+
+				<!--最小化-->
+				<Button Click="MinButton_Click" Background="Transparent" Margin="460,0,0,0"
+						Width="34" Height="34" CornerRadius="5">
+					<Image Source="{SvgImage /Assets/Images/MinWindow.svg}" Stretch="UniformToFill"/>
+				</Button>
+				
+				<!--关闭-->
+				<Button Click="CloseButton_Click" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="7,0,0,0" 
+						Width="34" Height="34" CornerRadius="5" Background="Transparent">
+					<Image Source="{SvgImage /Assets/Images/Close.svg}" Stretch="UniformToFill"/>
+				</Button>
+				
 			</StackPanel>
 		</Grid>
 
@@ -54,17 +71,17 @@
 					<Grid ColumnDefinitions="*,*,*">
 						<Border CornerRadius="14" BorderThickness="2" Background="#ebf3fa" HorizontalAlignment="Left" VerticalAlignment="Center" Width="380" Height="520">
 							<Grid Grid.Column="0" RowDefinitions="0.2*,2*,0.2*,2*,0.2*,2*" Margin="0,7">
-								<TextBlock Grid.Row="0" Text="实时文件总数:" Margin="5,7"/>
-								<lvc:CartesianChart Grid.Row="1" Series="{Binding Series}">
-								</lvc:CartesianChart>
+								<TextBlock Grid.Row="0" Text="实时文件总数:" Margin="5,0"/>
+								<lvc:CartesianChart Grid.Row="1" Series="{Binding SumFileSeries}"
+													YAxes="{Binding YFileAxis}" XAxes="{Binding XAxis}"/>
 
-								<TextBlock Grid.Row="2" Text="实时去重后的文件数:" Margin="5,7"/>
-								<lvc:CartesianChart Grid.Row="3" Series="{Binding Series}">
-								</lvc:CartesianChart>
-
-								<TextBlock Grid.Row="4" Text="实时用户总数:" Margin="5,7"/>
-								<lvc:CartesianChart Grid.Row="5" Series="{Binding Series}">
-								</lvc:CartesianChart>
+								<TextBlock Grid.Row="2" Text="实时去重后的文件数:" Margin="5,0"/>
+								<lvc:CartesianChart x:Name="ResFileLiveCharts" Grid.Row="3" Series="{Binding SumResFileSeries}"
+													YAxes="{Binding YFileAxis}" XAxes="{Binding XAxis}"/>
+								
+								<TextBlock Grid.Row="4" Text="实时用户总数:" Margin="5,0"/>
+								<lvc:CartesianChart Grid.Row="5" Series="{Binding UserSeries}"
+													YAxes="{Binding YUserAxis}" XAxes="{Binding XAxis}"/>
 							
 							</Grid>
 						</Border>
@@ -137,12 +154,9 @@
 						<DataGrid x:Name="uuserList" Margin="20,0" ItemsSource="{Binding UserList,Mode=TwoWay}"
 						AutoGenerateColumns="True" IsReadOnly="True"
 						GridLinesVisibility="All"
-						BorderThickness="1" BorderBrush="Gray" Width="500" HorizontalAlignment="Left">
-							
+						BorderThickness="1" BorderBrush="Gray" Width="500" Height="450" HorizontalAlignment="Left">
 						</DataGrid>
-					</StackPanel>
-					
-					
+					</StackPanel>					
 				</TabItem>
 					
 				<!--文件部分-->
@@ -159,12 +173,11 @@
 						
 						<DataGrid x:Name="ffileList" Margin="20,0" ItemsSource="{Binding UpFileList,Mode=TwoWay}"
 							  AutoGenerateColumns="True" IsReadOnly="True"
-							  GridLinesVisibility="All" BorderThickness="1"
+							  GridLinesVisibility="All" BorderThickness="1" Height="450"
 							  BorderBrush="Gray"/>
 					</StackPanel>
-					
 				</TabItem>
 			</TabControl> 
-			</Grid>
+		</Grid>
 	</Grid>
 </Window>

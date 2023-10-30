@@ -1,27 +1,135 @@
 ﻿using Cloud;
 using LiveChartsCore;
+using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using System;
+using SkiaSharp;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Diagnostics;
+using System.Threading;
+using Avalonia.Threading;
+using DynamicData;
+using System.Linq;
 
 namespace CloudServer.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
     private readonly DataBaseManager dm;
+    public ObservableCollection<ObservableValue> MainChartValues1 = new();
+    public ObservableCollection<ObservableValue> MainChartValues2 = new();
+    public ObservableCollection<ObservableValue> MainChartValues3 = new();
+    private ObservableCollection<User> _userList;
+    private ObservableCollection<UpFile> _upFileList;
 
-    public ISeries[] Series { get; set; }
-        = new ISeries[]
+    private Timer timer1;
+    private Timer timer2;
+    private Timer timer3;
+
+    public ISeries[] SumFileSeries { get; set; }
+    public ISeries[] SumResFileSeries { get; set; }
+    public ISeries[] UserSeries { get; set; }
+
+    public MainViewModel()
+    {
+        string con = ConfigurationManager.ConnectionStrings["FirstConnection"].ToString();
+        dm = new DataBaseManager(con);
+        UserList = new ObservableCollection<User>();
+        UpFileList = new ObservableCollection<UpFile>();
+
+        MainChartValues1.AddRange(Enumerable.Range(0, 30).Select(_ => new ObservableValue(0)));
+        MainChartValues2.AddRange(Enumerable.Range(0, 30).Select(_ => new ObservableValue(0)));
+        MainChartValues3.AddRange(Enumerable.Range(0, 30).Select(_ => new ObservableValue(0)));
+
+        SumFileSeries = new ISeries[]
         {
-            new LineSeries<double>
+            new LineSeries<ObservableValue>
             {
-                Values=new double[]{2,1,3,5,3,4,6},
-                Fill=null
+                Values = MainChartValues1,
+                GeometrySize = 0,
+                GeometryStroke = null,
+                Fill = new SolidColorPaint(new SKColor(181,212,233)),
+                Stroke = new SolidColorPaint(new SKColor(1,111,174)){StrokeThickness=2},
             }
         };
 
-    private ObservableCollection<User> _userList;
+        SumResFileSeries = new ISeries[]
+        {
+            new LineSeries<ObservableValue>
+            {
+                Values = MainChartValues2,
+                GeometrySize = 0,
+                GeometryStroke = null,
+                Fill = new SolidColorPaint(new SKColor(181,212,233)),
+                Stroke = new SolidColorPaint(new SKColor(1,111,174)){StrokeThickness=2},
+            }
+        };
+
+        UserSeries = new ISeries[]
+        {
+            new LineSeries<ObservableValue>
+            {
+                Values = MainChartValues3,
+                GeometrySize = 0,
+                GeometryStroke = null,
+                Fill = new SolidColorPaint(new SKColor(181,212,233)),
+                Stroke = new SolidColorPaint(new SKColor(1,111,174)){StrokeThickness=2},
+            }
+        };
+
+        timer1 = new Timer(GetRealTimeFileNum, null, 0, 400); //每隔1s触发一次回调函数
+        timer2 = new Timer(GetRealTimeResFileNum, null, 0, 400); //每隔1s触发一次回调函数
+        timer3 = new Timer(GetRealTimeUserNum, null, 0, 400); //每隔1s触发一次回调函数
+    }
+
+    private static int GetFileMaxYAxis()
+    {
+        return 20;
+    }
+
+    private static int GetUserMaxYAxis()
+    {
+        return 5;
+    }
+
+    //文件数的纵坐标
+    public List<Axis> YFileAxis { get; set; } = new List<Axis>
+    {
+        new Axis
+        {
+            MinStep=4,
+            ForceStepToMin=true,
+            MaxLimit = GetFileMaxYAxis(),
+            MinLimit=0,
+            TextSize=12
+        }
+    };
+
+    //用户数的纵坐标
+    public List<Axis> YUserAxis { get; set; } = new List<Axis>
+    {
+        new Axis
+        {
+            MinStep=1,
+            ForceStepToMin=true,
+            MaxLimit = GetUserMaxYAxis(),
+            MinLimit=0,
+            TextSize=12
+        }
+    };
+
+    //横坐标
+    public List<Axis> XAxis { get; set; } = new List<Axis>
+    {
+        new Axis
+        {
+            IsVisible=false
+        }
+    };
+
     public ObservableCollection<User> UserList
     {
         get => _userList;
@@ -35,7 +143,6 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    private ObservableCollection<UpFile> _upFileList;
     public ObservableCollection<UpFile> UpFileList
     {
         get => _upFileList;
@@ -49,12 +156,40 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    public MainViewModel()
+    private void GetRealTimeFileNum(object state)
     {
         string con = ConfigurationManager.ConnectionStrings["FirstConnection"].ToString();
-        dm = new DataBaseManager(con);
-        UserList = new ObservableCollection<User>();
-        UpFileList = new ObservableCollection<UpFile>();
+        DataBaseManager dm = new DataBaseManager(con);
+        int realTimeFileNum = dm.GetUpfileNum();
+
+        Dispatcher.UIThread.Invoke(() =>
+        {
+            MainChartValues1.RemoveAt(0);
+            MainChartValues1.Add(new ObservableValue(realTimeFileNum));
+        });
+    }
+
+    private void GetRealTimeResFileNum(object state)
+    {
+        string con = ConfigurationManager.ConnectionStrings["FirstConnection"].ToString();
+        DataBaseManager dm = new DataBaseManager(con);
+        int realTimeResFileNum = dm.GetFileNum();
+        Dispatcher.UIThread.Invoke(() =>
+        {
+            MainChartValues2.RemoveAt(0);
+            MainChartValues2.Add(new ObservableValue(realTimeResFileNum));
+        });
+    }
+
+    private void GetRealTimeUserNum(object state)
+    {
+        int realTimeUser = ServiceManager.onlineUser.Count;
+
+        Dispatcher.UIThread.Invoke(() =>
+        {
+            MainChartValues3.RemoveAt(0);
+            MainChartValues3.Add(new ObservableValue(realTimeUser));
+        });
     }
 
     public void RefreshUserInfo()
@@ -93,8 +228,12 @@ public class MainViewModel : ViewModelBase
                 string userName = parts[5];
                 string uploadTime = parts[6];
 
-                UpFile ff = new(fileID, fileName, userName, fileTag, fileSize, serAdd, uploadTime);
-                fileList.Add(ff);
+                if (!String.IsNullOrEmpty(fileName))
+                {
+                    UpFile ff = new(fileID, fileName, userName, fileTag, fileSize, serAdd, uploadTime);
+                    fileList.Add(ff);
+                }
+                else Debug.WriteLine("检测到空");
             }
         }
         UpFileList = new ObservableCollection<UpFile>(fileList);

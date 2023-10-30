@@ -10,6 +10,11 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
+  
+  <ItemGroup>
+    <None Remove="Assets\Images\Close.svg" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.2" />
@@ -26,10 +31,6 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Serialization.Json" Version="4.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Assets\Images\" />
   </ItemGroup>
 
   <ItemGroup>

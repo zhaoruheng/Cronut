@@ -55,7 +55,6 @@ namespace Cloud
             CreateCommand(queryString);
         }
 
-        /*改了**********************/
         public byte CreateUser(string userName, string passwd)
         {
             string queryString = useString +
@@ -166,42 +165,23 @@ namespace Cloud
         private int ExecuteScalar(string queryString)
         {
             int count = 0;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Connection.Open();
                 count = Convert.ToInt32(command.ExecuteScalar());
             }
             return count;
         }
 
-        //public string GetEnKey(string userName, string fileName)
-        //{
-        //    queryString = string.Format(useString +
-        //        "SELECT FILE_ID FROM UpFileTable WHERE USER_NAME = '{0}' AND FILE_NAME = '{1}';", userName, fileName);
-        //    int fileID = ExecuteScalar(queryString);
-        //    queryString = string.Format(useString +
-        //        "SELECT ENKEY FROM FileTable WHERE FILE_ID = '{0}';", fileID);
-        //    string enKey = string.Empty;
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        SqlCommand command = new SqlCommand(queryString, connection);
-        //        connection.Open();
-        //        SqlDataReader reader = command.ExecuteReader();
-        //        reader.Read();
-        //        enKey = (string)reader[0];
-        //        reader.Close();
-        //    }
-        //    return enKey;
-        //}
         public string GetEnMd5(string userName, string fileName)
         {
             string queryString = useString + "SELECT ENMD5 FROM UpFileTable WHERE USER_NAME = @UserName AND FILE_NAME = @FileName;";
             string enMd5 = string.Empty;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Parameters.AddWithValue("@UserName", userName);
                 command.Parameters.AddWithValue("@FileName", fileName);
 
@@ -212,10 +192,8 @@ namespace Cloud
                 {
                     enMd5 = (string)reader["ENMD5"];
                 }
-
                 reader.Close();
             }
-
             return enMd5;
         }
 
@@ -224,13 +202,12 @@ namespace Cloud
             int result = 0;
             string query1 = useString + "SELECT * FROM UserTable WHERE USER_NAME = @UserName1;";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                using (SqlCommand command = new SqlCommand(query1, connection))
+                using (SqlCommand command = new(query1, connection))
                 {
                     command.Parameters.AddWithValue("@UserName1", userName);
                     connection.Open();
-                    //result = (int)command.ExecuteScalar();
                     object tmp = command.ExecuteScalar();
                     if (tmp == null)
                     {
@@ -254,7 +231,6 @@ namespace Cloud
             {
                 using (SqlCommand command = new SqlCommand(query2, connection))
                 {
-                    
                     command.Parameters.AddWithValue("@UserName2", userName);
                     command.Parameters.AddWithValue("@Password", passwd);
                     connection.Open();
@@ -269,7 +245,6 @@ namespace Cloud
                     }
                 }
             }
-
             return result;
         }
 
@@ -280,11 +255,11 @@ namespace Cloud
                 "SELECT FILE_NAME, UPLOAD_TIME FROM UpFileTable " +
                 "Where USER_NAME=@UserName;";
 
-            FileInfoList fil = new FileInfoList();
+            FileInfoList fil = new();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Parameters.AddWithValue("@UserName", userName); // 使用参数化查询
 
                 connection.Open();
@@ -318,7 +293,6 @@ namespace Cloud
                     "INSERT INTO FileTable VALUES('{0}', '{1}', '{2}');", sha1, fileSize, physicalAdd);
                 ExecuteScalar(queryString);
 
-                /*逻辑可能有问题！！！！！！！！！！！！！！！！！！！！！！*/
                 queryString = string.Format(useString +
                     "SELECT * FROM FileTable WHERE FileTag='{0}';", sha1);
                 fileID = ExecuteScalar(queryString);
@@ -362,14 +336,13 @@ namespace Cloud
                 "AND FILE_NAME=@FileName;";
 
             int fileID;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Parameters.AddWithValue("@UserName", userName); // 使用参数化查询
                 command.Parameters.AddWithValue("@FileName", fileName); // 使用参数化查询
 
                 connection.Open();
-                //fileID = (int)command.ExecuteScalar();
                 object tmp = command.ExecuteScalar();
                 if (tmp == null)
                 {
@@ -389,9 +362,9 @@ namespace Cloud
                 "Where FILE_ID=@FileID;";
 
             string physicalAdd;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Parameters.AddWithValue("@FileID", fileID); // 使用参数化查询
 
                 connection.Open();
@@ -411,14 +384,13 @@ namespace Cloud
                "AND FILE_NAME=@FileName;";
 
             int fileID;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Parameters.AddWithValue("@UserName", userName); // 使用参数化查询
                 command.Parameters.AddWithValue("@FileName", fileName); // 使用参数化查询
 
                 connection.Open();
-                //fileID = (int)command.ExecuteScalar();
                 object tmp = command.ExecuteScalar();
                 if (tmp == null)
                 {
@@ -438,9 +410,9 @@ namespace Cloud
                 "Where FILE_ID=@FileID;";
 
             string enKey;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Parameters.AddWithValue("@FileID", fileID); // 使用参数化查询
 
                 connection.Open();
@@ -461,9 +433,9 @@ namespace Cloud
                 "Where USER_NAME=@UserName " +
                 "AND FILE_NAME=@FileName;";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Parameters.AddWithValue("@UserName", userName); // 使用参数化查询
                 command.Parameters.AddWithValue("@FileName", fileName); // 使用参数化查询
 
@@ -485,26 +457,23 @@ namespace Cloud
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.AddWithValue("@NewFileName", fileName); // 使用参数化查询
-                command.Parameters.AddWithValue("@UserName", userName); // 使用参数化查询
-                command.Parameters.AddWithValue("@OldFileName", oldFileName); // 使用参数化查询
+                command.Parameters.AddWithValue("@NewFileName", fileName);
+                command.Parameters.AddWithValue("@UserName", userName); 
+                command.Parameters.AddWithValue("@OldFileName", oldFileName); 
 
                 connection.Open();
                 return command.ExecuteNonQuery();
             }
         }
 
-
         public List<string> GetCloudFiles()
         {
-            List<string> cloudFiles = new List<string>();
+            List<string> cloudFiles = new();
             queryString = useString +
                 "SELECT * FROM FileTable;";
-            using (SqlConnection connection =
-                    new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command =
-                    new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -520,10 +489,10 @@ namespace Cloud
         {
             string queryString = "SELECT FILE_ID FROM FileTable WHERE FileTag = @FileTag";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.AddWithValue("@FileTag", fileTag); // 使用参数化查询
+                SqlCommand command = new(queryString, connection);
+                command.Parameters.AddWithValue("@FileTag", fileTag);
 
                 connection.Open();
                 object tmp = command.ExecuteScalar();
@@ -535,34 +504,26 @@ namespace Cloud
                 {
                     return (int)tmp;
                 }
-                
             }
         }
 
         public void InsertFileTable(ref int fileID, string fileName, string fileTag, int MHTNum, long fileSize, string serAdd, string enKey)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                // 创建 SQL 查询字符串，使用参数占位符
                 string queryString = "INSERT INTO FileTable VALUES(@FileTag, @FileSize, @SerAdd, @MHTNum, @EnKey)";
 
-                // 创建一个 SqlCommand 对象，并将查询字符串和连接对象关联
-                using (SqlCommand command = new SqlCommand(queryString, connection))
+                using (SqlCommand command = new(queryString, connection))
                 {
-                    // 添加参数，替代参数占位符
                     command.Parameters.AddWithValue("@FileTag", fileTag);
                     command.Parameters.AddWithValue("@FileSize", fileSize);
                     command.Parameters.AddWithValue("@SerAdd", serAdd);
                     command.Parameters.AddWithValue("@MHTNum", MHTNum);
                     command.Parameters.AddWithValue("@EnKey", enKey);
 
-                    // 打开数据库连接
                     connection.Open();
 
-                    // 执行查询
                     int rowsAffected = command.ExecuteNonQuery();
-
-                    // 处理查询结果（如果需要）
                 }
             }
 
@@ -576,9 +537,9 @@ namespace Cloud
             queryString = useString +
                 "INSERT INTO MHTTable VALUES(@FileID, @MHTID, @Salt, @RootNode);";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Parameters.AddWithValue("@FileID", fileID);
                 command.Parameters.AddWithValue("@MHTID", MHTID);
                 command.Parameters.AddWithValue("@Salt", salt);
@@ -589,20 +550,18 @@ namespace Cloud
             }
         }
 
-
         public void FindUpFileTable(int fileID, string fileName, string uploadDateTime, string username)
         {
             queryString = useString + "SELECT * FROM UpFileTable WHERE FILE_NAME=@FileName AND USER_NAME=@UserName;";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Parameters.AddWithValue("@FileName", fileName);
                 command.Parameters.AddWithValue("@UserName", username);
 
                 connection.Open();
 
-                //int res = (int)command.ExecuteScalar();
                 object tmp = command.ExecuteScalar();
                 int res;
                 if (tmp == null)
@@ -613,10 +572,15 @@ namespace Cloud
                 {
                     res = (int)tmp;
                 }
+
                 if (res == 0)
+                {
                     InsertUpFileTable(fileID, fileName, uploadDateTime, username);
+                }
                 else
+                {
                     UpdateUpFileTable(fileID, fileName, uploadDateTime, username);
+                }
             }
         }
 
@@ -625,9 +589,9 @@ namespace Cloud
             int userid = -1;
             string selectQueryString = useString + "SELECT USER_ID FROM UserTable WHERE USER_NAME=@UserName;";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand selectCommand = new SqlCommand(selectQueryString, connection);
+                SqlCommand selectCommand = new(selectQueryString, connection);
                 selectCommand.Parameters.AddWithValue("@UserName", username);
 
                 connection.Open();
@@ -640,11 +604,12 @@ namespace Cloud
 
                 reader.Close();
             }
+
             //按照filename，username查询，如果有重复的则删除
             string deleteQueryString = useString + "DELETE FROM UpFileTable WHERE FILE_NAME=@FileName AND USER_NAME=@UserName;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand deleteCommand = new SqlCommand(deleteQueryString, connection);
+                SqlCommand deleteCommand = new(deleteQueryString, connection);
                 deleteCommand.Parameters.AddWithValue("@FileName", fileName);
                 deleteCommand.Parameters.AddWithValue("@UserName", username);
 
@@ -654,9 +619,9 @@ namespace Cloud
 
             string insertQueryString = useString + "INSERT INTO UpFileTable VALUES(@FileID, @UserID, @FileName, @UserName, @UploadDateTime);";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand insertCommand = new SqlCommand(insertQueryString, connection);
+                SqlCommand insertCommand = new(insertQueryString, connection);
                 insertCommand.Parameters.AddWithValue("@FileID", fileID);
                 insertCommand.Parameters.AddWithValue("@UserID", userid);
                 insertCommand.Parameters.AddWithValue("@FileName", fileName);
@@ -668,15 +633,14 @@ namespace Cloud
             }
         }
 
-
         public void UpdateUpFileTable(int fileID, string fileName, string uploadDateTime, string username)
         {
             int userid = -1;
             string selectQueryString = string.Format(useString + "SELECT USER_ID FROM UserTable WHERE USER_NAME = @UserName;");
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand selectCommand = new SqlCommand(selectQueryString, connection);
+                SqlCommand selectCommand = new(selectQueryString, connection);
                 selectCommand.Parameters.AddWithValue("@UserName", username);
 
                 connection.Open();
@@ -693,9 +657,9 @@ namespace Cloud
             string updateQueryString = string.Format(useString + "UPDATE UpFileTable SET FILE_ID = @FileID, UPLOAD_TIME = @UploadTime " +
                                                       "WHERE FILE_NAME = @FileName AND USER_NAME = @UserName;");
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand updateCommand = new SqlCommand(updateQueryString, connection);
+                SqlCommand updateCommand = new(updateQueryString, connection);
                 updateCommand.Parameters.AddWithValue("@FileID", fileID);
                 updateCommand.Parameters.AddWithValue("@UploadTime", uploadDateTime);
                 updateCommand.Parameters.AddWithValue("@FileName", fileName);
@@ -706,15 +670,13 @@ namespace Cloud
             }
         }
 
-
         public int GetMHTNum(string fileTag)
         {
             string queryString = "SELECT MHT_Num FROM FileTable WHERE FileTag = @FileTag";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Parameters.AddWithValue("@FileTag", fileTag);
                 connection.Open();
                 //return (int)command.ExecuteScalar();
@@ -736,9 +698,9 @@ namespace Cloud
             string queryString = "SELECT Salt FROM MHTTable WHERE FILE_ID = @FileID AND MHT_ID = @MHTID";
             string salt = string.Empty;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Parameters.AddWithValue("@FileID", fileID);
                 command.Parameters.AddWithValue("@MHTID", MHTID);
 
@@ -748,7 +710,6 @@ namespace Cloud
                 salt = (string)reader[0];
                 reader.Close();
             }
-
             return salt;
         }
 
@@ -758,9 +719,9 @@ namespace Cloud
             string queryString = "SELECT RootNode FROM MHTTABLE WHERE FILE_ID = @FileID AND MHT_ID = @MHTID";
             string rootNode = string.Empty;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 command.Parameters.AddWithValue("@FileID", fileID);
                 command.Parameters.AddWithValue("@MHTID", MHTID);
 
@@ -770,7 +731,6 @@ namespace Cloud
                 rootNode = (string)reader[0];
                 reader.Close();
             }
-
             return rootNode;
         }
 
@@ -781,38 +741,40 @@ namespace Cloud
             int upfileNum = 0;
             queryString = useString +
                 "SELECT COUNT(*) FROM UpFileTable;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 connection.Open();
                 upfileNum = Convert.ToInt32(command.ExecuteScalar());
 
             }
             return upfileNum;
         }
+
         public int GetFileNum()
         {
             //获取fileTable的总行数
             int fileNum = 0;
             queryString = useString +
                 "SELECT COUNT(*) FROM FileTable;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 connection.Open();
                 fileNum = Convert.ToInt32(command.ExecuteScalar());
             }
             return fileNum;
         }
+
         public List<string> GetUserInfo()
         {
             //获取usertable的id及name，存储到List
-            List<string> userInfo = new List<string>();
+            List<string> userInfo = new();
             queryString = useString +
                 "SELECT USER_ID, USER_NAME FROM UserTable;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -823,15 +785,16 @@ namespace Cloud
             }
             return userInfo;
         }
+
         public List<string> GetFileInfo()
         {
             // 获取filetable的id, tag, size, seradd，利用id查询upfiletable的name，存储到List
-            List<string> fileInfo = new List<string>();
+            List<string> fileInfo = new();
             queryString = useString +
                 "SELECT FILE_ID, FileTag, FILE_SIZE, PHYSICAL_ADD FROM FileTable;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new(queryString, connection);
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -844,13 +807,12 @@ namespace Cloud
                     string userName = string.Empty;
                     string uploadTime = string.Empty;
 
-                    // 使用参数化查询
                     queryString = useString +
                         "SELECT FILE_NAME, USER_NAME, UPLOAD_TIME FROM UpFileTable " +
                         "Where FILE_ID=@FileID;";
-                    using (SqlConnection connection1 = new SqlConnection(connectionString))
+                    using (SqlConnection connection1 = new(connectionString))
                     {
-                        SqlCommand command1 = new SqlCommand(queryString, connection1);
+                        SqlCommand command1 = new(queryString, connection1);
                         command1.Parameters.AddWithValue("@FileID", fileID); // 添加参数
                         connection1.Open();
                         SqlDataReader reader1 = command1.ExecuteReader();
@@ -870,7 +832,6 @@ namespace Cloud
             }
             return fileInfo;
         }
-
     }
 }
 

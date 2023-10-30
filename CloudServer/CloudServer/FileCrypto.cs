@@ -14,7 +14,7 @@ namespace Cloud
     internal class FileCrypto
     {
         private string fileDir;          //客户端：文件路径
-        private string fileName;          //客户端：文件名
+        private string fileName;          //客户端：
         private long fileSize;             //客户端：文件大小(以字节为单位)
         private string fileTag;          //客户端：文件标签   服务器也用了
         private string fileEncryptKey;   //客户端：加密文件的密钥
@@ -286,14 +286,13 @@ namespace Cloud
             }
 
             bool isPassPow = PoW.VerifyRepsonse(saltsVal[k], ResponseNodeSet, rootNode[k]); //CSP验证Response正确性
-            AddDetailedParaItem("Verify: ");
             if (isPassPow)
             {
-                AddDetailedParaItem("用户通过了所有权验证! 文件去重成功!");
+                AddDetailedParaItem("Verify: 用户通过了所有权验证! 文件去重成功!");
             }
             else
             {
-                AddDetailedParaItem("用户未通过所有权验证!");
+                AddDetailedParaItem("Verify: 用户未通过所有权验证!");
             }
 
             File.Delete(tmpdir);

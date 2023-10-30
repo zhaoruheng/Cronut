@@ -6,8 +6,12 @@
         xmlns:views="clr-namespace:CloudClient.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="CloudClient.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/avalonia-logo.ico" KeyDown="Window_KeyDown"
         Title="CloudClient"
+		ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaChromeHints="NoChrome"
+		ExtendClientAreaTitleBarHeightHint="-1"
+		SystemDecorations="None" 
 		Height="450" Width="800">
 
 	
@@ -28,6 +32,16 @@
 		<!--Login Part-->
 			<!--Welcome-->
 		<Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto,Auto">
+
+			<Button Background="Transparent" Click="MinButton_Click" VerticalAlignment="Top" Margin="300,10"
+					Width="32" Height="32" CornerRadius="5">
+				<Image Source="{SvgImage /Assets/Images/MinWindow.svg}" Stretch="UniformToFill"/>
+			</Button>
+			
+			<Button Background="Transparent" Margin="337,10" Click="CloseButton_Click" VerticalAlignment="Top" 
+					Width="32" Height="32" CornerRadius="5">
+				<Image Source="{SvgImage /Assets/Images/Close.svg}" Stretch="UniformToFill"/>
+			</Button>
 			
 			<Grid Grid.Row="0">
 				<TextBlock Foreground="#0572b0" FontFamily="Black" FontSize="30" FontWeight="DemiBold" Margin="32,90,1,1">Welcome</TextBlock>
@@ -82,7 +96,7 @@
 					</Style>
 				</Grid.Styles>
 
-				<Button Margin="32,45,1,1" Height="35" Width="90" 
+				<Button x:Name="LoginButton" Margin="32,45,1,1" Height="35" Width="90" 
 						Background="#0075b5" Content="Login" 
 						FontSize="12" Foreground="White" FontWeight="Black"
 						VerticalAlignment="Center" HorizontalAlignment="Left"

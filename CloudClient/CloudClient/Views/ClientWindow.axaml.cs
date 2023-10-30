@@ -12,6 +12,7 @@ using Avalonia.Threading;
 using Avalonia.Platform.Storage;
 using System.Linq;
 using ExCSS;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CloudClient.Views
 {
@@ -23,11 +24,6 @@ namespace CloudClient.Views
         private FileWatcher fw;
         public static ListBox lb;
 
-        public ClientWindow()
-        {
-            InitializeComponent();
-        }
-
         public ClientWindow(ClientManager clientManager)
         {
             InitializeComponent();
@@ -37,6 +33,7 @@ namespace CloudClient.Views
 
             workPath = ConfigurationManager.AppSettings["TargetDir"];
             userName = ConfigurationManager.AppSettings["UserName"];
+
             this.clientManager = clientManager;
 
             if (!string.IsNullOrEmpty(workPath) && Directory.Exists(workPath) && !string.IsNullOrEmpty(userName) && string.Equals(userName, clientManager.getusername()))
@@ -59,31 +56,8 @@ namespace CloudClient.Views
                 fw.SendEvent += new FileWatcher.DelegateEventHander(clientManager.AnalysesEvent);
                 fw.Start();
             }
-        }
 
-        private void CloseButton_Click(object sender,RoutedEventArgs args)
-        {
-            clientManager.LogoutProcess();
-            clientManager = null;
-            this.Close();
-        }
-
-        private void SyncTh()
-        {
-            clientManager.SyncProcess();
-        }
-
-        private async void OpenFileButton_Click(object sender, RoutedEventArgs args)
-        {
-            var dialog = new OpenFolderDialog() { Title = "选择文件夹" };
-            workPath = await dialog.ShowAsync(this);
-            if (workPath != null)
-            {
-                // result是选中的文件夹路径
-                ShowFilePath.Watermark = workPath;
-                ChooseButton.IsEnabled = false;
-                ChooseButton.Content = "Chosen";
-            }
+            UpdateFileList();
         }
 
         private void SetAppSettingConf(string key, string value)
@@ -94,6 +68,39 @@ namespace CloudClient.Views
             ConfigurationManager.RefreshSection("appSettings");
         }
 
+        //用户登出按钮
+        private void CloseButton_Click(object sender,RoutedEventArgs args)
+        {
+            clientManager.LogoutProcess();
+            clientManager = null;
+            this.Close();
+        }
+
+        //最小化窗体
+        private void MinButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void SyncTh()
+        {
+            clientManager.SyncProcess();
+        }
+
+        //选择同步文件夹
+        private async void OpenFileButton_Click(object sender, RoutedEventArgs args)
+        {
+            var dialog = new OpenFolderDialog() { Title = "选择文件夹" };
+            workPath = await dialog.ShowAsync(this);
+            if (workPath != null)
+            {
+                ShowFilePath.Watermark = workPath;
+                ChooseButton.IsEnabled = false;
+                ChooseButton.Content = "Chosen";
+            }
+        }
+
+        //选择文件路径
         private void ConfirmButton_Click(object sender,RoutedEventArgs args)
         {
             if (string.IsNullOrEmpty(workPath))
@@ -115,8 +122,38 @@ namespace CloudClient.Views
             fw = new FileWatcher(workPath, "*.*");
             fw.SendEvent += new FileWatcher.DelegateEventHander(clientManager.AnalysesEvent);
             fw.Start();
+        }
 
+        //更新文件列表
+        private void UpdateFileList()
+        {
+            List<string> fileList = clientManager.GetFileNameList();
+            if (fileList == null)
+            {
+                return;
+            }
 
+            FileWrapPanel.Children.Clear();
+            foreach (string f in fileList)
+            {
+                UpdateFileWrapPanel(f);
+            }
+        }
+
+        //更新文件Wrap Panel
+        private void UpdateFileWrapPanel(string f)
+        {
+            FileButton fileButton = new FileButton();
+            TextBlock textBlock = fileButton.FindControl<TextBlock>("FileButtonTextBlock");
+            textBlock.Text = f;
+
+            FileWrapPanel.Children.Add(fileButton);
+        }
+
+        //文件列表更新按钮
+        private void UpdateFile_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateFileList();
         }
     }
 }

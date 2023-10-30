@@ -44,7 +44,6 @@ namespace Cloud
         }
 
         public void AnalysesEvent(object sender, WatchEvent we)
-        //WatchEvent是一个类，在FileWatcher里定义
         {
             if (we.fileEvent == 0)
                 return;
@@ -71,7 +70,6 @@ namespace Cloud
             WatchEvent we;
             while (eventQueue.Count > 0)
             {
-                ////MessageBox.Show(eventQueue.Count.ToString());
                 we = eventQueue.Dequeue();
                 //如果文件名以.开头，直接return
                 if (System.IO.Path.GetFileName(we.filePath).Substring(0, 1) == "." || protect == true)
@@ -80,28 +78,23 @@ namespace Cloud
                 }
                 if (we.fileEvent == 1)
                 {
-                    //MessageBox.Show("watch event: upload:" + we.filePath);
-                    //UploadFileProcess(we.filePath); 不必处理新建的空文件
                     return;
                 }
                 if (we.fileEvent == 2)
                 {
                     //处理上传文件操作
-                    //MessageBox.Show("watch event: change:" + we.filePath);
                     UploadFileProcess(we.filePath);
                     return;
                 }
                 if (we.fileEvent == 3)
                 {
                     //处理删除文件操作
-                    //MessageBox.Show("watch event: delete:" + we.filePath);
                     DeleteFileProcess(System.IO.Path.GetFileName(we.filePath));
                     return;
                 }
                 if (we.fileEvent == 4)
                 {
                     //处理重命名操作
-                    //MessageBox.Show("watch event: rename:" + we.filePath);
                     RenameFileProcess(System.IO.Path.GetFileName(we.filePath), System.IO.Path.GetFileName(we.oldFilePath));
                     return;
                 }
@@ -120,13 +113,9 @@ namespace Cloud
             return upFileList;
         }
 
-        /// <summary>
-        /// 上传文件 和 下载文件 的同步进程
-        /// </summary>
         public void SyncProcess()
         {
             protect = true;
-            Console.WriteLine("In SyncProcess:");
             GetFileListProcess();   //该用户现有的文件列表，存入fileInfoList
 
             downFileList = fileInfoList.nameList;   //获取downFileList
@@ -136,19 +125,14 @@ namespace Cloud
             //上传文件
             foreach (string file in upFileList) //upFileList为指定文件夹下的所有文件
             {
-                Console.WriteLine("upFile:" + file);
                 UploadFileProcess(workPath + "/" + file);
             }
 
             //下载文件
             foreach (string file in downFileList)
             {
-                Console.WriteLine("downFile:" + file);
                 DownloadFileProcess(file);
             }
-
-            //MessageBox.Show("上传和下载文件结束！");
-            Console.WriteLine("Sync over");
             protect = false;
         }
 
@@ -156,7 +140,6 @@ namespace Cloud
         //遍历指定文件夹下的所有文件和子文件夹
         private void Director(string dir)
         {
-            Console.WriteLine("Now director in " + dir);
             DirectoryInfo d = new DirectoryInfo(dir);
 
             FileInfo[] files = d.GetFiles();//当前文件夹下文件的名称
@@ -187,14 +170,12 @@ namespace Cloud
 
                     if (res > 0) //如果 res 大于0，表示cloudTime> localTime，云端是新的文件
                     {
-                        //File.Delete(f.FullName);
-                        //MessageBox.Show("云端新，删除" + f.FullName);
+                        
                     }
                     else if (res < 0) //如果 res 小于0，本地的文件新
                     {
                         upFileList.Add(f.Name);
                         downFileList.Remove(f.Name);
-                        //MessageBox.Show("本地新，上传" + f.FullName);
                     }
                     else //如果 res 等于0，表示两者时间相同
                         downFileList.Remove(f.Name);
@@ -215,11 +196,9 @@ namespace Cloud
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
             string md5 = FileCrypto_2.GetMD5(userPass);
 
-            //通信：给服务器发送登录请求
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.LOGIN, userName, md5, 0, null, null, null, null, 0);
             clientComHelper.SendMsg();
 
-            //通信：接收服务器的登录响应
             NetPacket np = clientComHelper.RecvMsg();
             return np.code;
         }
@@ -253,11 +232,9 @@ namespace Cloud
         {
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
 
-            //通信：请求获取用户文件列表
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.GETLIST, userName, null, 0, null, null, null, null, 0);
             clientComHelper.SendMsg();
 
-            //通信：接收服务器发来的用户文件列表
             fileInfoList = clientComHelper.RecvFileList();
         }
 
@@ -275,7 +252,6 @@ namespace Cloud
         {
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
 
-            //通信：发送上传文件请求
             string fileName = Path.GetFileName(filePath);
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.UPLOAD, userName, 0, fileName, null);
             clientComHelper.SendMsg();
@@ -292,9 +268,7 @@ namespace Cloud
             string downloadPath = workPath + "/";
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
 
-            //通信：发送下载文件请求
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.DOWNLOAD, userName, null, 0, null, fileName, null, null, 0);
-            //MessageBox.Show("下载" + fileName);
             clientComHelper.SendMsg();
 
             //通信：接收解密密钥
@@ -313,16 +287,12 @@ namespace Cloud
 
                 fc.FileDownload();
             }
-
-            //MessageBox.Show("此时的np.code:"+np.code);
             return np.code;
         }
 
         //删除文件
         public byte DeleteFileProcess(string fileName)
         {
-            ////MessageBox.Show("DEL:" + fileName);
-            //MessageBox.Show("删除" + fileName);
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.DELETE, userName, null, 0, null, fileName, null, null, 0);
             clientComHelper.SendMsg();
@@ -334,7 +304,6 @@ namespace Cloud
         //重命名
         public byte RenameFileProcess(string fileName, string oldName)
         {
-            ////MessageBox.Show("RENAME:" + oldName + " to " + fileName);
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.RENAME, userName, null, 0, null, oldName, fileName, null, 0);
             clientComHelper.SendMsg();
@@ -342,152 +311,10 @@ namespace Cloud
             ReturnMsg?.Invoke();
             return np.code;
         }
+
         public string getusername()
         {
             return userName;
         }
-
-        //public int UploadFileProcess(string filePath)
-        //{
-        //	byte[] requestMsg = new byte[256];
-        //	if (!File.Exists(filePath))
-        //		return 1;   
-        //	FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-        //	if (fs.Length == 0)
-        //	{
-        //		fs.Close();
-        //		return 2; //文件为空，上传取消
-        //	}	
-        //	MD5 md5 = new MD5CryptoServiceProvider();
-        //	byte[] fileMd5 = md5.ComputeHash(fs);
-        //	fs.Close();
-        //	string fileName = Path.GetFileName(filePath);
-        //	string enFileName = string.Empty;
-        //	foreach (var i in fileMd5)
-        //		enFileName += i.ToString("x2");
-        //	string enFilePath = "./tmp/" + enFileName;
-        //	FileCrypto fc = new FileCrypto(enFilePath, filePath, "admin");
-        //	fc.FileEncrypt();
-        //	FileStream enFs = new FileStream(enFilePath, FileMode.Open, FileAccess.Read);
-        //	long fsize = enFs.Length;
-        //	enFs.Close();
-        //	requestMsg[0] = 0x73;
-        //	{
-        //		byte[] tmp = Encoding.Default.GetBytes(userName);
-        //		Buffer.BlockCopy(BitConverter.GetBytes(tmp.Length), 0, requestMsg, 1, 4);
-        //		Buffer.BlockCopy(tmp, 0, requestMsg, 5, tmp.Length);
-        //		Buffer.BlockCopy(fileMd5, 0, requestMsg, 15, 16);
-        //	}
-        //	{
-        //		byte[] tmp = Encoding.Default.GetBytes(fileName);
-        //		Buffer.BlockCopy(BitConverter.GetBytes(fsize), 0, requestMsg, 31, 8);
-        //		Buffer.BlockCopy(BitConverter.GetBytes(tmp.Length), 0, requestMsg, 39, 4);
-        //		Buffer.BlockCopy(tmp, 0, requestMsg, 43, tmp.Length);
-        //	}
-        //	//byte res = SendRequestMsgForUp(requestMsg, enFilePath);
-        //	File.Delete(enFilePath);
-        //	//if (res == 0x60)
-        //	//	//上传成功
-        //	//	return 1;
-        //	//if (res == 0x83)
-        //	//	//需要登录
-        //	//	return 0;
-        //	return -1;  //未知错误
-
-        //}
-
-        //public int DownloadFileProcess(string fileName)
-        //{
-        //	byte[] requestMsg = new byte[256];
-        //	requestMsg[0] = 0x74;
-        //	{
-        //		byte[] tmp = Encoding.Default.GetBytes(userName);
-        //		Buffer.BlockCopy(BitConverter.GetBytes(tmp.Length), 0, requestMsg, 1, 4);
-        //		Buffer.BlockCopy(tmp, 0, requestMsg, 5, tmp.Length);
-        //	}
-        //	{
-        //		byte[] tmp = Encoding.Default.GetBytes(fileName);
-        //		Buffer.BlockCopy(BitConverter.GetBytes(tmp.Length), 0, requestMsg, 39, 4);
-        //		Buffer.BlockCopy(tmp, 0, requestMsg, 43, tmp.Length);
-        //	}
-        //	string deFilePath = "./DownloadFiles/" + fileName;
-        //	//byte res = SendRequestMsgForDown(requestMsg, deFilePath);
-        //	//if (res == 0x62) //下载完成
-        //	//	return 1;
-        //	//if (res == 0x83) //需要登录
-        //	//	return 0;
-        //	return 0;
-        //}
-
-        //public int DeleteFileProcess(string fileName)
-        //{
-        //	byte[] requestMsg = new byte[256];
-        //	requestMsg[0] = 0x75;
-        //	{
-        //		byte[] tmp = Encoding.Default.GetBytes(userName);
-        //		Buffer.BlockCopy(BitConverter.GetBytes(tmp.Length), 0, requestMsg, 1, 4);
-        //		Buffer.BlockCopy(tmp, 0, requestMsg, 5, tmp.Length);
-        //	}
-        //	{
-        //		byte[] tmp = Encoding.Default.GetBytes(fileName);
-        //		Buffer.BlockCopy(BitConverter.GetBytes(tmp.Length), 0, requestMsg, 39, 4);
-        //		Buffer.BlockCopy(tmp, 0, requestMsg, 43, tmp.Length);
-        //	}
-        //	//byte res = SendRequestMsg(requestMsg);
-        //	//if (res == 0x90)
-        //	//	return 1;
-        //	//if (res == 0x83)
-        //	//	return 0;
-        //	return -1;
-
-        //}
-
-        //public int RenameFileProcess(string fileName, string oldFileName)
-        //{
-        //	byte[] requestMsg = new byte[256];
-        //	{
-        //		byte[] tmp = Encoding.Default.GetBytes(userName);
-        //		requestMsg[0] = 0x76;
-        //		Buffer.BlockCopy(BitConverter.GetBytes(tmp.Length), 0, requestMsg, 1, 4);
-        //		Buffer.BlockCopy(tmp, 0, requestMsg, 5, tmp.Length);
-        //	}
-        //	int len;
-        //	{
-        //		byte[] tmp = Encoding.Default.GetBytes(fileName);
-        //		len = tmp.Length;
-        //		Buffer.BlockCopy(BitConverter.GetBytes(tmp.Length), 0, requestMsg, 31, 4);
-        //		Buffer.BlockCopy(tmp, 0, requestMsg, 35, tmp.Length);
-        //	}
-        //	{
-        //		byte[] tmp = Encoding.Default.GetBytes(oldFileName);
-        //		Buffer.BlockCopy(BitConverter.GetBytes(tmp.Length), 0, requestMsg, 35 + len, 4);
-        //		Buffer.BlockCopy(tmp, 0, requestMsg, 39 + len, tmp.Length);
-        //	}
-        //	//byte res = SendRequestMsg(requestMsg);
-        //	//if (res == 0x90)
-        //	//	return 1; //操作成功
-        //	//if (res == 0x83)
-        //	//	return 0; //需要登录
-        //	return -1; // 未知错误
-        //}
-
-        //public int CreateEmptyFileProcess(string filePath)
-        //{
-        //	byte[] requestMsg = new byte[256];
-        //	string fileName = Path.GetFileName(filePath);
-        //	requestMsg[0] = 0x73;
-        //	{
-        //		byte[] tmp = Encoding.Default.GetBytes(fileName);
-        //		Buffer.BlockCopy(BitConverter.GetBytes((long)0), 0, requestMsg, 31, 8);
-        //		Buffer.BlockCopy(BitConverter.GetBytes(tmp.Length), 0, requestMsg, 39, 4);
-        //		Buffer.BlockCopy(tmp, 0, requestMsg, 43, tmp.Length);
-        //	}
-        //	byte res = SendRequestMsg(requestMsg);
-        //	if (res == 0x90)
-        //		return 1;
-        //	if (res == 0x83)
-        //		return 0;
-        //	return -1;
-        //}
     }
 }

@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CloudClient.Views.FileButton">
+
+	<Button Height="80" Width="70" Background="Transparent" ToolTip.Tip="{Binding ElementName=FileButtonTextBlock,Path=Text}" >
+		<Button.Styles>
+			<Style Selector="Button:pointerover">
+				<Setter Property="Background" Value="Gray"/>
+			</Style>
+		</Button.Styles>
+		
+		<StackPanel>
+			<Image Source="{SvgImage /Assets/Images/FileIcon.svg}"></Image>
+			<TextBlock x:Name="FileButtonTextBlock" HorizontalAlignment="Center"
+					   Margin="0,2" Text="hajhmhaha.txt" FontSize="10"></TextBlock>
+		</StackPanel>
+	</Button>
+</UserControl>
