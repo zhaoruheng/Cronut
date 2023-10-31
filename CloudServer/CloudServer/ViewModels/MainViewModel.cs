@@ -80,7 +80,7 @@ public class MainViewModel : ViewModelBase
             }
         };
 
-        timer1 = new Timer(GetRealTimeFileNum, null, 0, 400); //每隔1s触发一次回调函数
+        timer1 = new Timer(GetRealTimeFileNum, null, 0, 1000); //每隔1s触发一次回调函数
         timer2 = new Timer(GetRealTimeResFileNum, null, 0, 400); //每隔1s触发一次回调函数
         timer3 = new Timer(GetRealTimeUserNum, null, 0, 400); //每隔1s触发一次回调函数
     }

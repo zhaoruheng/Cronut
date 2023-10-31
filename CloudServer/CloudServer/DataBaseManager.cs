@@ -427,12 +427,11 @@ namespace Cloud
 
         public int RemoveFile(string userName, string fileName)
         {
-            //删除UpFileTable记录
+            string fileId = string.Empty;
             queryString = useString +
-                "DELETE FROM UpFileTable " +
+                "SELECT FILE_ID FROM UpFileTable " +
                 "Where USER_NAME=@UserName " +
                 "AND FILE_NAME=@FileName;";
-
             using (SqlConnection connection = new(connectionString))
             {
                 SqlCommand command = new(queryString, connection);
@@ -440,8 +439,77 @@ namespace Cloud
                 command.Parameters.AddWithValue("@FileName", fileName); // 使用参数化查询
 
                 connection.Open();
-                return command.ExecuteNonQuery();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    fileId = ((int)reader[0]).ToString();
+                }
+                reader.Close();
             }
+            //删除UpFileTable记录
+            queryString = useString +
+                "DELETE FROM UpFileTable " +
+                "Where USER_NAME=@UserName " +
+                "AND FILE_NAME=@FileName;";
+            int reVal = 0;
+            using (SqlConnection connection = new(connectionString))
+            {
+                SqlCommand command = new(queryString, connection);
+                command.Parameters.AddWithValue("@UserName", userName); // 使用参数化查询
+                command.Parameters.AddWithValue("@FileName", fileName); // 使用参数化查询
+
+                connection.Open();
+                reVal = command.ExecuteNonQuery();
+            }
+
+
+            //如果upfiletable中没有该文件，删除FileTable记录，删除物理文件
+            queryString = useString +
+                "SELECT * FROM UpFileTable " +
+                "Where FILE_NAME=@FileName;";
+            string physicalAdd = string.Empty;
+            using (SqlConnection connection = new(connectionString))
+            {
+                SqlCommand command = new(queryString, connection);
+                command.Parameters.AddWithValue("@FileName", fileName); // 使用参数化查询
+
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (!reader.Read())
+                {
+                    reader.Close();
+                    queryString = useString +
+                        "SELECT PHYSICAL_ADD FROM FileTable " +
+                        "Where FILE_ID=@FileID;";
+                    using (SqlConnection connection1 = new(connectionString))
+                    {
+                        SqlCommand command1 = new(queryString, connection1);
+                        command1.Parameters.AddWithValue("@FileID", fileId); // 使用参数化查询
+
+                        connection1.Open();
+                        SqlDataReader reader1 = command1.ExecuteReader();
+                        if (reader1.Read())
+                        {
+                            physicalAdd = (string)reader1[0];
+                        }
+                        reader1.Close();
+                    }
+                    queryString = useString +
+                        "DELETE FROM FileTable " +
+                        "Where FILE_ID=@FileID;";
+                    using (SqlConnection connection1 = new(connectionString))
+                    {
+                        SqlCommand command1 = new(queryString, connection1);
+                        command1.Parameters.AddWithValue("@FileID", fileId); // 使用参数化查询
+
+                        connection1.Open();
+                        command1.ExecuteNonQuery();
+                    }
+                    System.IO.File.Delete(physicalAdd);
+                }
+                reader.Close();
+            }
+            return reVal;
         }
 
 
