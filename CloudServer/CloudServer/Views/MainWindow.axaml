@@ -13,8 +13,9 @@
 		ExtendClientAreaChromeHints="NoChrome"
 		ExtendClientAreaTitleBarHeightHint="-1"
 		SystemDecorations="None"
-		Height="600" Width="1200">
-
+		Height="600" Width="1200"
+		DragDrop.AllowDrop="True">
+	
 	<Window.DataContext>
 		<vm:MainViewModel/>
 	</Window.DataContext>
@@ -42,13 +43,25 @@
 				</Border>
 
 				<!--最小化-->
-				<Button Click="MinButton_Click" Background="Transparent" Margin="460,0,0,0"
+				<Button Click="MinButton_Click" Background="Transparent" Margin="433,0,0,0"
 						Width="34" Height="34" CornerRadius="5">
 					<Image Source="{SvgImage /Assets/Images/MinWindow.svg}" Stretch="UniformToFill"/>
 				</Button>
 				
+				<!--最大化-->
+				<Button x:Name="MaxButton" Click="MaxButton_Click" Background="Transparent" Margin="4,0,0,0"
+						Width="34" Height="34" CornerRadius="5">
+					<Image Source="{SvgImage /Assets/Images/MaxWindow.svg}"/>
+				</Button>
+				
+				<!--还原-->
+				<Button x:Name="NormButton" Click="NormButton_Click" Background="Transparent" Margin="0,0,0,0"
+						Width="34" Height="34" CornerRadius="5" IsVisible="False">
+					<Image Source="{SvgImage /Assets/Images/NormWindow.svg}"/>
+				</Button>
+				
 				<!--关闭-->
-				<Button Click="CloseButton_Click" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="7,0,0,0" 
+				<Button Click="CloseButton_Click" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4,0,0,0" 
 						Width="34" Height="34" CornerRadius="5" Background="Transparent">
 					<Image Source="{SvgImage /Assets/Images/Close.svg}" Stretch="UniformToFill"/>
 				</Button>
@@ -99,17 +112,12 @@
 										<ListBox x:Name="RealTimeInfo" Background="Transparent" FontSize="2" >
 											<ListBox.ItemTemplate>
 												<DataTemplate>
-													<TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="12"></TextBlock>
-													
-												</DataTemplate>
-												
+													<TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="12"></TextBlock>												</DataTemplate>
 											</ListBox.ItemTemplate>
 										</ListBox>
 									</ScrollViewer>
 								</StackPanel>
 							</Border>
-							
-							
 						</Grid>
 						
 						<!--具体算法过程-->

@@ -6231,19 +6231,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Rune\\.nuget\\packages\\": {}
+    "C:\\Users\\郭歆越\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj",
+      "projectUniqueName": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudServer\\CloudServer\\CloudServer.csproj",
       "projectName": "CloudServer",
-      "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj",
-      "packagesPath": "C:\\Users\\Rune\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\obj\\",
+      "projectPath": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudServer\\CloudServer\\CloudServer.csproj",
+      "packagesPath": "C:\\Users\\郭歆越\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudServer\\CloudServer\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Rune\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\郭歆越\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6251,6 +6256,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -6342,7 +6348,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   },

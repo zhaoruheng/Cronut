@@ -13,13 +13,13 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = CloudServer
-build_property.ProjectDir = C:\Users\Rune\Desktop\项目源代码\CloudServer\CloudServer\
+build_property.ProjectDir = C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码2.2\CloudServer\CloudServer\
 
-[C:/Users/Rune/Desktop/项目源代码/CloudServer/CloudServer/App.axaml]
+[C:/Users/郭歆越/Desktop/AF-Dedup项目/写到一半的代码/源代码2.2/CloudServer/CloudServer/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Rune/Desktop/项目源代码/CloudServer/CloudServer/Views/MainView.axaml]
+[C:/Users/郭歆越/Desktop/AF-Dedup项目/写到一半的代码/源代码2.2/CloudServer/CloudServer/Views/MainView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Rune/Desktop/项目源代码/CloudServer/CloudServer/Views/MainWindow.axaml]
+[C:/Users/郭歆越/Desktop/AF-Dedup项目/写到一半的代码/源代码2.2/CloudServer/CloudServer/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

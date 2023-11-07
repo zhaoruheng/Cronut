@@ -12,7 +12,9 @@
 
   
   <ItemGroup>
+    <None Remove="Assets\Images\MaxWindow.svg" />
     <None Remove="Assets\Images\MinWindow.svg" />
+    <None Remove="Assets\Images\NormWindow.svg" />
   </ItemGroup>
 
   
@@ -36,14 +38,17 @@
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
     <PackageReference Include="BouncyCastle" Version="1.8.9" />
+    <PackageReference Include="DevExpress.Data" Version="23.2.1-alpha-23255" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SkiaSharp" Version="2.88.6" />
+    <PackageReference Include="SkiaSharp.Extended" Version="2.0.0-preview.86" />
     <PackageReference Include="Svg.Skia" Version="1.0.0.3" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     <PackageReference Include="System.Reactive.Windows.Forms" Version="6.0.1-preview.1" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="System.Windows.Extensions" Version="8.0.0-rc.2.23479.6" />
   </ItemGroup>
-
+	
   <ItemGroup>
     <Reference Include="NetPublic">
       <HintPath>bin\Debug\NetPublic.dll</HintPath>

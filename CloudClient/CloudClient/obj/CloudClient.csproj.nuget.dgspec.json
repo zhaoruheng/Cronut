@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj": {}
+    "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient\\CloudClient.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj": {
+    "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient\\CloudClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj",
+        "projectUniqueName": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient\\CloudClient.csproj",
         "projectName": "CloudClient",
-        "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj",
-        "packagesPath": "C:\\Users\\Rune\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\obj\\",
+        "projectPath": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient\\CloudClient.csproj",
+        "packagesPath": "C:\\Users\\郭歆越\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Rune\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\郭歆越\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -76,9 +81,21 @@
               "target": "Package",
               "version": "[1.8.9, )"
             },
+            "DevExpress.Data": {
+              "target": "Package",
+              "version": "[23.2.1-alpha-23255, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+            },
+            "SkiaSharp": {
+              "target": "Package",
+              "version": "[2.88.6, )"
+            },
+            "SkiaSharp.Extended": {
+              "target": "Package",
+              "version": "[2.0.0-preview.86, )"
             },
             "Svg.Skia": {
               "target": "Package",
@@ -117,7 +134,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -278,6 +278,22 @@
           "lib/BouncyCastle.Crypto.dll": {}
         }
       },
+      "DevExpress.Data/23.2.1-alpha-23255": {
+        "type": "package",
+        "dependencies": {
+          "System.Drawing.Common": "4.7.2"
+        },
+        "compile": {
+          "lib/net6.0/DevExpress.Data.v23.2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/DevExpress.Data.v23.2.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "DynamicData/7.9.5": {
         "type": "package",
         "dependencies": {
@@ -682,7 +698,7 @@
           "lib/netstandard1.3/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.NETCore.Platforms/2.1.2": {
+      "Microsoft.NETCore.Platforms/3.1.4": {
         "type": "package",
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -698,6 +714,28 @@
         },
         "runtime": {
           "lib/netstandard1.0/_._": {}
+        }
+      },
+      "Microsoft.Win32.SystemEvents/4.7.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "3.1.0"
+        },
+        "compile": {
+          "ref/netstandard2.0/_._": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Win32.SystemEvents.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
         }
       },
       "Newtonsoft.Json/13.0.3": {
@@ -754,6 +792,18 @@
           "lib/net6.0/SkiaSharp.dll": {
             "related": ".pdb;.xml"
           }
+        }
+      },
+      "SkiaSharp.Extended/2.0.0-preview.86": {
+        "type": "package",
+        "dependencies": {
+          "SkiaSharp": "2.88.6"
+        },
+        "compile": {
+          "lib/netstandard2.0/SkiaSharp.Extended.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/SkiaSharp.Extended.dll": {}
         }
       },
       "SkiaSharp.HarfBuzz/2.88.6": {
@@ -997,6 +1047,31 @@
             "rid": "win"
           },
           "runtimes/win/lib/net7.0/System.Diagnostics.EventLog.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
+      "System.Drawing.Common/4.7.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "3.1.4",
+          "Microsoft.Win32.SystemEvents": "4.7.0"
+        },
+        "compile": {
+          "ref/netcoreapp3.0/System.Drawing.Common.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Drawing.Common.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/netcoreapp3.0/System.Drawing.Common.dll": {
+            "assetType": "runtime",
+            "rid": "unix"
+          },
+          "runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.dll": {
             "assetType": "runtime",
             "rid": "win"
           }
@@ -1890,6 +1965,23 @@
         "lib/BouncyCastle.Crypto.dll"
       ]
     },
+    "DevExpress.Data/23.2.1-alpha-23255": {
+      "sha512": "aVYM2lX+ROMHqxiGkFizMOotJ4XSw/4Fj/TLcM4yD3HchO24ty/YS6ULDHraPAP4/0oHC0/pMw1D8xnwbBkLjg==",
+      "type": "package",
+      "path": "devexpress.data/23.2.1-alpha-23255",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "devexpress.data.23.2.1-alpha-23255.nupkg.sha512",
+        "devexpress.data.nuspec",
+        "lib/net452/DevExpress.Data.v23.2.dll",
+        "lib/net452/DevExpress.Data.v23.2.xml",
+        "lib/net6.0/DevExpress.Data.v23.2.dll",
+        "lib/net6.0/DevExpress.Data.v23.2.xml",
+        "tools/VisualStudioToolsManifest.xml"
+      ]
+    },
     "DynamicData/7.9.5": {
       "sha512": "xFwVha7o3qUtVYxco5p+7Urcztc/m1gmaEUxOG0i7LNe+vfCfyb0ECAsT2FLm3zOPHb0g8s9qVu5LfPKfRNVng==",
       "type": "package",
@@ -2446,17 +2538,18 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "Microsoft.NETCore.Platforms/2.1.2": {
-      "sha512": "mOJy3M0UN+LUG21dLGMxaWZEP6xYpQEpLuvuEQBaownaX4YuhH6NmNUlN9si+vNkAS6dwJ//N1O4DmLf2CikVg==",
+    "Microsoft.NETCore.Platforms/3.1.4": {
+      "sha512": "9/y05/CuxE+j184Nr4KihhB9KcUkvGojmD4JV4Vt/mHhVZR+eOCD5WCM+CXye9K0OFMsaPXbN+IcaIpjgBGZmg==",
       "type": "package",
-      "path": "microsoft.netcore.platforms/2.1.2",
+      "path": "microsoft.netcore.platforms/3.1.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "Icon.png",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "lib/netstandard1.0/_._",
-        "microsoft.netcore.platforms.2.1.2.nupkg.sha512",
+        "microsoft.netcore.platforms.3.1.4.nupkg.sha512",
         "microsoft.netcore.platforms.nuspec",
         "runtime.json",
         "useSharedDesignerContext.txt",
@@ -2476,6 +2569,35 @@
         "microsoft.netcore.targets.1.1.3.nupkg.sha512",
         "microsoft.netcore.targets.nuspec",
         "runtime.json"
+      ]
+    },
+    "Microsoft.Win32.SystemEvents/4.7.0": {
+      "sha512": "mtVirZr++rq+XCDITMUdnETD59XoeMxSpLRIII7JRI6Yj0LEDiO1pPn0ktlnIj12Ix8bfvQqQDMMIF9wC98oCA==",
+      "type": "package",
+      "path": "microsoft.win32.systemevents/4.7.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Win32.SystemEvents.dll",
+        "lib/net461/Microsoft.Win32.SystemEvents.xml",
+        "lib/netstandard2.0/Microsoft.Win32.SystemEvents.dll",
+        "lib/netstandard2.0/Microsoft.Win32.SystemEvents.xml",
+        "microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+        "microsoft.win32.systemevents.nuspec",
+        "ref/net461/Microsoft.Win32.SystemEvents.dll",
+        "ref/net461/Microsoft.Win32.SystemEvents.xml",
+        "ref/net472/Microsoft.Win32.SystemEvents.dll",
+        "ref/net472/Microsoft.Win32.SystemEvents.xml",
+        "ref/netstandard2.0/Microsoft.Win32.SystemEvents.dll",
+        "ref/netstandard2.0/Microsoft.Win32.SystemEvents.xml",
+        "runtimes/win/lib/netcoreapp2.0/Microsoft.Win32.SystemEvents.dll",
+        "runtimes/win/lib/netcoreapp2.0/Microsoft.Win32.SystemEvents.xml",
+        "runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.dll",
+        "runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.xml",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "Newtonsoft.Json/13.0.3": {
@@ -2641,6 +2763,19 @@
         "lib/xamarinwatchos1.0/SkiaSharp.xml",
         "skiasharp.2.88.6.nupkg.sha512",
         "skiasharp.nuspec"
+      ]
+    },
+    "SkiaSharp.Extended/2.0.0-preview.86": {
+      "sha512": "+SnE/cXM71owGF+GYxhtj8M8xYzjMS36+fly3x0hzjwRkUht5oCaBBaVqkc//dutmj2M36ap8KMhuymV/EyQdQ==",
+      "type": "package",
+      "path": "skiasharp.extended/2.0.0-preview.86",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "lib/netstandard2.0/SkiaSharp.Extended.dll",
+        "skiasharp.extended.2.0.0-preview.86.nupkg.sha512",
+        "skiasharp.extended.nuspec"
       ]
     },
     "SkiaSharp.HarfBuzz/2.88.6": {
@@ -3131,6 +3266,46 @@
         "system.diagnostics.eventlog.7.0.0.nupkg.sha512",
         "system.diagnostics.eventlog.nuspec",
         "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Drawing.Common/4.7.2": {
+      "sha512": "I2y4KBK3VCvU/WqE2xv7NjQ67maXHttkFSHYKgU2evrG9Yqh0oFjfORXt5hZTk+BVjdyFo2h0/YQZsca33BGmg==",
+      "type": "package",
+      "path": "system.drawing.common/4.7.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net461/System.Drawing.Common.dll",
+        "lib/netstandard2.0/System.Drawing.Common.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net461/System.Drawing.Common.dll",
+        "ref/netcoreapp3.0/System.Drawing.Common.dll",
+        "ref/netcoreapp3.0/System.Drawing.Common.xml",
+        "ref/netstandard2.0/System.Drawing.Common.dll",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "runtimes/unix/lib/netcoreapp2.0/System.Drawing.Common.dll",
+        "runtimes/unix/lib/netcoreapp3.0/System.Drawing.Common.dll",
+        "runtimes/unix/lib/netcoreapp3.0/System.Drawing.Common.xml",
+        "runtimes/win/lib/netcoreapp2.0/System.Drawing.Common.dll",
+        "runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.dll",
+        "runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.xml",
+        "system.drawing.common.4.7.2.nupkg.sha512",
+        "system.drawing.common.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "System.Dynamic.Runtime/4.3.0": {
@@ -4817,7 +4992,10 @@
       "Avalonia.Svg.Skia >= 11.0.0.3",
       "Avalonia.Themes.Fluent >= 11.0.2",
       "BouncyCastle >= 1.8.9",
+      "DevExpress.Data >= 23.2.1-alpha-23255",
       "Newtonsoft.Json >= 13.0.3",
+      "SkiaSharp >= 2.88.6",
+      "SkiaSharp.Extended >= 2.0.0-preview.86",
       "Svg.Skia >= 1.0.0.3",
       "System.Configuration.ConfigurationManager >= 7.0.0",
       "System.Reactive.Windows.Forms >= 6.0.1-preview.1",
@@ -4826,19 +5004,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Rune\\.nuget\\packages\\": {}
+    "C:\\Users\\郭歆越\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj",
+      "projectUniqueName": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient\\CloudClient.csproj",
       "projectName": "CloudClient",
-      "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj",
-      "packagesPath": "C:\\Users\\Rune\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\obj\\",
+      "projectPath": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient\\CloudClient.csproj",
+      "packagesPath": "C:\\Users\\郭歆越\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Rune\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\郭歆越\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4846,6 +5029,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4900,9 +5084,21 @@
             "target": "Package",
             "version": "[1.8.9, )"
           },
+          "DevExpress.Data": {
+            "target": "Package",
+            "version": "[23.2.1-alpha-23255, )"
+          },
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
+          },
+          "SkiaSharp": {
+            "target": "Package",
+            "version": "[2.88.6, )"
+          },
+          "SkiaSharp.Extended": {
+            "target": "Package",
+            "version": "[2.0.0-preview.86, )"
           },
           "Svg.Skia": {
             "target": "Package",
@@ -4941,7 +5137,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   },

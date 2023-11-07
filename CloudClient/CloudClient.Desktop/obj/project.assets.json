@@ -391,6 +391,22 @@
           "lib/BouncyCastle.Crypto.dll": {}
         }
       },
+      "DevExpress.Data/23.2.1-alpha-23255": {
+        "type": "package",
+        "dependencies": {
+          "System.Drawing.Common": "4.7.2"
+        },
+        "compile": {
+          "lib/net6.0/DevExpress.Data.v23.2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/DevExpress.Data.v23.2.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "DynamicData/7.9.5": {
         "type": "package",
         "dependencies": {
@@ -889,6 +905,18 @@
           "lib/net6.0/SkiaSharp.dll": {
             "related": ".pdb;.xml"
           }
+        }
+      },
+      "SkiaSharp.Extended/2.0.0-preview.86": {
+        "type": "package",
+        "dependencies": {
+          "SkiaSharp": "2.88.6"
+        },
+        "compile": {
+          "lib/netstandard2.0/SkiaSharp.Extended.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/SkiaSharp.Extended.dll": {}
         }
       },
       "SkiaSharp.HarfBuzz/2.88.6": {
@@ -1718,7 +1746,10 @@
           "Avalonia.Svg.Skia": "11.0.0.3",
           "Avalonia.Themes.Fluent": "11.0.2",
           "BouncyCastle": "1.8.9",
+          "DevExpress.Data": "23.2.1-alpha-23255",
           "Newtonsoft.Json": "13.0.3",
+          "SkiaSharp": "2.88.6",
+          "SkiaSharp.Extended": "2.0.0-preview.86",
           "Svg.Skia": "1.0.0.3",
           "System.Configuration.ConfigurationManager": "7.0.0",
           "System.Reactive.Windows.Forms": "6.0.1-preview.1",
@@ -2222,6 +2253,23 @@
         "bouncycastle.1.8.9.nupkg.sha512",
         "bouncycastle.nuspec",
         "lib/BouncyCastle.Crypto.dll"
+      ]
+    },
+    "DevExpress.Data/23.2.1-alpha-23255": {
+      "sha512": "aVYM2lX+ROMHqxiGkFizMOotJ4XSw/4Fj/TLcM4yD3HchO24ty/YS6ULDHraPAP4/0oHC0/pMw1D8xnwbBkLjg==",
+      "type": "package",
+      "path": "devexpress.data/23.2.1-alpha-23255",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "devexpress.data.23.2.1-alpha-23255.nupkg.sha512",
+        "devexpress.data.nuspec",
+        "lib/net452/DevExpress.Data.v23.2.dll",
+        "lib/net452/DevExpress.Data.v23.2.xml",
+        "lib/net6.0/DevExpress.Data.v23.2.dll",
+        "lib/net6.0/DevExpress.Data.v23.2.xml",
+        "tools/VisualStudioToolsManifest.xml"
       ]
     },
     "DynamicData/7.9.5": {
@@ -3004,6 +3052,19 @@
         "lib/xamarinwatchos1.0/SkiaSharp.xml",
         "skiasharp.2.88.6.nupkg.sha512",
         "skiasharp.nuspec"
+      ]
+    },
+    "SkiaSharp.Extended/2.0.0-preview.86": {
+      "sha512": "+SnE/cXM71owGF+GYxhtj8M8xYzjMS36+fly3x0hzjwRkUht5oCaBBaVqkc//dutmj2M36ap8KMhuymV/EyQdQ==",
+      "type": "package",
+      "path": "skiasharp.extended/2.0.0-preview.86",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "lib/netstandard2.0/SkiaSharp.Extended.dll",
+        "skiasharp.extended.2.0.0-preview.86.nupkg.sha512",
+        "skiasharp.extended.nuspec"
       ]
     },
     "SkiaSharp.HarfBuzz/2.88.6": {
@@ -5319,19 +5380,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Rune\\.nuget\\packages\\": {}
+    "C:\\Users\\郭歆越\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient.Desktop\\CloudClient.Desktop.csproj",
+      "projectUniqueName": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient.Desktop\\CloudClient.Desktop.csproj",
       "projectName": "CloudClient.Desktop",
-      "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient.Desktop\\CloudClient.Desktop.csproj",
-      "packagesPath": "C:\\Users\\Rune\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient.Desktop\\obj\\",
+      "projectPath": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient.Desktop\\CloudClient.Desktop.csproj",
+      "packagesPath": "C:\\Users\\郭歆越\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient.Desktop\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Rune\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\郭歆越\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5339,14 +5405,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj": {
-              "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj"
+            "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient\\CloudClient.csproj": {
+              "projectPath": "C:\\Users\\郭歆越\\Desktop\\AF-Dedup项目\\写到一半的代码\\源代码2.2\\CloudClient\\CloudClient\\CloudClient.csproj"
             }
           }
         }
@@ -5386,7 +5453,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   },

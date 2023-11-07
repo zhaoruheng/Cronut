@@ -6,6 +6,9 @@ using Avalonia.Interactivity;
 using CloudServer.ViewModels;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Notifications;
+using Avalonia.Input;
+using LiveChartsCore.Measure;
+using Avalonia;
 
 namespace CloudServer.Views;
 
@@ -15,10 +18,20 @@ public partial class MainWindow : Window
     private readonly ServiceManager serviceManager;
     public static ListBox lb;
     private WindowNotificationManager? _manager;
+    private bool isDragging = false;
+    private Point startPosition;
+
 
     public MainWindow()
     {
         InitializeComponent();
+
+        DragDrop.SetAllowDrop(this, true); // 启用拖放
+
+        // 订阅拖放事件
+        this.PointerPressed += OnPointerPressed;
+        this.PointerMoved += OnPointerMoved;
+        this.PointerReleased += OnPointerReleased;
 
         connectionString = ConfigurationManager.ConnectionStrings["FirstConnection"].ToString();
         int listenPort = int.Parse(ConfigurationManager.AppSettings["Port"].ToString());
@@ -29,6 +42,34 @@ public partial class MainWindow : Window
         lb = this.FindControl<ListBox>("DatailedParameter");
     }
 
+    private void OnPointerPressed(object sender, PointerPressedEventArgs e)
+    {
+        if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+        {
+            isDragging = true;
+            startPosition = e.GetPosition(this);
+        }
+    }
+
+    private void OnPointerMoved(object sender, PointerEventArgs e)
+    {
+        if (isDragging)
+        {
+            var currentPosition = e.GetPosition(this);
+            var offset = currentPosition - startPosition;
+            this.Position = new PixelPoint(this.Position.X + (int)offset.X, this.Position.Y + (int)offset.Y);
+            startPosition = currentPosition;
+        }
+    }
+
+    private void OnPointerReleased(object sender, PointerReleasedEventArgs e)
+    {
+        if (isDragging)
+        {
+            isDragging = false;
+        }
+    }
+
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -37,6 +78,7 @@ public partial class MainWindow : Window
             MaxItems = 3
         };
     }
+
 
     private void OnRealTimeInfoItemAdded(string item)
     {
@@ -62,7 +104,7 @@ public partial class MainWindow : Window
     }
 
     //启动按钮
-    public void Start_Click(object sender, RoutedEventArgs e)   
+    public void Start_Click(object sender, RoutedEventArgs e)
     {
         serviceManager.Start();
         _ = RealTimeInfo.Items.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  服务器启动成功");
@@ -108,8 +150,24 @@ public partial class MainWindow : Window
     }
 
     //最小化
-    private void MinButton_Click(object sender,RoutedEventArgs e)
+    private void MinButton_Click(object sender, RoutedEventArgs e)
     {
         WindowState = WindowState.Minimized;
+    }
+
+    //最大化
+    private void MaxButton_Click(object sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState.Maximized;
+        MaxButton.IsVisible = false;
+        NormButton.IsVisible = true;
+    }
+
+    //恢复
+    private void NormButton_Click(object sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState.Normal;
+        NormButton.IsVisible = false;
+        MaxButton.IsVisible = true;
     }
 }

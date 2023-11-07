@@ -303,6 +303,17 @@
           }
         }
       },
+      "DevExpress.Data/23.2.1-alpha-23255": {
+        "dependencies": {
+          "System.Drawing.Common": "6.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/DevExpress.Data.v23.2.dll": {
+            "assemblyVersion": "23.2.1.0",
+            "fileVersion": "23.2.1.23255"
+          }
+        }
+      },
       "DynamicData/7.9.5": {
         "dependencies": {
           "System.Reactive": "6.0.1-preview.1"
@@ -691,6 +702,17 @@
           "lib/net6.0/SkiaSharp.dll": {
             "assemblyVersion": "2.88.0.0",
             "fileVersion": "2.88.6.0"
+          }
+        }
+      },
+      "SkiaSharp.Extended/2.0.0-preview.86": {
+        "dependencies": {
+          "SkiaSharp": "2.88.6"
+        },
+        "runtime": {
+          "lib/netstandard2.0/SkiaSharp.Extended.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
           }
         }
       },
@@ -1181,7 +1203,10 @@
           "Avalonia.Svg.Skia": "11.0.0.3",
           "Avalonia.Themes.Fluent": "11.0.2",
           "BouncyCastle": "1.8.9",
+          "DevExpress.Data": "23.2.1-alpha-23255",
           "Newtonsoft.Json": "13.0.3",
+          "SkiaSharp": "2.88.6",
+          "SkiaSharp.Extended": "2.0.0-preview.86",
           "Svg.Skia": "1.0.0.3",
           "System.Configuration.ConfigurationManager": "7.0.0",
           "System.Reactive.Windows.Forms": "6.0.1-preview.1",
@@ -1348,6 +1373,13 @@
       "path": "bouncycastle/1.8.9",
       "hashPath": "bouncycastle.1.8.9.nupkg.sha512"
     },
+    "DevExpress.Data/23.2.1-alpha-23255": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aVYM2lX+ROMHqxiGkFizMOotJ4XSw/4Fj/TLcM4yD3HchO24ty/YS6ULDHraPAP4/0oHC0/pMw1D8xnwbBkLjg==",
+      "path": "devexpress.data/23.2.1-alpha-23255",
+      "hashPath": "devexpress.data.23.2.1-alpha-23255.nupkg.sha512"
+    },
     "DynamicData/7.9.5": {
       "type": "package",
       "serviceable": true,
@@ -1494,6 +1526,13 @@
       "sha512": "sha512-wdfeBAQrEQCbJIRgAiargzP1Uy+0grZiG4CSgBnhAgcJTsPzlifIaO73JRdwIlT3TyBoeU9jEqzwFUhl4hTYnQ==",
       "path": "skiasharp/2.88.6",
       "hashPath": "skiasharp.2.88.6.nupkg.sha512"
+    },
+    "SkiaSharp.Extended/2.0.0-preview.86": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+SnE/cXM71owGF+GYxhtj8M8xYzjMS36+fly3x0hzjwRkUht5oCaBBaVqkc//dutmj2M36ap8KMhuymV/EyQdQ==",
+      "path": "skiasharp.extended/2.0.0-preview.86",
+      "hashPath": "skiasharp.extended.2.0.0-preview.86.nupkg.sha512"
     },
     "SkiaSharp.HarfBuzz/2.88.6": {
       "type": "package",
