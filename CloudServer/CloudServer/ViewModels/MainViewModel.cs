@@ -139,30 +139,30 @@ public class MainViewModel : ViewModelBase
             {
                 _userList = value;
                 OnPropertyChanged(nameof(UserList));
+                }
             }
         }
-    }
 
-    public ObservableCollection<UpFile> UpFileList
-    {
-        get => _upFileList;
-        set
+        public ObservableCollection<UpFile> UpFileList
         {
-            if (_upFileList != value)
+            get => _upFileList;
+            set
             {
-                _upFileList = value;
-                OnPropertyChanged(nameof(UpFileList));
-            }
+                if (_upFileList != value)
+                {
+                    _upFileList = value;
+                    OnPropertyChanged(nameof(UpFileList));
+                }
         }
-    }
+        }
 
-    private void GetRealTimeFileNum(object state)
-    {
-        string con = ConfigurationManager.ConnectionStrings["FirstConnection"].ToString();
-        DataBaseManager dm = new DataBaseManager(con);
-        int realTimeFileNum = dm.GetUpfileNum();
+        private void GetRealTimeFileNum(object state)
+        {
+            string con = ConfigurationManager.ConnectionStrings["FirstConnection"].ToString();
+            DataBaseManager dm = new DataBaseManager(con);
+            int realTimeFileNum = dm.GetUpfileNum();
 
-        Dispatcher.UIThread.Invoke(() =>
+            Dispatcher.UIThread.Invoke(() =>
         {
             MainChartValues1.RemoveAt(0);
             MainChartValues1.Add(new ObservableValue(realTimeFileNum));

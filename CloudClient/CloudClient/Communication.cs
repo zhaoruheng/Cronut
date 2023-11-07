@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using NetPublic;
 using System.Text;
 using System.Diagnostics;
+using log4net;
 
 namespace Cloud
 {
@@ -18,6 +19,7 @@ namespace Cloud
         protected TcpClient tcpClient;             //子类中给tcpClient赋值
         protected byte[] message;                  //子类Make方法后存储message
         protected NetworkStream nstream;           //子类中指定stream
+        private static ILog log = LogManager.GetLogger("Log");
 
         IPAddress targetIP;
         int targetPort;
@@ -34,8 +36,16 @@ namespace Cloud
 #pragma warning disable SYSLIB0011
             bf.Serialize(ms, np);
 #pragma warning disable SYSLIB0011
-
-            nstream.Write(ms.GetBuffer(), 0, (int)ms.Length);
+            try
+            {
+                nstream.Write(ms.GetBuffer(), 0, (int)ms.Length);
+            }
+            catch (Exception e)
+            {
+                //连接中断
+                Debug.WriteLine(e.Message);
+                log.Error("连接中断");
+            }
             np = null;
         }
 

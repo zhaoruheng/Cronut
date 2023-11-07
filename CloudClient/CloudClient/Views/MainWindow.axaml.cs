@@ -9,11 +9,11 @@ using System.Configuration;
 using System.Diagnostics;
 using Avalonia.Markup.Xaml;
 using Avalonia;
-using Avalonia.Media.Imaging;
-using SkiaSharp.Extended;
 using SkiaSharp.Extended;
 using System.IO;
 using DevExpress.Utils.Svg;
+using log4net;
+using DevExpress.Utils.About;
 
 namespace CloudClient.Views;
 
@@ -29,6 +29,8 @@ public partial class MainWindow : Window
     private bool isPasswordVisible = false;
     private bool isPasswordVisible1 = false;
     private bool isPasswordVisible2 = false;
+
+    private static ILog log = LogManager.GetLogger("Test");
 
 
     public MainWindow()
@@ -106,6 +108,14 @@ public partial class MainWindow : Window
         //处理用户名和密码
         string userName = UserNameBox.Text;
         string userPass = PasswordBox.Text;
+
+        if (userName == null || userPass == null)
+        {
+            LabelProcess.Content = "⚠用户名或密码为空";
+            log.Error("用户名或密码为空");
+            return;
+        }
+
         byte status = CheckInput(userName, userPass);
 
         if(status == NetPublic.DefindedCode.OK)
@@ -117,6 +127,7 @@ public partial class MainWindow : Window
             catch
             {
                 LabelProcess.Content= "⚠请检查网络连接";
+                log.Error("网络连接失败");
                 clientManager = null;
                 return;
             }
@@ -126,6 +137,8 @@ public partial class MainWindow : Window
                 case NetPublic.DefindedCode.LOGSUCCESS:
                     LabelProcess.Content = "登录成功 正在同步...";
 
+                    log.Info("登录成功");
+
                     ClientWindow clientWindow = new ClientWindow(clientManager);
                     clientWindow.Show();
                     this.Close();
@@ -133,10 +146,17 @@ public partial class MainWindow : Window
 
                 case NetPublic.DefindedCode.PASSERROR:
                     LabelProcess.Content = "⚠密码错误";
+                    log.Error("密码错误");
                     break;
 
                 case NetPublic.DefindedCode.USERMISS:
                     LabelProcess.Content = "⚠用户不存在";
+                    log.Error("用户不存在");
+                    break;
+
+                case NetPublic.DefindedCode.ERROR:
+                    LabelProcess.Content = "⚠用户重复登录";
+                    log.Error("用户重复登录");
                     break;
 
                 default:
@@ -146,10 +166,12 @@ public partial class MainWindow : Window
         else if (status == NetPublic.DefindedCode.TOOLONG)
         {
             LabelProcess.Content = "⚠输入过长";
+            log.Error("输入过长");
         }
         else if(status == NetPublic.DefindedCode.ERROR)
         {
             LabelProcess.Content = "⚠用户名或密码为空";
+            log.Error("用户名或密码为空");
         }
     }
 
@@ -178,6 +200,12 @@ public partial class MainWindow : Window
 
         string userName = UserNameBoxSignUp.Text;
         string userPass = PasswordBoxSignUp.Text;
+
+        if(userName==null || userPass==null)
+        {
+            LabelProcessSignUp.Content = "⚠用户名或密码为空";
+            return;
+        }
 
         byte status = CheckInput(userName, userPass);
 

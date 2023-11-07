@@ -468,3 +468,7 @@ C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码2.2\Clo
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码2.2\CloudClient\CloudClient.Desktop\obj\Debug\net7.0\ref\CloudClient.Desktop.dll
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码2.2\CloudClient\CloudClient.Desktop\bin\Debug\net7.0\SkiaSharp.Extended.dll
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码2.2\CloudClient\CloudClient.Desktop\bin\Debug\net7.0\DevExpress.Data.v23.2.dll
+C:\Users\Rune\Desktop\项目源代码\CloudClient\CloudClient.Desktop\bin\Debug\net7.0\DevExpress.Data.v23.2.dll
+C:\Users\Rune\Desktop\项目源代码\CloudClient\CloudClient.Desktop\bin\Debug\net7.0\SkiaSharp.Extended.dll
+C:\Users\Rune\Desktop\项目源代码\CloudClient\CloudClient.Desktop\bin\Debug\net7.0\log4net.dll
+C:\Users\Rune\Desktop\项目源代码\CloudClient\CloudClient.Desktop\bin\Debug\net7.0\log4net.config

@@ -401,6 +401,17 @@
           }
         }
       },
+      "log4net/2.0.15": {
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "7.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/log4net.dll": {
+            "assemblyVersion": "2.0.15.0",
+            "fileVersion": "2.0.15.0"
+          }
+        }
+      },
       "MicroCom.Runtime/0.11.0": {
         "runtime": {
           "lib/net5.0/MicroCom.Runtime.dll": {
@@ -1211,7 +1222,8 @@
           "System.Configuration.ConfigurationManager": "7.0.0",
           "System.Reactive.Windows.Forms": "6.0.1-preview.1",
           "System.Runtime": "4.3.1",
-          "System.Windows.Extensions": "8.0.0-rc.2.23479.6"
+          "System.Windows.Extensions": "8.0.0-rc.2.23479.6",
+          "log4net": "2.0.15"
         },
         "runtime": {
           "CloudClient.dll": {}
@@ -1428,6 +1440,13 @@
       "sha512": "sha512-ulEewLMk+dNmbmpy15ny/YusI6JNUWqchF080TV2jgfFBXPXjWm767JleDi/S7hp8eDeEN6GYIIxpvNr5fLvIw==",
       "path": "harfbuzzsharp.nativeassets.win32/7.3.0",
       "hashPath": "harfbuzzsharp.nativeassets.win32.7.3.0.nupkg.sha512"
+    },
+    "log4net/2.0.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GahnO9ZgFka+xYcFwAfIFjW+k86P2nxFoaEpH6t3v4hiGj7tv2ksVZphxCVIHmJxoySS0HeU3dgCW+bSCcfD0A==",
+      "path": "log4net/2.0.15",
+      "hashPath": "log4net.2.0.15.nupkg.sha512"
     },
     "MicroCom.Runtime/0.11.0": {
       "type": "package",

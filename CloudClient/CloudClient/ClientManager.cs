@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using log4net;
 using NetPublic;
 
 namespace Cloud
@@ -22,6 +23,7 @@ namespace Cloud
         List<string> upFileList;    //上传文件列表
         List<string> downFileList;  //下载文件列表
         FileInfoList fileInfoList;
+        private static ILog log = LogManager.GetLogger("Log");
 
         //构造函数
         public ClientManager(string ip, int p)

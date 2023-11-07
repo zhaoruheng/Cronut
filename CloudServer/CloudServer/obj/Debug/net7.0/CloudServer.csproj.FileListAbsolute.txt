@@ -58,3 +58,4 @@ C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码2.2\Clo
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码2.2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.pdb
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码2.2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.CopyComplete
 C:\Users\郭歆越\Desktop\AF-Dedup项目\写到一半的代码\源代码2.2\CloudServer\CloudServer\obj\Debug\net7.0\ref\CloudServer.dll
+C:\Users\Rune\Desktop\项目源代码\CloudServer\CloudServer\bin\Debug\net7.0\log4net.config

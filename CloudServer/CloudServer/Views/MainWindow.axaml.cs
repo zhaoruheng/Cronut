@@ -9,6 +9,7 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using LiveChartsCore.Measure;
 using Avalonia;
+using log4net;
 
 namespace CloudServer.Views;
 
@@ -20,6 +21,8 @@ public partial class MainWindow : Window
     private WindowNotificationManager? _manager;
     private bool isDragging = false;
     private Point startPosition;
+
+    private static ILog log = LogManager.GetLogger("Log");
 
 
     public MainWindow()
@@ -40,6 +43,8 @@ public partial class MainWindow : Window
         serviceManager.RealTimeItemAdded += OnRealTimeInfoItemAdded;
 
         lb = this.FindControl<ListBox>("DatailedParameter");
+
+
     }
 
     private void OnPointerPressed(object sender, PointerPressedEventArgs e)
@@ -101,6 +106,8 @@ public partial class MainWindow : Window
         SetAppSettingConf("initTag", "1");
         InitializeButton.IsEnabled = false;
         InitializeButton.Content = "Initialized";
+
+        log.Info("服务器初始化");
     }
 
     //启动按钮
@@ -108,6 +115,8 @@ public partial class MainWindow : Window
     {
         serviceManager.Start();
         _ = RealTimeInfo.Items.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  服务器启动成功");
+
+        log.Info("服务器启动成功");
 
         StartButton.IsEnabled = false;
         StartButton.Content = "Started";

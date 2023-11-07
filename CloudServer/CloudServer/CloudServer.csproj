@@ -26,6 +26,7 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
     <PackageReference Include="LiveCharts" Version="0.9.7" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc1.2" />
+    <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="Svg.Skia" Version="1.0.0.3" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0-rc.2.23479.6" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
@@ -37,5 +38,11 @@
     <Reference Include="NetPublic">
       <HintPath>bin\Debug\NetPublic.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

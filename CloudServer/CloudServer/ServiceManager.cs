@@ -8,6 +8,7 @@ using NetPublic;
 using CloudServer.Views;
 using Avalonia.Threading;
 using System.Diagnostics;
+using log4net;
 
 namespace Cloud
 {
@@ -21,6 +22,8 @@ namespace Cloud
         private const int reqLength = 256;
         public static HashSet<string> onlineUser = new();
         public event Action<string> RealTimeItemAdded;  //Real time info更新
+
+        private static ILog log = LogManager.GetLogger("Log");
 
         public ServiceManager(int p, string con)  //以端口号为参数的构造函数
         {
@@ -53,6 +56,8 @@ namespace Cloud
                 }
             }
             AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  云端初始化完成");
+
+            log.Info("云端初始化完成");
         }
 
         public void Start()   //启动
@@ -68,6 +73,7 @@ namespace Cloud
             catch (Exception ex)
             {
                 //MessageBox.Show("启动失败，检查端口是否被占用。错误信息： \r\n" + ex.ToString());
+                log.Error("启动失败： " + ex.ToString());
             }
         }
 
@@ -131,6 +137,7 @@ namespace Cloud
                 case DefindedCode.GETLIST:
                     serverComHelper.SendFileList(GetListRequest(np.userName));
                     AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  拉取用户" + np.userName + "文件列表");
+                    log.Info("拉取用户" + np.userName + "文件列表");
                     break;
 
                 case DefindedCode.UPLOAD:
@@ -146,10 +153,12 @@ namespace Cloud
                     {
                         fc.FileUpload();
                         AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  用户" + np.userName + "上传文件" + np.fileName + "完成");
+                        log.Info("用户" + np.userName + "上传文件" + np.fileName + "完成");
                     }
                     catch (Exception e)
                     {
                         AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  用户" + np.userName + "上传文件" + np.fileName + "失败");
+                        log.Error("用户" + np.userName + "上传文件" + np.fileName + "失败");
                         Console.WriteLine(e);
                         break;
                     }
@@ -174,6 +183,7 @@ namespace Cloud
                     fc2.FileDownload();
 
                     AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  用户" + np.userName + "下载文件" + np.fileName + "完成");
+                    log.Info("用户" + np.userName + "下载文件" + np.fileName + "完成");
                     break;
 
                 case DefindedCode.DELETE:
@@ -181,6 +191,7 @@ namespace Cloud
                     serverComHelper.MakeResponsePacket(res);
                     serverComHelper.SendMsg();
                     AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  用户" + np.userName + "删除文件" + np.fileName + "完成");
+                    log.Info("用户" + np.userName + "删除文件" + np.fileName + "完成");
                     break;
 
                 case DefindedCode.RENAME:
@@ -188,6 +199,7 @@ namespace Cloud
                     serverComHelper.MakeResponsePacket(res);
                     serverComHelper.SendMsg();
                     AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  用户" + np.userName + "重命名文件" + np.fileName + "完成");
+                    log.Info("用户" + np.userName + "重命名文件" + np.fileName + "完成");
                     break;
 
                 default:
@@ -216,11 +228,16 @@ namespace Cloud
             DataBaseManager dm = new(connectionString);
             int result = dm.LoginAuthentication(userName, userPass);
 
-            if (result > 0)  //登录成功
+            if (result > 0&&CheckLogin(userName)==false)  //登录成功
             {
                 _ = onlineUser.Add(userName);
                 AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  用户" + userName + "登录");
+                log.Info("用户" + userName + "登录");
                 return DefindedCode.LOGSUCCESS;
+            }
+            else if(CheckLogin(userName)==true)
+            {
+                return DefindedCode.ERROR ;
             }
             else if (result == 0)
             {
@@ -242,6 +259,7 @@ namespace Cloud
         {
             _ = onlineUser.Remove(userName);
             AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  用户" + userName + "注销");
+            log.Info("用户" + userName + "注销");
             return DefindedCode.OK;
         }
 

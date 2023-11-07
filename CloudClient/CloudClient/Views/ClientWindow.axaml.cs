@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading;
 using Avalonia.Input;
 using System.Diagnostics;
+using log4net;
 
 namespace CloudClient.Views
 {
@@ -23,6 +24,8 @@ namespace CloudClient.Views
         private bool isDragging = false;
         private Point startPosition;
         private int selectorFileType = 0;   //0主页 1图片 2文档 3音频视频 4其他
+        private static ILog log = LogManager.GetLogger("Log");
+
         public ClientWindow(ClientManager clientManager)
         {
             InitializeComponent();
@@ -45,6 +48,7 @@ namespace CloudClient.Views
             if (!string.IsNullOrEmpty(workPath) && Directory.Exists(workPath) && !string.IsNullOrEmpty(userName) && string.Equals(userName, clientManager.getusername()))
             {
                 UploadingFileList.Items.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ": 用户已选择文件夹");
+                log.Info("用户已选择文件夹");
 
                 ShowFilePath.Watermark = workPath;
                 ShowFilePath.IsEnabled = false;
@@ -52,12 +56,14 @@ namespace CloudClient.Views
                 ConfirmButton.IsEnabled = false;
 
                 UploadingFileList.Items.Add("云端文件同步中...");
+                log.Info("云端文件同步");
 
                 Thread th = new Thread(SyncTh);
                 th.IsBackground = true;
                 th.Start();
 
                 UploadingFileList.Items.Add("进入文件夹监控...");
+                log.Info("进入文件夹监控");
                 fw = new FileWatcher(workPath, "*.*");
                 fw.SendEvent += new FileWatcher.DelegateEventHander(clientManager.AnalysesEvent);
                 fw.Start();
