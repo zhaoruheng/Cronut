@@ -16,7 +16,7 @@ namespace Cloud
     //ClientComHelper继承了Communication抽象类
     {
         IPAddress targetIP;
-        FileCrypto_2 fc;
+        FileCrypto fc;
         int targetPort;
         string workPath;
 
@@ -93,7 +93,7 @@ namespace Cloud
         public void SetCryptor(string key)
         {
             //FileCrypto是一个类，在FileCrypto.cs文件中
-            fc = new FileCrypto_2("./tmp/", workPath, key);
+            fc = new FileCrypto("./tmp/", workPath, key);
         }
 
         //Communication类中重写SendFile

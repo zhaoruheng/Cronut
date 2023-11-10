@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer.Desktop\\CloudServer.Desktop.csproj": {}
+    "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer.Desktop\\CloudServer.Desktop.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer.Desktop\\CloudServer.Desktop.csproj": {
+    "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer.Desktop\\CloudServer.Desktop.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer.Desktop\\CloudServer.Desktop.csproj",
+        "projectUniqueName": "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer.Desktop\\CloudServer.Desktop.csproj",
         "projectName": "CloudServer.Desktop",
-        "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer.Desktop\\CloudServer.Desktop.csproj",
-        "packagesPath": "C:\\Users\\Rune\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer.Desktop\\obj\\",
+        "projectPath": "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer.Desktop\\CloudServer.Desktop.csproj",
+        "packagesPath": "C:\\Users\\郭歆越\\.nuget\\packages\\",
+        "outputPath": "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer.Desktop\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Rune\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\郭歆越\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,14 +26,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj": {
-                "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj"
+              "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer\\CloudServer.csproj": {
+                "projectPath": "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer\\CloudServer.csproj"
               }
             }
           }
@@ -65,21 +70,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj": {
+    "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer\\CloudServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj",
+        "projectUniqueName": "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer\\CloudServer.csproj",
         "projectName": "CloudServer",
-        "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj",
-        "packagesPath": "C:\\Users\\Rune\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\obj\\",
+        "projectPath": "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer\\CloudServer.csproj",
+        "packagesPath": "C:\\Users\\郭歆越\\.nuget\\packages\\",
+        "outputPath": "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Rune\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\郭歆越\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -87,6 +96,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -132,6 +142,10 @@
             "Avalonia.Themes.Fluent": {
               "target": "Package",
               "version": "[11.0.2, )"
+            },
+            "BouncyCastle": {
+              "target": "Package",
+              "version": "[1.8.9, )"
             },
             "LiveCharts": {
               "target": "Package",
@@ -182,7 +196,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

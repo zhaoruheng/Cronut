@@ -5,7 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="CloudClient.Views.FileButton">
 
-	<Button x:Name="ThisFileButton" Height="80" Width="70" Background="Transparent" 
+	<Button x:Name="ThisFileButton" Height="80" Width="90" Background="Transparent" 
 			ToolTip.Tip="{Binding ElementName=FileButtonTextBlock,Path=Text}" 
 			Click = "OpenFile_Click">
 		<Button.Styles>
@@ -17,7 +17,8 @@
 		<StackPanel Width="50">
 			<Image Source="{SvgImage /Assets/Images/FileIcon.svg}"></Image>
 			<TextBlock x:Name="FileButtonTextBlock" HorizontalAlignment="Center"
-					   Margin="0,2" Text="hajhmhcaha.txt" FontSize="10"></TextBlock>
+					   Margin="0,2" Text="hajhmhcaha.txt" FontSize="10" Width="70" 
+					   TextAlignment="Center"/>
 		</StackPanel>
 	</Button>
 </UserControl>

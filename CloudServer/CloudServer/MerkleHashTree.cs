@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+using Org.BouncyCastle.Crypto.Digests;
 
 namespace Cloud
 {
@@ -33,7 +33,7 @@ namespace Cloud
             //先把叶子节点全部入队
             for (int i = 0; i < leafNodeNum; ++i)
             {
-                string content = ByteArrayToHexString(CalculateHash(Encoding.UTF8.GetBytes(data[i] + salt)));
+                string content = ByteArrayToHexString(CalculateSM3Hash(Encoding.UTF8.GetBytes(data[i] + salt)));
                 hashQueue.Enqueue(content);
                 hashList.Add(content);
             }
@@ -62,7 +62,7 @@ namespace Cloud
                     string left = hashQueue.Dequeue();
                     string right = hashQueue.Dequeue();
                     string combined = left + right + ByteArrayToHexString(Encoding.UTF8.GetBytes(salt));    //左孩子+右孩子+salt
-                    string content = ByteArrayToHexString(CalculateHash(HexStringToByteArray(combined)));  //进行哈希得到该节点的内容
+                    string content = ByteArrayToHexString(CalculateSM3Hash(HexStringToByteArray(combined)));  //进行哈希得到该节点的内容
 
                     newQueue.Enqueue(content);           //将新节点入队
                     hashList.Add(content);               //加入哈希表中
@@ -128,11 +128,13 @@ namespace Cloud
             return rootNodeVal;
         }
 
-        public static byte[] CalculateHash(byte[] data)
+        public static byte[] CalculateSM3Hash(byte[] input)
         {
-            SHA256 sha256 = SHA256.Create();
-            byte[] hash = sha256.ComputeHash(data);
-            return hash;
+            SM3Digest digest = new SM3Digest();
+            digest.BlockUpdate(input, 0, input.Length);
+            byte[] result = new byte[digest.GetDigestSize()];
+            digest.DoFinal(result, 0);
+            return result;
         }
 
         public static byte[] HexStringToByteArray(string hex)
@@ -159,7 +161,7 @@ namespace Cloud
 
             for (int i = 0; i < leafNodeNum; ++i)
             {
-                string content = ByteArrayToHexString(CalculateHash(Encoding.UTF8.GetBytes(data[i] + salt)));
+                string content = ByteArrayToHexString(CalculateSM3Hash(Encoding.UTF8.GetBytes(data[i] + salt)));
                 hashQueue.Enqueue(content);
                 hashList.Add(content);
             }
@@ -195,7 +197,7 @@ namespace Cloud
                     string left = hashQueue.Dequeue();
                     string right = hashQueue.Dequeue();
                     string combined = left + right + ByteArrayToHexString(Encoding.UTF8.GetBytes(salt));    //左孩子+右孩子+salt
-                    string content = ByteArrayToHexString(CalculateHash(HexStringToByteArray(combined)));  //进行哈希得到该节点的内容
+                    string content = ByteArrayToHexString(CalculateSM3Hash(HexStringToByteArray(combined)));  //进行哈希得到该节点的内容
 
                     newQueue.Enqueue(content);           //将新节点入队
                     hashList.Add(content);               //加入哈希表中
@@ -221,12 +223,12 @@ namespace Cloud
         public static string GenerateResponseRootNode(List<string> ResponseNodeSet, string salt)
         {
             string combined = ResponseNodeSet[0] + ResponseNodeSet[1] + ByteArrayToHexString(Encoding.UTF8.GetBytes(salt));
-            string content = ByteArrayToHexString(CalculateHash(HexStringToByteArray(combined)));
+            string content = ByteArrayToHexString(CalculateSM3Hash(HexStringToByteArray(combined)));
 
             for (int i = 2; i < ResponseNodeSet.Count; ++i)
             {
                 combined = content + ResponseNodeSet[i] + ByteArrayToHexString(Encoding.UTF8.GetBytes(salt));
-                content = ByteArrayToHexString(CalculateHash(HexStringToByteArray(combined)));
+                content = ByteArrayToHexString(CalculateSM3Hash(HexStringToByteArray(combined)));
             }
 
             return content;

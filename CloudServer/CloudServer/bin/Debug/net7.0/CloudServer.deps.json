@@ -15,6 +15,7 @@
           "Avalonia.ReactiveUI": "11.0.2",
           "Avalonia.Svg.Skia": "11.0.0.3",
           "Avalonia.Themes.Fluent": "11.0.2",
+          "BouncyCastle": "1.8.9",
           "LiveCharts": "0.9.7",
           "LiveChartsCore.SkiaSharpView.Avalonia": "2.0.0-rc1.2",
           "Svg.Skia": "1.0.0.3",
@@ -202,6 +203,14 @@
           "lib/net6.0/Avalonia.Themes.Simple.dll": {
             "assemblyVersion": "11.0.2.0",
             "fileVersion": "11.0.2.0"
+          }
+        }
+      },
+      "BouncyCastle/1.8.9": {
+        "runtime": {
+          "lib/BouncyCastle.Crypto.dll": {
+            "assemblyVersion": "1.8.9.0",
+            "fileVersion": "1.8.20343.1"
           }
         }
       },
@@ -1332,6 +1341,13 @@
       "sha512": "sha512-vystZc+gkFuVyjuk57StJrvWbhLTOW7njMv9duXC89kBnX/PnmKYTelY0VcsBDZ8THNq77HCLg5IgiFXVWwR6w==",
       "path": "avalonia.themes.simple/11.0.2",
       "hashPath": "avalonia.themes.simple.11.0.2.nupkg.sha512"
+    },
+    "BouncyCastle/1.8.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-axnBgvdD5n+FnEG6efk/tfKuMFru7R/EoISH9zjh319yb3HD24TEHSAbNN/lTRT2ulOGRxDgOsCjkuk08iwWPg==",
+      "path": "bouncycastle/1.8.9",
+      "hashPath": "bouncycastle.1.8.9.nupkg.sha512"
     },
     "DynamicData/7.9.5": {
       "type": "package",

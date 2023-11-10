@@ -256,6 +256,15 @@
           }
         }
       },
+      "BouncyCastle/1.8.9": {
+        "type": "package",
+        "compile": {
+          "lib/BouncyCastle.Crypto.dll": {}
+        },
+        "runtime": {
+          "lib/BouncyCastle.Crypto.dll": {}
+        }
+      },
       "DynamicData/7.9.5": {
         "type": "package",
         "dependencies": {
@@ -2245,6 +2254,19 @@
         "lib/net6.0/Avalonia.Themes.Simple.xml",
         "lib/netstandard2.0/Avalonia.Themes.Simple.dll",
         "lib/netstandard2.0/Avalonia.Themes.Simple.xml"
+      ]
+    },
+    "BouncyCastle/1.8.9": {
+      "sha512": "axnBgvdD5n+FnEG6efk/tfKuMFru7R/EoISH9zjh319yb3HD24TEHSAbNN/lTRT2ulOGRxDgOsCjkuk08iwWPg==",
+      "type": "package",
+      "path": "bouncycastle/1.8.9",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "bouncycastle.1.8.9.nupkg.sha512",
+        "bouncycastle.nuspec",
+        "lib/BouncyCastle.Crypto.dll"
       ]
     },
     "DynamicData/7.9.5": {
@@ -6263,6 +6285,7 @@
       "Avalonia.ReactiveUI >= 11.0.2",
       "Avalonia.Svg.Skia >= 11.0.0.3",
       "Avalonia.Themes.Fluent >= 11.0.2",
+      "BouncyCastle >= 1.8.9",
       "LiveCharts >= 0.9.7",
       "LiveChartsCore.SkiaSharpView.Avalonia >= 2.0.0-rc1.2",
       "Svg.Skia >= 1.0.0.3",
@@ -6274,19 +6297,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Rune\\.nuget\\packages\\": {}
+    "C:\\Users\\郭歆越\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj",
+      "projectUniqueName": "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer\\CloudServer.csproj",
       "projectName": "CloudServer",
-      "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj",
-      "packagesPath": "C:\\Users\\Rune\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\obj\\",
+      "projectPath": "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer\\CloudServer.csproj",
+      "packagesPath": "C:\\Users\\郭歆越\\.nuget\\packages\\",
+      "outputPath": "D:\\AF-Dedup项目\\写到一半的代码\\源代码2.4\\CloudServer\\CloudServer\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Rune\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\郭歆越\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6294,6 +6322,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -6339,6 +6368,10 @@
           "Avalonia.Themes.Fluent": {
             "target": "Package",
             "version": "[11.0.2, )"
+          },
+          "BouncyCastle": {
+            "target": "Package",
+            "version": "[1.8.9, )"
           },
           "LiveCharts": {
             "target": "Package",
@@ -6389,11 +6422,21 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   },
   "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "已使用“.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1”而不是项目目标框架“net7.0”还原包“BouncyCastle 1.8.9”。此包可能与项目不完全兼容。",
+      "libraryId": "BouncyCastle",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",

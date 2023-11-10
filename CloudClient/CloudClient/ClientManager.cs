@@ -196,7 +196,7 @@ namespace Cloud
         {
             this.userName = userName;
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
-            string md5 = FileCrypto_2.GetMD5(userPass);
+            string md5 = FileCrypto.GetMD5(userPass);
 
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.LOGIN, userName, md5, 0, null, null, null, null, 0);
             clientComHelper.SendMsg();
@@ -209,7 +209,7 @@ namespace Cloud
         {
             this.userName = userName;
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
-            string md5 = FileCrypto_2.GetMD5(userPass);
+            string md5 = FileCrypto.GetMD5(userPass);
 
             //给服务器发送注册请求
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.SIGNUP, userName, md5, 0, null, null, null, null, 0);

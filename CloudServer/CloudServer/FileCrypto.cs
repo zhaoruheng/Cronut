@@ -99,7 +99,6 @@ namespace Cloud
                 serverComHelper.MakeResponsePacket(DefindedCode.AGREEUP);
                 serverComHelper.SendMsg();
 
-
                 InitialUpload();
             }
             else
@@ -110,25 +109,6 @@ namespace Cloud
                 MHTNum = dataBaseManager.GetMHTNum(fileTag);
                 SubsequentUpload(fileID);                         //执行后续上传者的操作
             }
-        }
-
-        public byte[] CalculateSHA1()
-        {
-            using (FileStream fileStream = new(fileDir, FileMode.Open))
-            {
-                SHA1 sha1 = SHA1.Create();
-                byte[] hashValue = sha1.ComputeHash(fileStream);
-
-                return hashValue;
-            }
-        }
-
-        public byte[] CalculateSHA256(string str)
-        {
-            SHA256 sha256 = SHA256.Create();
-            byte[] hashVal = sha256.ComputeHash(Encoding.UTF8.GetBytes(str));
-
-            return hashVal;
         }
 
         public void FileDownload()
@@ -184,13 +164,6 @@ namespace Cloud
                 Console.WriteLine("文件读取错误:" + e.Message);
             }
             return fileContent;
-        }
-
-        //客户端：计算文件标签
-        public string GetFileTag()
-        {
-            fileTag = BitConverter.ToString(CalculateSHA256(BitConverter.ToString(fileCiphertext)));
-            return fileTag;
         }
 
         public int UserClassify(NetPacket np)

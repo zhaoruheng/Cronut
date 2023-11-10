@@ -90,7 +90,7 @@
 
 								<TextBlock Grid.Row="2" Text="实时去重后的文件数:" Margin="5,0"/>
 								<lvc:CartesianChart x:Name="ResFileLiveCharts" Grid.Row="3" Series="{Binding SumResFileSeries}"
-													YAxes="{Binding YFileAxis}" XAxes="{Binding XAxis}"/>
+													YAxes="{Binding YResFileAxis}" XAxes="{Binding XAxis}"/>
 								
 								<TextBlock Grid.Row="4" Text="实时用户总数:" Margin="5,0"/>
 								<lvc:CartesianChart Grid.Row="5" Series="{Binding UserSeries}"

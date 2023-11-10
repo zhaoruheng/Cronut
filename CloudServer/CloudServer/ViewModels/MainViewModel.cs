@@ -33,6 +33,10 @@ public class MainViewModel : ViewModelBase
     public ISeries[] SumResFileSeries { get; set; }
     public ISeries[] UserSeries { get; set; }
 
+    int maxUserNum=5;
+    int maxFileNum=10;
+    int maxResFileNum=10;
+
     public MainViewModel()
     {
         string con = ConfigurationManager.ConnectionStrings["FirstConnection"].ToString();
@@ -87,7 +91,7 @@ public class MainViewModel : ViewModelBase
 
     private static int GetFileMaxYAxis()
     {
-        return 20;
+        return 10;
     }
 
     private static int GetUserMaxYAxis()
@@ -100,13 +104,52 @@ public class MainViewModel : ViewModelBase
     {
         new Axis
         {
-            MinStep=4,
-            ForceStepToMin=true,
+            MinStep = 4,
+            ForceStepToMin = true,
             MaxLimit = GetFileMaxYAxis(),
-            MinLimit=0,
-            TextSize=12
+            MinLimit = 0,
+            TextSize = 12
         }
     };
+
+    public List<Axis> YResFileAxis { get; set; } = new List<Axis>
+    {
+        new Axis
+        {
+            MinStep = 4,
+            ForceStepToMin = true,
+            MaxLimit = GetFileMaxYAxis(),
+            MinLimit = 0,
+            TextSize = 12
+        }
+    };
+
+    public void UpdateMaxFileLimit(int newMaxLimit)
+    {
+        if (YFileAxis.Any())
+        {
+            YFileAxis[0].MaxLimit = newMaxLimit;
+            OnPropertyChanged(nameof(YFileAxis));
+        }
+    }
+
+    public void UpdateMaxResFileLimit(int newMaxLimit)
+    {
+        if (YResFileAxis.Any())
+        {
+            YResFileAxis[0].MaxLimit = newMaxLimit;
+            OnPropertyChanged(nameof(YResFileAxis));
+        }
+    }
+
+    public void UpdateMaxUserLimit(int newMaxLimit)
+    {
+        if (YUserAxis.Any())
+        {
+            YUserAxis[0].MaxLimit = newMaxLimit;
+            OnPropertyChanged(nameof(YUserAxis));
+        }
+    }
 
     //用户数的纵坐标
     public List<Axis> YUserAxis { get; set; } = new List<Axis>
@@ -139,30 +182,34 @@ public class MainViewModel : ViewModelBase
             {
                 _userList = value;
                 OnPropertyChanged(nameof(UserList));
-                }
             }
         }
+    }
 
-        public ObservableCollection<UpFile> UpFileList
+    public ObservableCollection<UpFile> UpFileList
+    {
+        get => _upFileList;
+        set
         {
-            get => _upFileList;
-            set
+            if (_upFileList != value)
             {
-                if (_upFileList != value)
-                {
-                    _upFileList = value;
-                    OnPropertyChanged(nameof(UpFileList));
-                }
+                _upFileList = value;
+                OnPropertyChanged(nameof(UpFileList));
+            }
         }
-        }
+    }
 
-        private void GetRealTimeFileNum(object state)
-        {
-            string con = ConfigurationManager.ConnectionStrings["FirstConnection"].ToString();
-            DataBaseManager dm = new DataBaseManager(con);
-            int realTimeFileNum = dm.GetUpfileNum();
+    private void GetRealTimeFileNum(object state)
+    {
+        string con = ConfigurationManager.ConnectionStrings["FirstConnection"].ToString();
+        DataBaseManager dm = new DataBaseManager(con);
+        int realTimeFileNum = dm.GetUpfileNum();
 
-            Dispatcher.UIThread.Invoke(() =>
+        //实时更新纵坐标
+        maxFileNum = Math.Max(maxFileNum, realTimeFileNum + 2);
+        UpdateMaxFileLimit(maxFileNum);
+
+        Dispatcher.UIThread.Invoke(() =>
         {
             MainChartValues1.RemoveAt(0);
             MainChartValues1.Add(new ObservableValue(realTimeFileNum));
@@ -174,6 +221,11 @@ public class MainViewModel : ViewModelBase
         string con = ConfigurationManager.ConnectionStrings["FirstConnection"].ToString();
         DataBaseManager dm = new DataBaseManager(con);
         int realTimeResFileNum = dm.GetFileNum();
+
+        //实时更新纵坐标
+        maxResFileNum = Math.Max(maxResFileNum, realTimeResFileNum + 2);
+        UpdateMaxResFileLimit(maxResFileNum);
+
         Dispatcher.UIThread.Invoke(() =>
         {
             MainChartValues2.RemoveAt(0);
@@ -184,6 +236,10 @@ public class MainViewModel : ViewModelBase
     private void GetRealTimeUserNum(object state)
     {
         int realTimeUser = ServiceManager.onlineUser.Count;
+
+        //实时更新纵坐标
+        maxUserNum = Math.Max(maxUserNum, realTimeUser + 2);
+        UpdateMaxUserLimit(maxUserNum);
 
         Dispatcher.UIThread.Invoke(() =>
         {
