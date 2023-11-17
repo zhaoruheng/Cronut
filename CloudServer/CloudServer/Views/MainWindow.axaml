@@ -162,7 +162,7 @@
 						<DataGrid x:Name="uuserList" Margin="20,0" ItemsSource="{Binding UserList,Mode=TwoWay}"
 						AutoGenerateColumns="True" IsReadOnly="True"
 						GridLinesVisibility="All"
-						BorderThickness="1" BorderBrush="Gray" Width="500" Height="450" HorizontalAlignment="Left">
+						BorderThickness="1" BorderBrush="Gray" Width="750" Height="450" HorizontalAlignment="Left">
 						</DataGrid>
 					</StackPanel>					
 				</TabItem>

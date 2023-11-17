@@ -33,7 +33,8 @@ namespace Cloud
             }
         }
 
-        public void InitialUser(string userName, string passwd)
+        //本地注册
+        public void InitialUser(string userName, string passwd, string restime,int group = 1,int state=1)
         {
             MD5 md5 = new MD5CryptoServiceProvider();
             byte[] tmp = Encoding.Default.GetBytes(passwd);
@@ -46,16 +47,21 @@ namespace Cloud
                 passString += i.ToString("x2"); //16进制
             }
 
-            string queryString = useString +
+            string querryString = useString +
                 "INSERT INTO UserTable VALUES (" +
                 "'" + userName + "'," +
                 "'" + passString + "'," +
+                "'" + group + "'," +
+                "'" + restime + "'," +
+                "'" + restime + "'," +
+                "'" + state + "'," +
                 "NULL" +
                 ");";
-            CreateCommand(queryString);
+            CreateCommand(querryString);
         }
 
-        public byte CreateUser(string userName, string passwd)
+        //客户端注册
+        public byte CreateUser(string userName, string passwd, string restime, int group = 2, int state = 1)
         {
             string queryString = useString +
                 "SELECT COUNT(*) FROM UserTable " +
@@ -68,13 +74,17 @@ namespace Cloud
             }
             else
             {
-                queryString = useString +
+                string querryString = useString +
                 "INSERT INTO UserTable VALUES (" +
                 "'" + userName + "'," +
                 "'" + passwd + "'," +
+                "'" + group + "'," +
+                "'" + restime + "'," +
+                "'" + restime + "'," +
+                "'" + state + "'," +
                 "NULL" +
                 ");";
-                CreateCommand(queryString);
+                CreateCommand(querryString); ;
                 return DefindedCode.OK;
             }
         }
@@ -119,6 +129,10 @@ namespace Cloud
                 "USER_ID INT IDENTITY(1,1) PRIMARY KEY," +          //用户ID 自增IDENTITY(1,1)
                 "USER_NAME NVARCHAR(50) NOT NULL," +                //用户名    NVARCHAR  unicode
                 "PASSWORD NVARCHAR(50)," +                          //密码
+                "USER_GROUP INT," +                                      //用户组
+                "REGIST_TIME DATETIME NOT NULL," +                  //注册时间
+                "LAST_LOGIN_TIME DATETIME NOT NULL," +               //最后登录时间
+                "STATE INT NOT NULL,"+                               //用户状态
                 "NONE NCHAR(10)" +                                  //预留字段
                 ");";
             CreateCommand(queryString);
@@ -156,10 +170,12 @@ namespace Cloud
                 "PRIMARY KEY(FILE_ID,MHT_ID)" +
                 ");";
             CreateCommand(queryString);
-
-            InitialUser("admin", "123456");
-            InitialUser("uheng", "123456");
-            InitialUser("guest", "111111");
+            
+            //获取当前时间
+            string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            InitialUser("admin", "123456",time);
+            InitialUser("uheng", "123456", time,2);
+            InitialUser("guest", "111111", time,2);
         }
 
         private int ExecuteScalar(string queryString)
@@ -836,10 +852,10 @@ namespace Cloud
 
         public List<string> GetUserInfo()
         {
-            //获取usertable的id及name，存储到List
+            //获取usertable的属性，存储到List
             List<string> userInfo = new();
             queryString = useString +
-                "SELECT USER_ID, USER_NAME FROM UserTable;";
+                "SELECT USER_ID, USER_NAME, USER_GROUP, REGIST_TIME, LAST_LOGIN_TIME, STATE FROM UserTable;";
             using (SqlConnection connection = new(connectionString))
             {
                 SqlCommand command = new(queryString, connection);
@@ -847,11 +863,18 @@ namespace Cloud
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    userInfo.Add(((int)reader[0]).ToString() + "," + (string)reader[1]);
+                    int userID = (int)reader[0];
+                    string userName = (string)reader[1];
+                    int userGroup = (int)reader[2];
+                    string registTime = ((DateTime)reader[3]).ToString();
+                    string lastLoginTime = ((DateTime)reader[4]).ToString();
+                    int state = (int)reader[5];
+                    userInfo.Add(userID.ToString() + "," + userName + "," + userGroup.ToString() + "," + registTime + "," + lastLoginTime + "," + state.ToString());
                 }
                 reader.Close();
             }
             return userInfo;
+            
         }
 
         public List<string> GetFileInfo()
@@ -900,6 +923,24 @@ namespace Cloud
             }
             return fileInfo;
         }
+
+        //更新USERTABLE登录时间
+        public void UpdateUserLoginTime(string userName, string loginTime)
+        {
+            queryString = useString +
+                "UPDATE UserTable SET LAST_LOGIN_TIME = @LoginTime " +
+                "WHERE USER_NAME = @UserName;";
+
+            using (SqlConnection connection = new(connectionString))
+            {
+                SqlCommand command = new(queryString, connection);
+                command.Parameters.AddWithValue("@LoginTime", loginTime);
+                command.Parameters.AddWithValue("@UserName", userName);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }   
     }
 }
 

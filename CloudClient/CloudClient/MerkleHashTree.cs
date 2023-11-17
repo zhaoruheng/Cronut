@@ -26,7 +26,7 @@ namespace Cloud
         public static List<string> FileSplit(byte[] data)
         {
             int x = data.Length;
-            int blockSize = Math.Max((int)(0.009 * x), 1);
+            int blockSize = Math.Max((int)(0.009 * x+500), 2);
 
             int blockCount = (data.Length + blockSize - 1) / blockSize;
 
@@ -74,11 +74,11 @@ namespace Cloud
             }
 
             result.Add(hashList[challengeLeafNode]);
-            if (challengeLeafNode % 2 == 0)
+            if (challengeLeafNode % 2 == 0&&leafNodeNum!=1)
             {
                 result.Add(hashList[challengeLeafNode + 1]);
             }
-            else
+            else if(leafNodeNum != 1)
             {
                 result.Add(hashList[challengeLeafNode - 1]);
             }

@@ -5,13 +5,12 @@
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\郭歆越\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\NuGetPackages</NuGetPackageFolders>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Rune\.nuget\packages\</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.7.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="C:\Users\郭歆越\.nuget\packages\" />
-    <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\NuGetPackages\" />
+    <SourceRoot Include="C:\Users\Rune\.nuget\packages\" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)skiasharp.nativeassets.webassembly\2.88.3\buildTransitive\netstandard1.0\SkiaSharp.NativeAssets.WebAssembly.props" Condition="Exists('$(NuGetPackageRoot)skiasharp.nativeassets.webassembly\2.88.3\buildTransitive\netstandard1.0\SkiaSharp.NativeAssets.WebAssembly.props')" />
@@ -19,9 +18,9 @@
     <Import Project="$(NuGetPackageRoot)avalonia\11.0.2\buildTransitive\Avalonia.props" Condition="Exists('$(NuGetPackageRoot)avalonia\11.0.2\buildTransitive\Avalonia.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\郭歆越\.nuget\packages\microsoft.codeanalysis.analyzers\3.0.0</PkgMicrosoft_CodeAnalysis_Analyzers>
-    <PkgDevExpress_Data Condition=" '$(PkgDevExpress_Data)' == '' ">C:\Users\郭歆越\.nuget\packages\devexpress.data\23.2.1-alpha-23255</PkgDevExpress_Data>
-    <PkgAvalonia_BuildServices Condition=" '$(PkgAvalonia_BuildServices)' == '' ">C:\Users\郭歆越\.nuget\packages\avalonia.buildservices\0.0.28</PkgAvalonia_BuildServices>
-    <PkgAvalonia Condition=" '$(PkgAvalonia)' == '' ">C:\Users\郭歆越\.nuget\packages\avalonia\11.0.2</PkgAvalonia>
+    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\Rune\.nuget\packages\microsoft.codeanalysis.analyzers\3.0.0</PkgMicrosoft_CodeAnalysis_Analyzers>
+    <PkgDevExpress_Data Condition=" '$(PkgDevExpress_Data)' == '' ">C:\Users\Rune\.nuget\packages\devexpress.data\23.2.1-alpha-23255</PkgDevExpress_Data>
+    <PkgAvalonia_BuildServices Condition=" '$(PkgAvalonia_BuildServices)' == '' ">C:\Users\Rune\.nuget\packages\avalonia.buildservices\0.0.28</PkgAvalonia_BuildServices>
+    <PkgAvalonia Condition=" '$(PkgAvalonia)' == '' ">C:\Users\Rune\.nuget\packages\avalonia\11.0.2</PkgAvalonia>
   </PropertyGroup>
 </Project>

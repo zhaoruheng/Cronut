@@ -211,7 +211,7 @@ namespace Cloud
         private byte SignUpRequest(string userName,string userPass)
         {
             DataBaseManager dm = new(connectionString);
-            int res = dm.CreateUser(userName, userPass);
+            int res = dm.CreateUser(userName, userPass, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
             if (res == DefindedCode.OK)
             {
@@ -233,6 +233,7 @@ namespace Cloud
                 _ = onlineUser.Add(userName);
                 AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  用户" + userName + "登录");
                 log.Info("用户" + userName + "登录");
+                dm.UpdateUserLoginTime(userName, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 return DefindedCode.LOGSUCCESS;
             }
             else if(CheckLogin(userName)==true)

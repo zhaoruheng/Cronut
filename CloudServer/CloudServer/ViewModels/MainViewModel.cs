@@ -255,12 +255,16 @@ public class MainViewModel : ViewModelBase
         foreach (string ul in userInfoList)
         {
             string[] parts = ul.Split(',');
-            if (parts.Length == 2)
+            if (parts.Length == 6)
             {
                 string userID = parts[0];
                 string userName = parts[1];
+                string userGroup = parts[2];
+                string registerTime = parts[3];
+                string lastLoginTime = parts[4];
+                string userState = parts[5];
 
-                User uu = new(userID, userName);
+                User uu = new(userID, userName,userGroup,registerTime,lastLoginTime,userState);
                 userList.Add(uu);
             }
         }

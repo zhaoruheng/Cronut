@@ -76,7 +76,7 @@ namespace Cloud
         public static List<string> FileSplit(byte[] data)
         {
             int x = data.Length;
-            int blockSize = Math.Max((int)(0.009 * x), 1);
+            int blockSize = Math.Max((int)(0.009 * x+500), 2);
             int blockCount = (data.Length + blockSize - 1) / blockSize;
 
             List<string> blocks = new();
@@ -96,7 +96,7 @@ namespace Cloud
         //计算MHT数量
         public static int CalculateMHTNum(int x)
         {
-            double y = Math.Max(8.2215 / (1 + Math.Exp(2.4485 - (488.6871 / x))), 1);
+            double y = Math.Max(23.2215 / (1 + Math.Exp(2.4485 - (488.6871 / x))), 1);
             return (int)Math.Round(y);
         }
 
