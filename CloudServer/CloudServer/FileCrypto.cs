@@ -213,11 +213,11 @@ namespace Cloud
 
             for (int i = 0; i < MHTNum; ++i)
             {
-                dataBaseManager.InsertMHTTable(fileID, i, saltsVal[i], rootNode[i]);   
+                dataBaseManager.InsertMHTTable(fileID, i, saltsVal[i], rootNode[i]);
             }
 
             string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            dataBaseManager.InsertUpFileTable(fileID, fileName, uploadDateTime, username);    
+            dataBaseManager.InsertUpFileTable(fileID, fileName, uploadDateTime, username);
         }
 
         public void SubsequentUpload(int fileID)
@@ -225,7 +225,17 @@ namespace Cloud
             int challengeLeafNode = 0;
 
             int k = PoW.GenerateChallenge(MHTNum, leafNodeNum, ref challengeLeafNode);
-            AddDetailedParaItem("Challenge: 选中第" + (k + 1) + "棵树的第" + (challengeLeafNode + 1) + "个叶子节点");
+
+            int cchallengeLeafNode;
+            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())  //随机选择一棵MHT
+            {
+                byte[] data = new byte[5];
+                rng.GetBytes(data);
+                int value = BitConverter.ToInt32(data, 0);
+                cchallengeLeafNode = Math.Abs(value % 24);
+            }
+
+            AddDetailedParaItem("Challenge: 选中第" + (k + 1) + "棵树的第" + (cchallengeLeafNode + 1) + "个叶子节点");
 
             for (int i = 0; i < MHTNum; ++i)
             {

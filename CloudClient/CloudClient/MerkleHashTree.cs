@@ -13,6 +13,7 @@ namespace Cloud
         string rootNodeVal;         //根节点哈希值
         string salt;                //这棵树对应的盐值
         int leafNodeNum;            //叶子节点数目
+        string oneleafNode;         //只有一个叶子节点特别处理
 
         public MerkleHashTree(List<string> data, string salt, int code)
         {
@@ -20,6 +21,7 @@ namespace Cloud
             hashQueue = new Queue<string>();
             hashList = new List<string>();
             leafNodeNum = data.Count;
+            oneleafNode = data.First();
         }
 
         //客户端&服务器：对文件进行分块，不够用0填充
@@ -65,6 +67,12 @@ namespace Cloud
         {
             List<string> result = new List<string>();
 
+            if (leafNodeNum == 1)
+            {
+                result.Add(ByteArrayToHexString(FileCrypto.CalculateSM3Hash(Encoding.UTF8.GetBytes(data[0]+salt))));
+                return result;
+            }
+
             //将叶子节点入队
             for (int i = 0; i < leafNodeNum; ++i)
             {
@@ -74,11 +82,11 @@ namespace Cloud
             }
 
             result.Add(hashList[challengeLeafNode]);
-            if (challengeLeafNode % 2 == 0&&leafNodeNum!=1)
+            if (challengeLeafNode % 2 == 0)
             {
                 result.Add(hashList[challengeLeafNode + 1]);
             }
-            else if(leafNodeNum != 1)
+            else
             {
                 result.Add(hashList[challengeLeafNode - 1]);
             }
