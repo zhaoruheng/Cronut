@@ -107,7 +107,7 @@ namespace Cloud
         byte[] CalculateSHA1()
         {
 
-            using (FileStream fileStream = new FileStream(fileDir, FileMode.Open))
+            using (FileStream fileStream = new FileStream(fileDir, FileMode.Open, FileAccess.Read))
             {
                 SHA1 sha1 = SHA1.Create();
                 byte[] hashValue = sha1.ComputeHash(fileStream);
@@ -156,7 +156,7 @@ namespace Cloud
             fileSize = fileInfo.Length;
             fileName = fileInfo.Name;
 
-            byte[] fileContent = new byte[fileInfo.Length + 100];
+            byte[] fileContent = new byte[fileInfo.Length + (long)100];
 
             try
             {
