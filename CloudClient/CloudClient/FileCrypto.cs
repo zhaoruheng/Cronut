@@ -29,6 +29,7 @@ namespace Cloud
         public string encryptedFileDir;
         public string decryptedFileDir;
         string key;
+        string workPath=string.Empty;
 
         ClientComHelper clientComHelper;
         string userName = string.Empty;
@@ -64,6 +65,11 @@ namespace Cloud
             }
         }
 
+        public void SetWorkPath(string path)
+        {
+            workPath = path;
+        }
+
         public byte FileUpload()
         {
             string blindSignature;
@@ -78,7 +84,7 @@ namespace Cloud
 
             fileTag = GetFileTag();
 
-            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.OK, userName, null, fileSize, fileTag, Path.GetFileName(fileDir), null, null, 0, fileEncryptKey);
+            clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.OK, userName, null, fileSize, fileTag, fileDir.Replace(workPath, "").Substring(1), null, null, 0, fileEncryptKey);
 
             clientComHelper.SendMsg();
 

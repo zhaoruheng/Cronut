@@ -28,6 +28,7 @@ namespace Cloud
         private readonly ServerComHelper serverComHelper;
         private readonly DataBaseManager dataBaseManager;
         private readonly string username;
+        private string changeTime;
 
         //客户端
         public FileCrypto(ServerComHelper serverComHelper, DataBaseManager dataBaseManager, string username)
@@ -55,6 +56,11 @@ namespace Cloud
             this.dataBaseManager = dataBaseManager;
             this.username = username;
             fileDir = path;
+        }
+
+        public void SetChangeTime(string time)
+        {
+            changeTime = time;
         }
 
         public event Action<string> AlgParaItemAdded;
@@ -216,8 +222,7 @@ namespace Cloud
                 dataBaseManager.InsertMHTTable(fileID, i, saltsVal[i], rootNode[i]);
             }
 
-            string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            dataBaseManager.InsertUpFileTable(fileID, fileName, uploadDateTime, username);
+            dataBaseManager.InsertUpFileTable(fileID, fileName, changeTime, username);
         }
 
         public void SubsequentUpload(int fileID)
@@ -291,8 +296,8 @@ namespace Cloud
 
             if (isPassPow)
             {
-                string uploadDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                dataBaseManager.FindUpFileTable(fileID, fileName, uploadDateTime, username); //服务器：更新UploadFileTable
+              
+                dataBaseManager.FindUpFileTable(fileID, fileName, changeTime, username); //服务器：更新UploadFileTable
             }
             else
             {

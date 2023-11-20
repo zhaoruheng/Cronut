@@ -529,12 +529,12 @@ namespace Cloud
         }
 
 
-        public int RenameFile(string userName, string oldFileName, string fileName)
+        public int RenameFile(string userName, string oldFileName, string fileName,string changeTime)
         {
             // 更新UpFileTable记录
             queryString = useString +
                 "UPDATE UpFileTable " +
-                "SET FILE_NAME=@NewFileName " +
+                "SET FILE_NAME=@NewFileName, UPLOAD_TIME=@ChangeTime " +
                 "Where USER_NAME=@UserName " +
                 "AND FILE_NAME=@OldFileName;";
 
@@ -542,8 +542,9 @@ namespace Cloud
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
                 command.Parameters.AddWithValue("@NewFileName", fileName);
-                command.Parameters.AddWithValue("@UserName", userName); 
-                command.Parameters.AddWithValue("@OldFileName", oldFileName); 
+                command.Parameters.AddWithValue("@UserName", userName);
+                command.Parameters.AddWithValue("@OldFileName", oldFileName);
+                command.Parameters.AddWithValue("@ChangeTime", changeTime);
 
                 connection.Open();
                 return command.ExecuteNonQuery();

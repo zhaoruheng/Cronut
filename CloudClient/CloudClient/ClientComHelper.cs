@@ -46,7 +46,7 @@ namespace Cloud
 
         public void MakeRequestPacket(byte code, string userName, string password, long fileLength, string fileTag, string fileName, string newName, string uploadTime, long userType, string enkey = null)
         {
-            FileInfo fi = new FileInfo(workPath + "/" + fileName);
+            FileInfo fi = new FileInfo(workPath + "/" + newName);
 
             string changeTime = fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
 
@@ -65,7 +65,7 @@ namespace Cloud
             FileInfo fi = new FileInfo(workPath + "/" + fileName);
             string changeTime = fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
 
-            np = new NetPacket(code, userName, null, fileLength, null, fileName, newName, null, 0);
+            np = new NetPacket(code, userName, null, fileLength, null, fileName, newName, changeTime, 0);
         }
 
         //初始化

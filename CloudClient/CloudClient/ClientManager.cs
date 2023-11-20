@@ -53,6 +53,9 @@ namespace Cloud
             {
                 string fname = System.IO.Path.GetFileName(we.filePath);
                 string fextname = System.IO.Path.GetExtension(we.filePath);
+                //如果是文件夹，直接return
+                if (Directory.Exists(we.filePath))
+                    return;
                 if (fname.Length > 2 && fname.Substring(0, 2) == "~$" || fextname == ".tmp" || fname.Substring(0, 1) == ".") //word临时文件
                     return;
                 if (File.GetAttributes(we.filePath) == FileAttributes.Hidden) //隐藏文件
@@ -91,13 +94,13 @@ namespace Cloud
                 if (we.fileEvent == 3)
                 {
                     //处理删除文件操作
-                    DeleteFileProcess(System.IO.Path.GetFileName(we.filePath));
+                    DeleteFileProcess(we.filePath.Replace(workPath, "").Substring(1));
                     return;
                 }
                 if (we.fileEvent == 4)
                 {
                     //处理重命名操作
-                    RenameFileProcess(System.IO.Path.GetFileName(we.filePath), System.IO.Path.GetFileName(we.oldFilePath));
+                    RenameFileProcess(we.filePath.Replace(workPath,"").Substring(1), we.oldFilePath.Replace(workPath, "").Substring(1));
                     return;
                 }
             }
@@ -127,7 +130,7 @@ namespace Cloud
             //上传文件
             foreach (string file in upFileList) //upFileList为指定文件夹下的所有文件
             {
-                UploadFileProcess(workPath + "/" + file);
+                UploadFileProcess(file);
             }
 
             //下载文件
@@ -157,7 +160,7 @@ namespace Cloud
                 int index;
                 if ((index = fileInfoList.nameList.IndexOf(tmp)) < 0)
                 {
-                    upFileList.Add(tmp);
+                    upFileList.Add(f.FullName);
                     downFileList.Remove(tmp);
                 }
                 else
@@ -176,7 +179,7 @@ namespace Cloud
                     }
                     else if (res < 0) //如果 res 小于0，本地的文件新
                     {
-                        upFileList.Add(f.Name);
+                        //upFileList.Add(f.FullName);
                         downFileList.Remove(f.Name);
                     }
                     else //如果 res 等于0，表示两者时间相同
@@ -254,11 +257,13 @@ namespace Cloud
         {
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
 
-            string fileName = Path.GetFileName(filePath);
+            //去除filePath中的workPath,去除前面的斜线
+            string fileName=filePath.Replace(workPath, "").Substring(1);
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.UPLOAD, userName, 0, fileName, null);
             clientComHelper.SendMsg();
             NetPacket np = clientComHelper.RecvMsg();
             FileCrypto fc = new FileCrypto(filePath, clientComHelper, userName);
+            fc.SetWorkPath(workPath);
 
             //返回DefindedCode.AGREEUP 或 DefineCode.FILEEXISTED
             return fc.FileUpload();
@@ -284,6 +289,14 @@ namespace Cloud
                 clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.READY);
                 clientComHelper.SendMsg();
 
+                //提取filename的路径加到downloadPath后面
+                if (fileName.Contains("\\"))
+                {
+                    downloadPath += fileName.Substring(0, fileName.LastIndexOf("\\")+1);
+                    if (!Directory.Exists(downloadPath))
+                        Directory.CreateDirectory(downloadPath);
+                    fileName = fileName.Substring(fileName.LastIndexOf("\\")+ 1);
+                }
                 clientComHelper.RecvFile(downloadPath + "." + fileName);
                 FileCrypto fc = new FileCrypto(downloadPath + fileName, downloadPath + "." + fileName, clientComHelper, userName, enkey);
 

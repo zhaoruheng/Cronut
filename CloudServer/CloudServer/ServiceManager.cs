@@ -145,7 +145,7 @@ namespace Cloud
 
                     AddDetailedParaItem("---文件名：" + np.fileName + "---");
                     FileCrypto fc = new(serverComHelper, dm, np.userName);
-
+                    fc.SetChangeTime(np.uploadTime);
                     serverComHelper.MakeResponsePacket(DefindedCode.OK);
                     serverComHelper.SendMsg();
 
@@ -160,9 +160,8 @@ namespace Cloud
                         AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  用户" + np.userName + "上传文件" + np.fileName + "失败");
                         log.Error("用户" + np.userName + "上传文件" + np.fileName + "失败");
                         Console.WriteLine(e);
-                        break;
                     }
-                    break;
+            break;
 
                 case DefindedCode.DOWNLOAD:
                     DataBaseManager dm2 = new(connectionString);
@@ -195,7 +194,7 @@ namespace Cloud
                     break;
 
                 case DefindedCode.RENAME:
-                    res = RenameRequest(np.userName, np.fileName, np.newName);
+                    res = RenameRequest(np.userName, np.fileName, np.newName,np.uploadTime);
                     serverComHelper.MakeResponsePacket(res);
                     serverComHelper.SendMsg();
                     AddRealTimeInfoItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  用户" + np.userName + "重命名文件" + np.fileName + "完成");
@@ -294,10 +293,10 @@ namespace Cloud
             DataBaseManager dm = new(connectionString);
             return dm.RemoveFile(userName, userFile) > 0 ? DefindedCode.OK : DefindedCode.DENIED;
         }
-        private byte RenameRequest(string userName, string fileName, string newName)
+        private byte RenameRequest(string userName, string fileName, string newName,string changeTime)
         {
             DataBaseManager dm = new(connectionString);
-            return dm.RenameFile(userName, fileName, newName) > 0 ? DefindedCode.OK : DefindedCode.DENIED;
+            return dm.RenameFile(userName, fileName, newName,changeTime) > 0 ? DefindedCode.OK : DefindedCode.DENIED;
         }
 
         //前端：Detailed Alg Para列表更新

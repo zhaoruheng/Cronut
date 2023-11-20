@@ -209,11 +209,17 @@ public class MainViewModel : ViewModelBase
         maxFileNum = Math.Max(maxFileNum, realTimeFileNum + 2);
         UpdateMaxFileLimit(maxFileNum);
 
-        Dispatcher.UIThread.Invoke(() =>
+        try { 
+            Dispatcher.UIThread.Invoke(() =>
+            {
+                MainChartValues1.RemoveAt(0);
+                MainChartValues1.Add(new ObservableValue(realTimeFileNum));
+            });
+        }
+        catch (Exception e)
         {
-            MainChartValues1.RemoveAt(0);
-            MainChartValues1.Add(new ObservableValue(realTimeFileNum));
-        });
+            Debug.WriteLine(e);
+        }
     }
 
     private void GetRealTimeResFileNum(object state)
@@ -225,12 +231,18 @@ public class MainViewModel : ViewModelBase
         //实时更新纵坐标
         maxResFileNum = Math.Max(maxResFileNum, realTimeResFileNum + 2);
         UpdateMaxResFileLimit(maxResFileNum);
-
-        Dispatcher.UIThread.Invoke(() =>
+        try
         {
-            MainChartValues2.RemoveAt(0);
-            MainChartValues2.Add(new ObservableValue(realTimeResFileNum));
-        });
+            Dispatcher.UIThread.Invoke(() =>
+            {
+                MainChartValues2.RemoveAt(0);
+                MainChartValues2.Add(new ObservableValue(realTimeResFileNum));
+            });
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
     }
 
     private void GetRealTimeUserNum(object state)
@@ -241,11 +253,18 @@ public class MainViewModel : ViewModelBase
         maxUserNum = Math.Max(maxUserNum, realTimeUser + 2);
         UpdateMaxUserLimit(maxUserNum);
 
-        Dispatcher.UIThread.Invoke(() =>
+        try
         {
-            MainChartValues3.RemoveAt(0);
-            MainChartValues3.Add(new ObservableValue(realTimeUser));
-        });
+            Dispatcher.UIThread.Invoke(() =>
+            {
+                MainChartValues3.RemoveAt(0);
+                MainChartValues3.Add(new ObservableValue(realTimeUser));
+            });
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
     }
 
     public void RefreshUserInfo()
