@@ -83,6 +83,8 @@ namespace Cloud
                 }
                 if (we.fileEvent == 1)
                 {
+                    //处理上传文件操作
+                    UploadFileProcess(we.filePath);
                     return;
                 }
                 if (we.fileEvent == 2)
