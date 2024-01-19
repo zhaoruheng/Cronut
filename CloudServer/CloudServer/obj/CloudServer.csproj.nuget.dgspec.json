@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj": {}
+    "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudServer\\CloudServer\\CloudServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj": {
+    "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudServer\\CloudServer\\CloudServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj",
+        "projectUniqueName": "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudServer\\CloudServer\\CloudServer.csproj",
         "projectName": "CloudServer",
-        "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\CloudServer.csproj",
-        "packagesPath": "C:\\Users\\Rune\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudServer\\CloudServer\\obj\\",
+        "projectPath": "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudServer\\CloudServer\\CloudServer.csproj",
+        "packagesPath": "C:\\Users\\Rune0\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudServer\\CloudServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Rune\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Rune0\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -42,31 +42,31 @@
           "dependencies": {
             "Avalonia": {
               "target": "Package",
-              "version": "[11.0.2, )"
+              "version": "[11.0.7, )"
             },
             "Avalonia.Controls.DataGrid": {
               "target": "Package",
-              "version": "[11.0.2, )"
+              "version": "[11.0.7, )"
             },
             "Avalonia.Diagnostics": {
               "target": "Package",
-              "version": "[11.0.2, )"
+              "version": "[11.0.7, )"
             },
             "Avalonia.Fonts.Inter": {
               "target": "Package",
-              "version": "[11.0.2, )"
+              "version": "[11.0.7, )"
             },
             "Avalonia.ReactiveUI": {
               "target": "Package",
-              "version": "[11.0.2, )"
+              "version": "[11.0.7, )"
             },
             "Avalonia.Svg.Skia": {
               "target": "Package",
-              "version": "[11.0.0.3, )"
+              "version": "[11.0.0.10, )"
             },
             "Avalonia.Themes.Fluent": {
               "target": "Package",
-              "version": "[11.0.2, )"
+              "version": "[11.0.7, )"
             },
             "BouncyCastle": {
               "target": "Package",
@@ -82,15 +82,15 @@
             },
             "Svg.Skia": {
               "target": "Package",
-              "version": "[1.0.0.3, )"
+              "version": "[1.0.0.10, )"
             },
             "System.Configuration.ConfigurationManager": {
               "target": "Package",
-              "version": "[8.0.0-rc.2.23479.6, )"
+              "version": "[8.0.0, )"
             },
             "System.Data.SqlClient": {
               "target": "Package",
-              "version": "[4.8.5, )"
+              "version": "[4.8.6, )"
             },
             "System.Runtime.Numerics": {
               "target": "Package",
@@ -98,7 +98,7 @@
             },
             "System.Runtime.Serialization.Json": {
               "target": "Package",
-              "version": "[4.0.3, )"
+              "version": "[4.3.0, )"
             },
             "log4net": {
               "target": "Package",
@@ -121,7 +121,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

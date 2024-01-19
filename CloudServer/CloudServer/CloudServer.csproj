@@ -12,33 +12,43 @@
 
   
   <ItemGroup>
+    <None Remove="Assets\Fonts\TIMES.TTF" />
+    <None Remove="Assets\Fonts\TIMESBD.TTF" />
+    <None Remove="Assets\Fonts\TIMESBI.TTF" />
+    <None Remove="Assets\Fonts\TIMESI.TTF" />
     <None Remove="Assets\Images\Close.svg" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.2" />
-    <PackageReference Include="Avalonia.Svg.Skia" Version="11.0.0.3" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia" Version="11.0.7" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.7" />
+    <PackageReference Include="Avalonia.Svg.Skia" Version="11.0.0.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.7" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.7" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.7" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.7" />
     <PackageReference Include="BouncyCastle" Version="1.8.9" />
     <PackageReference Include="LiveCharts" Version="0.9.7" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc1.2" />
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="Svg.Skia" Version="1.0.0.3" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0-rc.2.23479.6" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageReference Include="Svg.Skia" Version="1.0.0.10" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Serialization.Json" Version="4.0.3" />
+    <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="NetPublic">
       <HintPath>bin\Debug\NetPublic.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\Fonts\TIMES.TTF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AvaloniaResource>
   </ItemGroup>
 
   <ItemGroup>

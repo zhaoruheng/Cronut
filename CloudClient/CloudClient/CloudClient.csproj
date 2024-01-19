@@ -12,6 +12,8 @@
 
   
   <ItemGroup>
+    <None Remove="Assets\Fonts\SIMHEI.TTF" />
+    <None Remove="Assets\Fonts\TIMES.TTF" />
     <None Remove="Assets\Images\MaxWindow.svg" />
     <None Remove="Assets\Images\MinWindow.svg" />
     <None Remove="Assets\Images\NormWindow.svg" />
@@ -54,6 +56,12 @@
     <Reference Include="NetPublic">
       <HintPath>bin\Debug\NetPublic.dll</HintPath>
     </Reference>
+  </ItemGroup>
+	
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\Fonts\TIMES.TTF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AvaloniaResource>
   </ItemGroup>
 	
   <ItemGroup>

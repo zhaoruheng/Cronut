@@ -5423,19 +5423,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Rune\\.nuget\\packages\\": {}
+    "C:\\Users\\Rune0\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient.Desktop\\CloudClient.Desktop.csproj",
-      "projectName": "CloudClient.Desktop",
-      "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient.Desktop\\CloudClient.Desktop.csproj",
-      "packagesPath": "C:\\Users\\Rune\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient.Desktop\\obj\\",
+      "projectUniqueName": "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudClient\\CloudClient.Desktop\\CloudClient_Desktop.csproj",
+      "projectName": "CloudClient_Desktop",
+      "projectPath": "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudClient\\CloudClient.Desktop\\CloudClient_Desktop.csproj",
+      "packagesPath": "C:\\Users\\Rune0\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudClient\\CloudClient.Desktop\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Rune\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Rune0\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5449,8 +5449,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj": {
-              "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj"
+            "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudClient\\CloudClient\\CloudClient.csproj": {
+              "projectPath": "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudClient\\CloudClient\\CloudClient.csproj"
             }
           }
         }
@@ -5490,7 +5490,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   },

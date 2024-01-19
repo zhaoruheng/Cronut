@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj": {}
+    "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudClient\\CloudClient\\CloudClient.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj": {
+    "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudClient\\CloudClient\\CloudClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj",
+        "projectUniqueName": "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudClient\\CloudClient\\CloudClient.csproj",
         "projectName": "CloudClient",
-        "projectPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\CloudClient.csproj",
-        "packagesPath": "C:\\Users\\Rune\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Rune\\Desktop\\项目源代码\\CloudClient\\CloudClient\\obj\\",
+        "projectPath": "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudClient\\CloudClient\\CloudClient.csproj",
+        "packagesPath": "C:\\Users\\Rune0\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Rune0\\Desktop\\项目代码\\CloudClient\\CloudClient\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Rune\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Rune0\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -133,7 +133,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

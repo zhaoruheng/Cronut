@@ -8,5 +8,9 @@
         <FluentTheme />
 		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
 	</Application.Styles>
-
+	<Application.Resources>
+		<FontFamily x:Key="TimesFont">/Assets/Fonts/TIMES.ttf#Times</FontFamily>
+		<!--FontFamily="StaticResource TimesFont"	-->
+		<FontFamily x:Key="HeiFont">/Assets/Fonts/SIMHEI.ttf#Simhei</FontFamily>
+	</Application.Resources>
 </Application>

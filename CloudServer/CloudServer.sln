@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudServer", "CloudServer\CloudServer.csproj", "{45D0BEBD-E1B4-4004-8A67-4130D7CA755D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudServer.Desktop", "CloudServer.Desktop\CloudServer.Desktop.csproj", "{082970A4-C974-4C85-A980-F34A71A429B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudServer_Desktop", "CloudServer.Desktop\CloudServer_Desktop.csproj", "{082970A4-C974-4C85-A980-F34A71A429B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -42,6 +42,10 @@ namespace Cloud
             dbm.InitProcess();
 
             DirectoryInfo dir = new(serStorePath);
+            if(!dir.Exists)
+            {
+                dir.Create();
+            }
             FileSystemInfo[] fileinfo = dir.GetFileSystemInfos();
             foreach (FileSystemInfo i in fileinfo)
             {

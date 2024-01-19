@@ -27,16 +27,16 @@
 			<StackPanel Orientation="Horizontal">
 				<!--初始化按钮-->
 				<Button Grid.Column="0" x:Name="InitializeButton" Width="72.5" HorizontalContentAlignment="Center" Margin="10" Content="Initialize" Background="#0075b5" 
-						Foreground="White" FontSize="12" FontFamily="Times" FontWeight="Bold" 
+						Foreground="White" FontSize="12" FontFamily="StaticResource TimesFont" FontWeight="Bold" 
 						CornerRadius="10" VerticalAlignment="Center" Click="Initialize_Click"/>
 				
 				<!--开始按钮-->
 				<Button Grid.Column="1" x:Name="StartButton" Width="57.8" Margin="3" HorizontalContentAlignment="Center" Content="Start" Background="#0075b5"
-						Foreground="White" FontSize="12" FontFamily="Times" FontWeight="Bold" 
+						Foreground="White" FontSize="12" FontFamily="StaticResource TimesFont" FontWeight="Bold" 
 						CornerRadius="10" VerticalAlignment="Center" Click="Start_Click"/>
 				
 				<!--无忧网盘文本块-->
-				<TextBlock Grid.Column="2" Foreground="#0572b0" FontSize="20" Margin="330,15,-6,1" FontWeight="Bold" FontFamily="Times">Carefree</TextBlock>
+				<TextBlock Grid.Column="2" Foreground="#0572b0" FontSize="20" Margin="330,15,-6,1" FontWeight="Bold" FontFamily="StaticResource TimesFont">Carefree</TextBlock>
 				<Border Grid.Column="3" Margin="11,16" VerticalAlignment="Top"  HorizontalAlignment="Left"
 						Background="#0572b0" CornerRadius="3" Height="23" Width="65">
 					<TextBlock Text="Cloud" Margin="2,1,1,1" FontWeight="Bold" FontSize="20" Foreground="White"/>
@@ -105,7 +105,7 @@
 									VerticalAlignment="Center" MinWidth="420" Height="520" Margin="15">
 								<StackPanel>
 									<Border Background="#8bb3db" CornerRadius="3" Height="33">
-									<TextBlock Text="Real-time Information:" Margin="5,7" Foreground="White" FontFamily="Times" FontWeight="Bold"/>
+									<TextBlock Text="Real-time Information:" Margin="5,7" Foreground="White" FontFamily="StaticResource TimesFont" FontWeight="Bold"/>
 									</Border>
 									
 									<ScrollViewer Height="470" VerticalScrollBarVisibility="Auto">
@@ -125,7 +125,7 @@
 							<Border Background="#ebf3fa" CornerRadius="14" BorderThickness="2" HorizontalAlignment="Right"  Margin="0,5" VerticalAlignment="Top" Width="300" Height="520" >
 								<StackPanel>
 									<Border Background="#8bb3db" CornerRadius="3" Height="33">
-										<TextBlock Text="Detailed Algorithm Parameter:" Foreground="White" Margin="5,7" FontFamily="Times" FontWeight="Bold"/>
+										<TextBlock Text="Detailed Algorithm Parameter:" Foreground="White" Margin="5,7" FontFamily="StaticResource TimesFont" FontWeight="Bold"/>
 									</Border>
 									<ScrollViewer Height="480" VerticalScrollBarVisibility="Auto">
 										<ListBox x:Name="DatailedParameter" Background="Transparent">
@@ -156,7 +156,7 @@
 					<StackPanel Orientation="Vertical">
 						<Button Content="Update User Information List" Click="RefreshUserInfo_Click" VerticalAlignment="Top" Margin="20,5,0,3"
 								Background="#0075b5" Width="400" Height="30" HorizontalContentAlignment="Center"
-								Foreground="White" FontSize="12" FontFamily="Times" FontWeight="Bold"
+								Foreground="White" FontSize="12" FontFamily="StaticResource TimesFont" FontWeight="Bold"
 								CornerRadius="5"/>
 						
 						<DataGrid x:Name="uuserList" Margin="20,0" ItemsSource="{Binding UserList,Mode=TwoWay}"
@@ -176,7 +176,7 @@
 					<StackPanel Orientation="Vertical">
 						<Button Content="Update File Information List" Click="RefreshFileInfo_Click" VerticalAlignment="Top" Margin="20,5,0,3" 
 								Background="#0075b5" Width="400" Height="30" HorizontalContentAlignment="Center"
-								Foreground="White" FontSize="12" FontFamily="Times" FontWeight="Bold"
+								Foreground="White" FontSize="12" FontFamily="StaticResource TimesFont" FontWeight="Bold"
 								CornerRadius="5"/>
 						
 						<DataGrid x:Name="ffileList" Margin="20,0" ItemsSource="{Binding UpFileList,Mode=TwoWay}"

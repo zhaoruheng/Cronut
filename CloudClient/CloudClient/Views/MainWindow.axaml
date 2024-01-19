@@ -21,7 +21,7 @@
 		<!--Login Picture-->
 		<Grid Grid.Column="0">
 			<Image Source="{SvgImage /Assets/Images/Working.svg}" Stretch="UniformToFill"/>
-			<TextBlock Foreground="#0572b0" FontSize="20" Margin="30,20,1,1" FontWeight="Bold" FontFamily="Times">Carefree</TextBlock>
+			<TextBlock Foreground="#0572b0" FontSize="20" Margin="30,20,1,1" FontWeight="Bold" FontFamily="StaticResource TimesFont">Carefree</TextBlock>
 		
 			<Border Margin="112,20,1,1" VerticalAlignment="Top"  HorizontalAlignment="Left"
 					Background="#0572b0" CornerRadius="3" Height="23" Width="65">
@@ -61,7 +61,7 @@
 
 			<StackPanel x:Name="BigStackPanel">
 			<Grid Grid.Row="1">
-				<TextBlock Foreground="#0572b0" FontFamily="Black" FontSize="30" FontWeight="DemiBold" Margin="32,90,1,1">Welcome</TextBlock>
+				<TextBlock Foreground="#0572b0" FontFamily="StaticResource HeiFont" FontSize="30" FontWeight="DemiBold" Margin="32,90,1,1">Welcome</TextBlock>
 			</Grid>
 			
 			<!--输入用户名和密码-->
@@ -72,7 +72,7 @@
 					<TextBox x:Name="UserNameBox" VerticalAlignment="Center" HorizontalAlignment="Left"
 								Width="250" Height="20" Margin="32,10,1,1"
 								BorderBrush="Transparent" Background="#ebf2fa"
-								Watermark="UserName" FontSize="12" Foreground="#0572b0" FontFamily="Times" FontWeight="Medium"
+								Watermark="UserName" FontSize="12" Foreground="#0572b0" FontFamily="StaticResource TimesFont" FontWeight="Medium"
 								VerticalContentAlignment="Center" HorizontalContentAlignment="Left" CornerRadius="0">
 					</TextBox>
 
@@ -143,7 +143,7 @@
 				<TextBox x:Name="UserNameBoxSignUp" VerticalAlignment="Center" HorizontalAlignment="Left"
 						 Width="250" Height="20" Margin="32,10,1,1"
 						 BorderBrush="Transparent" Background="#ebf2fa"
-						 Watermark="UserName" FontSize="12" Foreground="#0572b0" FontFamily="Times" FontWeight="Medium"
+						 Watermark="UserName" FontSize="12" Foreground="#0572b0" FontFamily="StaticResource TimesFont" FontWeight="Medium"
 						 VerticalContentAlignment="Center" HorizontalContentAlignment="Left" CornerRadius="0">
 				</TextBox>
 
