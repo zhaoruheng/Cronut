@@ -1,11 +1,8 @@
 # Crount
 
-<div>
-    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-        <img src="img/logo.png" width="25%">
-    </div>
-
-</div> 
+<p align="center">
+  <img src="img/logo.png" width=100 />
+</p>
 
 Crount云盘是一款**端到端加密**且**跨平台**的同步云盘。基于自适应动态默克尔哈希森林算法，在端到端加密的前提下，支持不同用户间的**文件去重存储**和**重复文件秒传**。
 
@@ -34,10 +31,9 @@ Crount云盘是一款**端到端加密**且**跨平台**的同步云盘。基于
 
 - 文件信息页面：文件ID，文件名，所属用户，文件标签，服务器存储地址
 
-<div>
-    <img src="img/Server_2.png" width="45%">
-    <img src="img/Server_3.png" width="50%">
-</div>
+![](img/Server_2.png)
+
+![](img/Server_3.png)
 
 
 此外在服务器运行目录下会生成本地日志文件`log.log`,默认大小限制为*100KB*
@@ -48,10 +44,9 @@ Crount云盘是一款**端到端加密**且**跨平台**的同步云盘。基于
 需先登录或注册
 
 
-<div>
-    <img src="img/Client_1.png" width="45%">
-    <img src="img/Client_2.png" width="45%">
-</div>   
+![](img/Client_1.png)
+
+![](img/Client_2.png)
 
 
 登录后点击`Choose`指定同步目录，随后点击`Confirm`开始与云端同步。点击刷新按钮刷新文件列表。同步自动运行，无需用户干预。
