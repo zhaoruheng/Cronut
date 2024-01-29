@@ -1,8 +1,13 @@
-# yunpan
+# Crount
 
-## Haha!!!
+<div>
+    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <img src="img/logo.png" width="25%">
+    </div>
 
-yunpan是一款**端到端加密**且**跨平台**的同步云盘。基于自适应动态默克尔哈希森林算法，在端到端加密的前提下，支持不同用户间的**文件去重存储**和**重复文件秒传**。
+</div> 
+
+Crount云盘是一款**端到端加密**且**跨平台**的同步云盘。基于自适应动态默克尔哈希森林算法，在端到端加密的前提下，支持不同用户间的**文件去重存储**和**重复文件秒传**。
 
 主要特性：
 
@@ -12,7 +17,7 @@ yunpan是一款**端到端加密**且**跨平台**的同步云盘。基于自适
 
 ## 环境依赖
 
-SQLServer
+服务器端需要安装 *Microsoft SQL Server 2022*
 
 ---
 # 服务器端
@@ -115,9 +120,4 @@ SQLServer
 
 **1.24 updata:完善Readme，增加项目介绍**
 
----
-### 待更新内容
-
-
-前端：上传进度条
-
+**1.29 updata:美化UI，完善Readme**

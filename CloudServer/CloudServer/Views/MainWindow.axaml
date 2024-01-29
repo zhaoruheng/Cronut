@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:CloudServer.Views"
         mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="600"
         x:Class="CloudServer.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/logo.png"
         Title="CloudServer"
 		ExtendClientAreaToDecorationsHint="True"
 		ExtendClientAreaChromeHints="NoChrome"
@@ -36,7 +36,7 @@
 						CornerRadius="10" VerticalAlignment="Center" Click="Start_Click"/>
 				
 				<!--无忧网盘文本块-->
-				<TextBlock Grid.Column="2" Foreground="#0572b0" FontSize="20" Margin="330,15,-6,1" FontWeight="Bold" FontFamily="StaticResource TimesFont">Carefree</TextBlock>
+				<TextBlock Grid.Column="2" Foreground="#0572b0" FontSize="20" Margin="330,15,-6,1" FontWeight="Bold" FontFamily="StaticResource TimesFont">Crount</TextBlock>
 				<Border Grid.Column="3" Margin="11,16" VerticalAlignment="Top"  HorizontalAlignment="Left"
 						Background="#0572b0" CornerRadius="3" Height="23" Width="65">
 					<TextBlock Text="Cloud" Margin="2,1,1,1" FontWeight="Bold" FontSize="20" Foreground="White"/>

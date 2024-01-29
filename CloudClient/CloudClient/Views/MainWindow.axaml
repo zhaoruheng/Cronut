@@ -6,7 +6,7 @@
         xmlns:views="clr-namespace:CloudClient.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="CloudClient.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico" KeyDown="Window_KeyDown"
+        Icon="/Assets/logo.png" KeyDown="Window_KeyDown"
         Title="CloudClient"
 		ExtendClientAreaToDecorationsHint="True"
 		ExtendClientAreaChromeHints="NoChrome"
@@ -21,9 +21,9 @@
 		<!--Login Picture-->
 		<Grid Grid.Column="0">
 			<Image Source="{SvgImage /Assets/Images/Working.svg}" Stretch="UniformToFill"/>
-			<TextBlock Foreground="#0572b0" FontSize="20" Margin="30,20,1,1" FontWeight="Bold" FontFamily="StaticResource TimesFont">Carefree</TextBlock>
+			<TextBlock Foreground="#0572b0" FontSize="20" Margin="30,20,1,1" FontWeight="Bold" FontFamily="StaticResource TimesFont">Crount</TextBlock>
 		
-			<Border Margin="112,20,1,1" VerticalAlignment="Top"  HorizontalAlignment="Left"
+			<Border Margin="100,20,1,1" VerticalAlignment="Top"  HorizontalAlignment="Left"
 					Background="#0572b0" CornerRadius="3" Height="23" Width="65">
 				<TextBlock Text="Cloud" Margin="2,1,1,1" FontWeight="Bold" FontSize="20" Foreground="White"/>
 			</Border>
