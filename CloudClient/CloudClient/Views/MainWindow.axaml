@@ -21,7 +21,7 @@
 		<!--Login Picture-->
 		<Grid Grid.Column="0">
 			<Image Source="{SvgImage /Assets/Images/Working.svg}" Stretch="UniformToFill"/>
-			<TextBlock Foreground="#0572b0" FontSize="20" Margin="30,20,1,1" FontWeight="Bold" FontFamily="StaticResource TimesFont">Crount</TextBlock>
+			<TextBlock Foreground="#0572b0" FontSize="20" Margin="30,20,1,1" FontWeight="Bold" FontFamily="StaticResource TimesFont">Cronut</TextBlock>
 		
 			<Border Margin="100,20,1,1" VerticalAlignment="Top"  HorizontalAlignment="Left"
 					Background="#0572b0" CornerRadius="3" Height="23" Width="65">
