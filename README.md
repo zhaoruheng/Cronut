@@ -1,6 +1,8 @@
 # Cronut 
 
-![](img/Cronut.svg)
+<div align="center">
+    <img src="img/Cronut.svg" alt="Cronut" width="70%"/>
+</div>
 
 Cronut云盘是一款**端到端加密**且**跨平台**的同步云盘。基于自适应动态默克尔哈希森林算法，在端到端加密的前提下，支持不同用户间的**文件去重存储**和**重复文件秒传**。
 
