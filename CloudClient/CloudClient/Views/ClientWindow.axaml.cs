@@ -151,7 +151,9 @@ namespace CloudClient.Views
             SetAppSettingConf("UserName", clientManager.getusername());
 
             //上传和下载文件进程
-            clientManager.SyncProcess();
+            Thread th = new Thread(SyncTh);
+            th.IsBackground = true;
+            th.Start();
 
             fw = new FileWatcher(workPath, "*.*");
             fw.SendEvent += new FileWatcher.DelegateEventHander(clientManager.AnalysesEvent);
