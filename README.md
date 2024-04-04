@@ -1,8 +1,8 @@
-# Cronut 
+# Cronut
 
-<div align="center">
-    <img src="img/Cronut.svg" alt="Cronut" width="70%"/>
-</div>
+<p align="center">
+  <img src="img/logo.png" width=100 />
+</p>
 
 Cronut云盘是一款**端到端加密**且**跨平台**的同步云盘。基于自适应动态默克尔哈希森林算法，在端到端加密的前提下，支持不同用户间的**文件去重存储**和**重复文件秒传**。
 
@@ -117,4 +117,12 @@ Cronut云盘是一款**端到端加密**且**跨平台**的同步云盘。基于
 
 **1.29 updata:美化UI，完善Readme**
 
+**2.4 updata:增加边栏及进度条**
+
 **2.7 updata:修复前端首次上传时短暂卡死的bug**
+
+**4.4 updata:大幅美化UI**
+
+---
+
+[Cronut-dev](https://github.com/zhaoruheng/Cronut-dev) 项目记录了该项目的三个UI美化的版本，欢迎使用

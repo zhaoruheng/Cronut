@@ -46,7 +46,7 @@ public partial class MainWindow : Window
 
         passwordBox = this.Find<TextBox>("PasswordBox");
         seePasswordButton = this.Find<Button>("SeePasswordButton");
-       // AttachDevTools();
+        // AttachDevTools();
 
         LabelProcess.Content = "";
         LabelProcessSignUp.Content = "";
@@ -99,7 +99,7 @@ public partial class MainWindow : Window
     }
 
     //登录按钮
-    public void LoginButton_Click(object sender,RoutedEventArgs e)
+    public void LoginButton_Click(object sender, RoutedEventArgs e)
     {
         LabelProcess.Content = "正在连接...";
 
@@ -118,7 +118,7 @@ public partial class MainWindow : Window
 
         byte status = CheckInput(userName, userPass);
 
-        if(status == NetPublic.DefindedCode.OK)
+        if (status == NetPublic.DefindedCode.OK)
         {
             try
             {
@@ -126,7 +126,7 @@ public partial class MainWindow : Window
             }
             catch
             {
-                LabelProcess.Content= "⚠请检查网络连接";
+                LabelProcess.Content = "⚠请检查网络连接";
                 log.Error("网络连接失败");
                 clientManager = null;
                 return;
@@ -168,7 +168,7 @@ public partial class MainWindow : Window
             LabelProcess.Content = "⚠输入过长";
             log.Error("输入过长");
         }
-        else if(status == NetPublic.DefindedCode.ERROR)
+        else if (status == NetPublic.DefindedCode.ERROR)
         {
             LabelProcess.Content = "⚠用户名或密码为空";
             log.Error("用户名或密码为空");
@@ -178,12 +178,12 @@ public partial class MainWindow : Window
     //注册按钮
     private void SignUpButton_Click(object sender, RoutedEventArgs e)
     {
-        
+
         BigStackPanel.IsVisible = false;
         LabelProcess.IsVisible = false;
         NewStackPanel.IsVisible = true;
     }
-    
+
     //确认注册
     private void SignUpConfirmButton_Click(object sender, RoutedEventArgs e)
     {
@@ -191,7 +191,7 @@ public partial class MainWindow : Window
         string str1 = PasswordBoxSignUp.Text;
         string str2 = PasswordBoxSignUpConfirm.Text;
 
-        if(str1!=str2)
+        if (str1 != str2)
         {
             LabelProcessSignUp.Content = "⚠密码不一致";
             PasswordBoxSignUpConfirm.Clear();
@@ -201,7 +201,7 @@ public partial class MainWindow : Window
         string userName = UserNameBoxSignUp.Text;
         string userPass = PasswordBoxSignUp.Text;
 
-        if(userName==null || userPass==null)
+        if (userName == null || userPass == null)
         {
             LabelProcessSignUp.Content = "⚠用户名或密码为空";
             return;
@@ -237,7 +237,7 @@ public partial class MainWindow : Window
                     break;
             }
         }
-        else if(status==NetPublic.DefindedCode.TOOLONG)
+        else if (status == NetPublic.DefindedCode.TOOLONG)
         {
             LabelProcessSignUp.Content = "⚠输入的密码过长";
         }
@@ -273,15 +273,19 @@ public partial class MainWindow : Window
         {
             // 如果密码可见，将密码字符设置为 ●
             passwordBox.PasswordChar = '●';
-            seePasswordButton.IsVisible = true;
+            SeePasswordButton.IsVisible = true;
+            SeePasswordBorder.IsVisible = true;
             UnseePasswordButton.IsVisible = false;
+            UnseePasswordBorder.IsVisible = false;
         }
         else
         {
             // 如果密码不可见，将密码字符设置为无
             passwordBox.PasswordChar = '\0';
-            seePasswordButton.IsVisible = false;
+            SeePasswordButton.IsVisible = false;
+            SeePasswordBorder.IsVisible = false;
             UnseePasswordButton.IsVisible = true;
+            UnseePasswordBorder.IsVisible = true;
         }
 
         isPasswordVisible = !isPasswordVisible;
@@ -294,14 +298,18 @@ public partial class MainWindow : Window
             // 如果密码可见，将密码字符设置为 ●
             PasswordBoxSignUp.PasswordChar = '●';
             SeePasswordButtonSignUp.IsVisible = true;
+            SeePasswordBorderSignUp.IsVisible = true;
             UnseePasswordButtonSignUp.IsVisible = false;
+            UnseePasswordBorderSignUp.IsVisible = false;
         }
         else
         {
             // 如果密码不可见，将密码字符设置为无
             PasswordBoxSignUp.PasswordChar = '\0';
             SeePasswordButtonSignUp.IsVisible = false;
+            SeePasswordBorderSignUp.IsVisible = false;
             UnseePasswordButtonSignUp.IsVisible = true;
+            UnseePasswordBorderSignUp.IsVisible = true;
         }
 
         isPasswordVisible1 = !isPasswordVisible1;
@@ -314,14 +322,18 @@ public partial class MainWindow : Window
             // 如果密码可见，将密码字符设置为 ●
             PasswordBoxSignUpConfirm.PasswordChar = '●';
             SeePasswordButtonSignUpConfirm.IsVisible = true;
+            SeePasswordBorderSignUpConfirm.IsVisible = true;
             UnseePasswordButtonSignUpConfirm.IsVisible = false;
+            UnseePasswordBorderSignUpConfirm.IsVisible = false;
         }
         else
         {
             // 如果密码不可见，将密码字符设置为无
             PasswordBoxSignUpConfirm.PasswordChar = '\0';
             SeePasswordButtonSignUpConfirm.IsVisible = false;
+            SeePasswordBorderSignUpConfirm.IsVisible = false;
             UnseePasswordButtonSignUpConfirm.IsVisible = true;
+            UnseePasswordBorderSignUpConfirm.IsVisible = true;
         }
 
         isPasswordVisible2 = !isPasswordVisible2;

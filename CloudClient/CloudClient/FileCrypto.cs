@@ -11,6 +11,7 @@ using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Paddings;
 using System.Diagnostics;
+using CloudClient.Views;
 
 ///服务器端
 namespace Cloud
@@ -75,18 +76,23 @@ namespace Cloud
             string blindSignature;
 
             byte[] hashValue = CalculateSHA1();
+            ClientWindow.UpdateProgressBar(12);
 
             blindSignature = BlindSign.BlindSignature(hashValue, clientComHelper, userName);
+            ClientWindow.UpdateProgressBar(24);
 
             fileEncryptKey = MerkleHashTree.ByteArrayToHexString(CalculateSM3Hash(System.Text.Encoding.UTF8.GetBytes(blindSignature)));
+            ClientWindow.UpdateProgressBar(30);
 
             fileCiphertext = SM4Encrypt();
+            ClientWindow.UpdateProgressBar(60);
 
             fileTag = GetFileTag();
+            ClientWindow.UpdateProgressBar(70);
 
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.OK, userName, null, fileSize, fileTag, fileDir.Replace(workPath, "").Substring(1), null, null, 0, fileEncryptKey);
-
             clientComHelper.SendMsg();
+            ClientWindow.UpdateProgressBar(75);
 
             NetPacket np = clientComHelper.RecvMsg();
             if (np.code == NetPublic.DefindedCode.AGREEUP)
@@ -98,6 +104,7 @@ namespace Cloud
                 SubsequentUpload(np.userType);
             }
             ReturnMsg?.Invoke();
+            ClientWindow.UpdateProgressBar(90);
 
             System.IO.DirectoryInfo topDir = System.IO.Directory.GetParent(fileDir);
             string pathto = topDir.FullName;
@@ -107,6 +114,7 @@ namespace Cloud
             {
                 File.Delete(filePath);
             }
+            ClientWindow.UpdateProgressBar(100);
             return np.code;
         }
 

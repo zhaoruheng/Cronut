@@ -11,6 +11,8 @@ using System.Threading;
 using Avalonia.Input;
 using System.Diagnostics;
 using log4net;
+using Avalonia.Threading;
+using Avalonia.Media;
 
 namespace CloudClient.Views
 {
@@ -24,11 +26,21 @@ namespace CloudClient.Views
         private bool isDragging = false;
         private Point startPosition;
         private int selectorFileType = 0;   //0主页 1图片 2文档 3音频视频 4其他
+        private static ProgressBar progressBar;
         private static ILog log = LogManager.GetLogger("Log");
+        private SplitView sv1, sv2;
+        private ScrollViewer ufViewer1;
+        private TextBlock fuTextBlock;
+        public static int processValue = 0;
+        bool isFileUploadProcessVisible = false;
+
+        private bool close = true;
 
         public ClientWindow(ClientManager clientManager)
         {
             InitializeComponent();
+
+            progressBar = this.Find<ProgressBar>("progress");
 
             DragDrop.SetAllowDrop(this, true); // 启用拖放
 
@@ -51,7 +63,7 @@ namespace CloudClient.Views
                 log.Info("用户已选择文件夹");
 
                 ShowFilePath.Watermark = workPath;
-                ShowFilePath.IsEnabled = false;
+                //ShowFilePath.IsEnabled = false;
                 ChooseButton.IsEnabled = false;
                 ConfirmButton.IsEnabled = false;
 
@@ -70,6 +82,85 @@ namespace CloudClient.Views
             }
 
             UpdateFileList();
+        }
+
+        private void FoldButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (isFileUploadProcessVisible)
+            {
+                uploadFileProcessGrid.IsVisible = false;
+                uploadFileBorder.Width = 713;
+                chooseFilePathTextBox.Width = 462;
+                ShowFilePath.Width = 462;
+                FileWrapPanel.Width = 680;
+                uploadedFileViewer.Width = 680;
+            }
+            else
+            {
+                uploadFileProcessGrid.IsVisible = true;
+                uploadFileBorder.Width = 531;
+                chooseFilePathTextBox.Width = 280;
+                ShowFilePath.Width = 280;
+                FileWrapPanel.Width = 510;
+                uploadedFileViewer.Width = 510;
+            }
+
+            isFileUploadProcessVisible = !isFileUploadProcessVisible;
+        }
+
+        private void OpenFolder_Click(object sender, RoutedEventArgs e)
+        {
+            sv1 = this.Find<SplitView>("splitView1");
+            sv2 = this.Find<SplitView>("splitView2");
+            ufViewer1 = this.Find<ScrollViewer>("uploadedFileViewer");
+            fuTextBlock = this.Find<TextBlock>("fileUploadTextBlock");
+
+            if (close)
+            {
+                sv1.OpenPaneLength = 230;
+                sv2.OpenPaneLength = 230;
+                fuTextBlock.IsVisible = true;
+                ufViewer1.Width = 570;
+                close = false;
+            }
+            else
+            {
+                sv1.OpenPaneLength = 60;
+                sv2.OpenPaneLength = 60;
+                fuTextBlock.IsVisible = false;
+                ufViewer1.Width = 890;
+                close = true;
+            }
+        }
+
+        //更新进度条的值
+        public static void UpdateProgressBar(int value)
+        {
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                progressBar.Value = value;
+            });
+        }
+
+        private void UpdateProgressBar()
+        {
+            // 使用Dispatcher在UI线程上更新ProgressBar的Value属性
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                // 这里可以根据需要更新进度条的值
+                progressBar.Value += 1;
+                
+
+                // 如果Value达到最大值，可以停止定时器或者重置Value的值
+                if (progressBar.Value >= progressBar.Maximum)
+                {
+                    // 停止定时器
+                    //timer.Stop();
+
+                    // 或者重置Value的值
+                    progressBar.Value = progressBar.Minimum;
+                }
+            });
         }
 
         private void OnPointerPressed(object sender, PointerPressedEventArgs e)
@@ -130,6 +221,7 @@ namespace CloudClient.Views
             {
                 ShowFilePath.Watermark = workPath;
                 ChooseButton.IsEnabled = false;
+                ChooseButton.Background = new SolidColorBrush(Colors.Red);
                 ChooseButton.Content = "Chosen";
             }
         }
@@ -141,19 +233,22 @@ namespace CloudClient.Views
             {
                 return;
             }
-
             ConfirmButton.IsEnabled = false;
-
+            progressBar.Value = 10;
             UploadingFileList.Items.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ": 用户已选择文件路径");
+            progressBar.Value = 25;
 
             clientManager.workPath = workPath;
             SetAppSettingConf("TargetDir", workPath);
             SetAppSettingConf("UserName", clientManager.getusername());
+            progressBar.Value = 50;
 
             //上传和下载文件进程
+            //clientManager.SyncProcess();
             Thread th = new Thread(SyncTh);
             th.IsBackground = true;
             th.Start();
+            progressBar.Value = 100;
 
             fw = new FileWatcher(workPath, "*.*");
             fw.SendEvent += new FileWatcher.DelegateEventHander(clientManager.AnalysesEvent);
@@ -376,22 +471,6 @@ namespace CloudClient.Views
         private void MinButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
-        }
-
-        //最大化
-        private void MaxButton_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Maximized;
-            MaxButton.IsVisible = false;
-            NormButton.IsVisible = true;
-        }
-
-        //恢复
-        private void NormButton_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Normal;
-            NormButton.IsVisible = false;
-            MaxButton.IsVisible = true;
         }
     }
 }

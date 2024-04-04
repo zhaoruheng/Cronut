@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using CloudClient.Views;
 using log4net;
 using NetPublic;
 
@@ -132,14 +133,17 @@ namespace Cloud
             //上传文件
             foreach (string file in upFileList) //upFileList为指定文件夹下的所有文件
             {
+                ClientWindow.UpdateProgressBar(0);
                 UploadFileProcess(file);
             }
+            ClientWindow.UpdateProgressBar(50);
 
             //下载文件
             foreach (string file in downFileList)
             {
                 DownloadFileProcess(file);
             }
+            ClientWindow.UpdateProgressBar(100);
             protect = false;
         }
 
@@ -258,14 +262,24 @@ namespace Cloud
         public byte UploadFileProcess(string filePath)
         {
             ClientComHelper clientComHelper = new ClientComHelper(ipString, port, workPath);
+            ClientWindow.UpdateProgressBar(2);
 
             //去除filePath中的workPath,去除前面的斜线
             string fileName=filePath.Replace(workPath, "").Substring(1);
+            ClientWindow.UpdateProgressBar(4);
+
             clientComHelper.MakeRequestPacket(NetPublic.DefindedCode.UPLOAD, userName, 0, fileName, null);
+            ClientWindow.UpdateProgressBar(6);
+
             clientComHelper.SendMsg();
+            ClientWindow.UpdateProgressBar(8);
+
             NetPacket np = clientComHelper.RecvMsg();
+            ClientWindow.UpdateProgressBar(9);
+
             FileCrypto fc = new FileCrypto(filePath, clientComHelper, userName);
             fc.SetWorkPath(workPath);
+            ClientWindow.UpdateProgressBar(10);
 
             //返回DefindedCode.AGREEUP 或 DefineCode.FILEEXISTED
             return fc.FileUpload();

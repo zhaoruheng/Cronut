@@ -16,7 +16,12 @@
     <None Remove="Assets\Fonts\TIMESBD.TTF" />
     <None Remove="Assets\Fonts\TIMESBI.TTF" />
     <None Remove="Assets\Fonts\TIMESI.TTF" />
+    <None Remove="Assets\CronutIcon.png" />
     <None Remove="Assets\Images\Close.svg" />
+    <None Remove="Assets\Images\File.svg" />
+    <None Remove="Assets\Images\GirlJumping.png" />
+    <None Remove="Assets\Images\Houseplant.png" />
+    <None Remove="Assets\Images\User.svg" />
   </ItemGroup>
 
   <ItemGroup>

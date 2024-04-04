@@ -5,143 +5,270 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
         xmlns:views="clr-namespace:CloudServer.Views"
-        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="600"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="600"
         x:Class="CloudServer.Views.MainWindow"
-        Icon="/Assets/logo.png"
+        Icon="/Assets/CronutIcon.png"
         Title="CloudServer"
 		ExtendClientAreaToDecorationsHint="True"
 		ExtendClientAreaChromeHints="NoChrome"
 		ExtendClientAreaTitleBarHeightHint="-1"
 		SystemDecorations="None"
 		Height="600" Width="1200"
-		DragDrop.AllowDrop="True">
+		DragDrop.AllowDrop="True"
+		Background="#DDDEDE">
 	
 	<Window.DataContext>
 		<vm:MainViewModel/>
 	</Window.DataContext>
 	
-	<Grid RowDefinitions="10*,90*">
+	<Grid RowDefinitions="Auto,Auto">
 		
 		<!--上方的菜单栏-->
-		<Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*,*,Auto" Background="White">
-			<StackPanel Orientation="Horizontal">
-				<!--初始化按钮-->
-				<Button Grid.Column="0" x:Name="InitializeButton" Width="72.5" HorizontalContentAlignment="Center" Margin="10" Content="Initialize" Background="#0075b5" 
-						Foreground="White" FontSize="12" FontFamily="StaticResource TimesFont" FontWeight="Bold" 
-						CornerRadius="10" VerticalAlignment="Center" Click="Initialize_Click"/>
-				
-				<!--开始按钮-->
-				<Button Grid.Column="1" x:Name="StartButton" Width="57.8" Margin="3" HorizontalContentAlignment="Center" Content="Start" Background="#0075b5"
-						Foreground="White" FontSize="12" FontFamily="StaticResource TimesFont" FontWeight="Bold" 
-						CornerRadius="10" VerticalAlignment="Center" Click="Start_Click"/>
-				
-				<!--无忧网盘文本块-->
-				<TextBlock Grid.Column="2" Foreground="#0572b0" FontSize="20" Margin="330,15,-6,1" FontWeight="Bold" FontFamily="StaticResource TimesFont">Cronut</TextBlock>
-				<Border Grid.Column="3" Margin="11,16" VerticalAlignment="Top"  HorizontalAlignment="Left"
-						Background="#0572b0" CornerRadius="3" Height="23" Width="65">
-					<TextBlock Text="Cloud" Margin="2,1,1,1" FontWeight="Bold" FontSize="20" Foreground="White"/>
-				</Border>
+		<Border Grid.Row="0" Background="#F3F3F3" Width="1300" Height="70"
+				Margin="0,0,0,0" CornerRadius="30"
+				BoxShadow="3 4 6 1 #A8A8A8"
+				HorizontalAlignment="Center">
+			
+			<Grid ColumnDefinitions="Auto,Auto,Auto">
+				<StackPanel Orientation="Horizontal">
 
-				<!--最小化-->
-				<Button Click="MinButton_Click" Background="Transparent" Margin="433,0,0,0"
-						Width="34" Height="34" CornerRadius="5">
-					<Image Source="{SvgImage /Assets/Images/MinWindow.svg}" Stretch="UniformToFill"/>
-				</Button>
-				
-				<!--最大化-->
-				<Button x:Name="MaxButton" Click="MaxButton_Click" Background="Transparent" Margin="4,0,0,0"
-						Width="34" Height="34" CornerRadius="5">
-					<Image Source="{SvgImage /Assets/Images/MaxWindow.svg}"/>
-				</Button>
-				
-				<!--还原-->
-				<Button x:Name="NormButton" Click="NormButton_Click" Background="Transparent" Margin="0,0,0,0"
-						Width="34" Height="34" CornerRadius="5" IsVisible="False">
-					<Image Source="{SvgImage /Assets/Images/NormWindow.svg}"/>
-				</Button>
-				
-				<!--关闭-->
-				<Button Click="CloseButton_Click" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4,0,0,0" 
-						Width="34" Height="34" CornerRadius="5" Background="Transparent">
-					<Image Source="{SvgImage /Assets/Images/Close.svg}" Stretch="UniformToFill"/>
-				</Button>
-				
-			</StackPanel>
-		</Grid>
+					<StackPanel.Styles>
+						<Style Selector="Button /template/ContentPresenter">
+							<Setter Property="Transitions">
+								<Transitions>
+									<TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15"/>
+								</Transitions>
+							</Setter>
+						</Style>
 
+						<Style Selector="Button:pointerover /template/ContentPresenter">
+							<Setter Property="Background" Value="Transparent"/>
+							<Setter Property="RenderTransform" Value="scale(1.07)"/>
+							<Setter Property="Opacity" Value="0.4"/>
+							<Setter Property="CornerRadius" Value="10"></Setter>
+							<Setter Property="Foreground" Value="White"/>
+						</Style>
+
+						<Style Selector="Button:disabled /template/ContentPresenter">
+							<Setter Property="Background" Value="Gray"/>
+							<Setter Property="CornerRadius" Value="10"/>
+						</Style>
+					</StackPanel.Styles>
+					
+					<!--初始化按钮-->
+					<Border Grid.Column="0" Width="80" Height="33" Background="#495C7B"
+							Margin="100,0,20,0" VerticalAlignment="Center"
+							BoxShadow="3 4 6 1 #A8A8A8"
+							CornerRadius="10">
+						<Button x:Name="InitializeButton" Background="#495C7B"
+								HorizontalContentAlignment="Center"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								VerticalContentAlignment="Center"
+								Content="Initialize" Foreground="White" FontSize="12" 
+								FontFamily="Arial" FontWeight="Black"
+								Width="84" Height="34"
+								CornerRadius="10" Click="Initialize_Click"/>
+					</Border>
+					
+
+					<!--开始按钮-->
+					<Border Grid.Column="1" Width="68" Height="33" Background="#495C7B"
+							VerticalAlignment="Center"
+							BoxShadow="3 4 6 1 #A8A8A8"
+							CornerRadius="10">
+						<Button x:Name="StartButton" Background="#495C7B"
+								HorizontalContentAlignment="Center"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								VerticalContentAlignment="Center"
+								Width="71" Height="34"
+								Content="Start" Foreground="White" FontSize="12"
+								FontFamily="Arial" FontWeight="Black"
+								CornerRadius="10"  Click="Start_Click"/>
+					</Border>
+					
+					
+					<!--Cronut Cloud文本块-->
+					<TextBlock Grid.Column="2" Text="Cronut Cloud" FontFamily="Trebuchet MS"
+							   FontSize="24" FontWeight="Bold" Margin="280,0,0,0"
+							   VerticalAlignment="Center"/>
+					
+
+					<!--最小化-->
+					<Button Click="MinButton_Click" Background="Transparent" Margin="390,0,4,0"
+							Width="34" Height="34" CornerRadius="5">
+						<Image Source="{SvgImage /Assets/Images/MinWindow.svg}" Stretch="UniformToFill"/>
+					</Button>
+
+					<!--最大化-->
+					<Button x:Name="MaxButton" Click="MaxButton_Click" Background="Transparent" Margin="4,0,4,0"
+							Width="34" Height="34" CornerRadius="5">
+						<Image Source="{SvgImage /Assets/Images/MaxWindow.svg}"/>
+					</Button>
+
+					<!--还原-->
+					<Button x:Name="NormButton" Click="NormButton_Click" Background="Transparent" Margin="4,0,0,0"
+							Width="34" Height="34" CornerRadius="5" IsVisible="False">
+						<Image Source="{SvgImage /Assets/Images/NormWindow.svg}"/>
+					</Button>
+
+					<!--关闭-->
+					<Button Click="CloseButton_Click" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4,0,0,0"
+							Width="34" Height="34" CornerRadius="5" Background="Transparent">
+						<Image Source="{SvgImage /Assets/Images/Close.svg}" Stretch="UniformToFill"/>
+					</Button>
+				</StackPanel>
+			</Grid>
+		</Border>
+		
 		<!--主体部分-->
-		<Grid Grid.Row="1" Background="#d4e6f3">
+		<Grid Grid.Row="1">
 			<!--左侧的TableControl-->
-			<TabControl Margin="5" TabStripPlacement="Left">
-				
+			<TabControl TabStripPlacement="Left" Height="550">
 				<!--主页部分-->
 				<TabItem>
 					<TabItem.Header>
-						<Image Source="{SvgImage /Assets/Images/Home.svg}" Width="20" Height="20"/>
+						<Image Source="{SvgImage /Assets/Images/Home.svg}" Width="27"
+							   ToolTip.Tip="Home"/>
 					</TabItem.Header>
 
-					<!--实时图表-->
 					<Grid ColumnDefinitions="*,*,*">
-						<Border CornerRadius="14" BorderThickness="2" Background="#ebf3fa" HorizontalAlignment="Left" VerticalAlignment="Center" Width="380" Height="520">
-							<Grid Grid.Column="0" RowDefinitions="0.2*,2*,0.2*,2*,0.2*,2*" Margin="0,7">
-								<TextBlock Grid.Row="0" Text="实时文件总数:" Margin="5,0"/>
-								<lvc:CartesianChart Grid.Row="1" Series="{Binding SumFileSeries}"
-													YAxes="{Binding YFileAxis}" XAxes="{Binding XAxis}"/>
+						
+						<!--实时图表-->
+						<Grid Grid.Column="0" RowDefinitions="Auto,Auto,Auto" Margin="0,15,0,0">
 
-								<TextBlock Grid.Row="2" Text="实时去重后的文件数:" Margin="5,0"/>
-								<lvc:CartesianChart x:Name="ResFileLiveCharts" Grid.Row="3" Series="{Binding SumResFileSeries}"
-													YAxes="{Binding YResFileAxis}" XAxes="{Binding XAxis}"/>
-								
-								<TextBlock Grid.Row="4" Text="实时用户总数:" Margin="5,0"/>
-								<lvc:CartesianChart Grid.Row="5" Series="{Binding UserSeries}"
-													YAxes="{Binding YUserAxis}" XAxes="{Binding XAxis}"/>
+							<!--实时文件总数-->
+							<Border Grid.Row="0" CornerRadius="20" Background="#F3F3F3"
+									Opacity="80" BoxShadow="3 4 6 1 #A8A8A8"
+									Width="344" Height="155">
+								<StackPanel Orientation="Vertical">
+									<TextBlock Text="实时文件总数:" Margin="15,5,0,0"/>
+									<lvc:CartesianChart Series="{Binding SumFileSeries}"
+														YAxes="{Binding YFileAxis}" XAxes="{Binding XAxis}"
+														Width="320" Height="131"/>
+								</StackPanel>
+							</Border>
+
+
+							<!--去重后的文件数-->
+							<Border Grid.Row="1" CornerRadius="20" Background="#F3F3F3"
+									Opacity="80" BoxShadow="3 4 6 1 #A8A8A8"
+									Width="344" Height="155" Margin="0,12,0,0">
+								<StackPanel Orientation="Vertical">
+									<TextBlock Text="实时去重后的文件数:" Margin="15,5,0,0"/>
+									<lvc:CartesianChart x:Name="ResFileLiveCharts" Grid.Row="3" Series="{Binding SumResFileSeries}"
+														YAxes="{Binding YResFileAxis}" XAxes="{Binding XAxis}"
+														Width="320" Height="131"/>
+								</StackPanel>
+							</Border>
 							
-							</Grid>
-						</Border>
+							<!--实时用户总数-->
+							<Border Grid.Row="2" CornerRadius="20" Background="#F3F3F3"
+									Opacity="80" BoxShadow="3 4 6 1 #A8A8A8"
+									Width="344" Height="157" Margin="0,12,0,0">
+								<StackPanel Orientation="Vertical">
+									<TextBlock Text="实时用户总数:" Margin="15,7,0,0"/>
+									<lvc:CartesianChart Grid.Row="5" Series="{Binding UserSeries}"
+														YAxes="{Binding YUserAxis}" XAxes="{Binding XAxis}"
+														Width="320" Height="132"/>
+								</StackPanel>
+							</Border>
+							
+						</Grid>
+						
 						
 						<!--用户动态-->
-						<Grid Grid.Column="1">
-							<Border Background="#ebf3fa" CornerRadius="14" BorderThickness="2" HorizontalAlignment="Left"
-									VerticalAlignment="Center" MinWidth="420" Height="520" Margin="15">
-								<StackPanel>
-									<Border Background="#8bb3db" CornerRadius="3" Height="33">
-									<TextBlock Text="Real-time Information:" Margin="5,7" Foreground="White" FontFamily="StaticResource TimesFont" FontWeight="Bold"/>
+						<Grid Grid.Column="1" Margin="10,-25,0,0">
+							<Border Background="#EFEFEF" Width="395" Height="490"
+									BoxShadow="3 4 6 1 #A8A8A8"
+									CornerRadius="20"
+									Margin="15,0,0,0">
+								
+								<StackPanel Orientation="Vertical">
+									<Border Background="#7B8490" CornerRadius="20"
+											BoxShadow="3 4 6 1 #A8A8A8"
+											Width="358" Height="35"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Top"
+											Margin="0,10,0,0">
+		
+										<TextBlock Text="Real-time Information:"
+												   FontFamily="Arial" FontSize="14"
+												   FontWeight="Bold" Foreground="White"
+												   VerticalAlignment="Center"
+												   Margin="15,0,0,0"/>
 									</Border>
-									
-									<ScrollViewer Height="470" VerticalScrollBarVisibility="Auto">
-										<ListBox x:Name="RealTimeInfo" Background="Transparent" FontSize="2" >
+
+									<ScrollViewer Margin="0,10,0,0" Height="420" Width="380" Background="Red" VerticalScrollBarVisibility="Auto">
+
+										<ScrollViewer.Styles>
+											<Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+												<Setter Property="Background" Value="#ACAFB3" />
+											</Style>
+										</ScrollViewer.Styles>
+										
+										<ListBox x:Name="RealTimeInfo" FontSize="2">
 											<ListBox.ItemTemplate>
 												<DataTemplate>
-													<TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="12"></TextBlock>												</DataTemplate>
+													<TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="12" IsEnabled="False"></TextBlock>
+												</DataTemplate>
 											</ListBox.ItemTemplate>
 										</ListBox>
 									</ScrollViewer>
 								</StackPanel>
 							</Border>
+							
 						</Grid>
 						
 						<!--具体算法过程-->
-						<Grid Grid.Column="2">
-							<Border Background="#ebf3fa" CornerRadius="14" BorderThickness="2" HorizontalAlignment="Right"  Margin="0,5" VerticalAlignment="Top" Width="300" Height="520" >
-								<StackPanel>
-									<Border Background="#8bb3db" CornerRadius="3" Height="33">
-										<TextBlock Text="Detailed Algorithm Parameter:" Foreground="White" Margin="5,7" FontFamily="StaticResource TimesFont" FontWeight="Bold"/>
-									</Border>
-									<ScrollViewer Height="480" VerticalScrollBarVisibility="Auto">
-										<ListBox x:Name="DatailedParameter" Background="Transparent">
-											<ListBox.ItemTemplate>
-												<DataTemplate>
-													<TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="12"></TextBlock>
-													
-												</DataTemplate>
-												
-											</ListBox.ItemTemplate>
-										</ListBox>
-											
-									</ScrollViewer>
+						<Grid Grid.Column="2" Margin="30,0,0,0">
+							<StackPanel Orientation="Vertical">
+								
+								<Image Source="/Assets/Images/Houseplant.png"
+									   Height="200" HorizontalAlignment="Center"/>
+								<Border Background="#EFEFEF" Width="322" Height="308"
+										CornerRadius="20" BoxShadow="3 4 6 1 #A8A8A8">
+									<StackPanel Orientation="Vertical">
 
-								</StackPanel>
-							</Border>
+										<Border Width="293" Height="35"
+												CornerRadius="20"
+												Background="#7B8490"
+												BoxShadow="3 4 6 1 #A8A8A8"
+												Margin="0,10,0,0">
+											<TextBlock Text="Detailed Algorithm Parameter:"
+													   FontFamily="Arial" FontSize="14"
+													   FontWeight="Bold" Foreground="White"
+													   VerticalAlignment="Center"
+													   Margin="15,0,0,0"/>
+										</Border>
+
+										<ScrollViewer Height="245" Width="300"
+													  VerticalScrollBarVisibility="Auto"
+													  Margin="0,8,0,0">
+
+											<ScrollViewer.Styles>
+												<Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+													<Setter Property="Background" Value="#ACAFB3" />
+												</Style>
+											</ScrollViewer.Styles>
+											
+											<ListBox x:Name="DatailedParameter" Background="Transparent">
+												<ListBox.ItemTemplate>
+													<DataTemplate>
+														<TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="12"></TextBlock>
+
+													</DataTemplate>
+
+												</ListBox.ItemTemplate>
+											</ListBox>
+
+										</ScrollViewer>
+										
+									</StackPanel>
+								</Border>
+							</StackPanel>
+							
 						</Grid>
 
 					</Grid>
@@ -150,34 +277,96 @@
 				<!--用户部分-->
 				<TabItem>
 					<TabItem.Header>
-						<Image Source="{SvgImage /Assets/Images/User.svg}" Width="20" Height="20"/>
+						<Image Source="{SvgImage /Assets/Images/User.svg}" Width="25"
+							   ToolTip.Tip="All Users"/>
 					</TabItem.Header>
 
-					<StackPanel Orientation="Vertical">
-						<Button Content="Update User Information List" Click="RefreshUserInfo_Click" VerticalAlignment="Top" Margin="20,5,0,3"
-								Background="#0075b5" Width="400" Height="30" HorizontalContentAlignment="Center"
-								Foreground="White" FontSize="12" FontFamily="StaticResource TimesFont" FontWeight="Bold"
-								CornerRadius="5"/>
+					<Grid>
+						<Image Source="/Assets/Images/GirlJumping.png"
+								   HorizontalAlignment="Right"
+								   VerticalAlignment="Bottom" Width="400" Opacity="90"/>
+							
+						<StackPanel Margin="0,10,0,0" Orientation="Vertical">
+							<StackPanel.Styles>
+								<Style Selector="Button /template/ContentPresenter">
+									<Setter Property="Transitions">
+										<Transitions>
+											<TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15"/>
+										</Transitions>
+									</Setter>
+								</Style>
+
+								<Style Selector="Button:pointerover /template/ContentPresenter">
+									<Setter Property="Background" Value="Transparent"/>
+									<Setter Property="RenderTransform" Value="scale(1.07)"/>
+									<Setter Property="Opacity" Value="0.4"/>
+									<Setter Property="CornerRadius" Value="10"></Setter>
+									<Setter Property="Foreground" Value="White"/>
+								</Style>
+							</StackPanel.Styles>
+							
+							<Border VerticalAlignment="Top" HorizontalAlignment="Left"
+									Background="#495C7B" CornerRadius="10"
+									Width="400" Height="30" Margin="20,0,0,10"
+									BoxShadow="3 4 6 1 #A8A8A8">
+								<Button Content="Update User Information List" Click="RefreshUserInfo_Click"
+										HorizontalContentAlignment="Center" Foreground="White"
+										HorizontalAlignment="Center"
+										FontSize="13" FontFamily="Arial" FontWeight="Bold"
+										CornerRadius="10" Width="390"
+										Background="Transparent"/>
+							</Border>
+											
+							<DataGrid x:Name="uuserList" Margin="20,0" ItemsSource="{Binding UserList,Mode=TwoWay}"
+							AutoGenerateColumns="True" IsReadOnly="True"
+							GridLinesVisibility="All"
+							BorderThickness="1" BorderBrush="Gray" Width="750" Height="450" HorizontalAlignment="Left">
+							</DataGrid>
+
+						</StackPanel>
+
 						
-						<DataGrid x:Name="uuserList" Margin="20,0" ItemsSource="{Binding UserList,Mode=TwoWay}"
-						AutoGenerateColumns="True" IsReadOnly="True"
-						GridLinesVisibility="All"
-						BorderThickness="1" BorderBrush="Gray" Width="750" Height="450" HorizontalAlignment="Left">
-						</DataGrid>
-					</StackPanel>					
+					</Grid>
 				</TabItem>
 					
 				<!--文件部分-->
 				<TabItem>
 					<TabItem.Header>
-						<Image Source="{SvgImage /Assets/Images/File.svg}" Height="20" Width="20"/>
+						<Image Source="{SvgImage /Assets/Images/File.svg}" Height="25"
+							   ToolTip.Tip="All Files"/>
 					</TabItem.Header>
 
-					<StackPanel Orientation="Vertical">
-						<Button Content="Update File Information List" Click="RefreshFileInfo_Click" VerticalAlignment="Top" Margin="20,5,0,3" 
-								Background="#0075b5" Width="400" Height="30" HorizontalContentAlignment="Center"
-								Foreground="White" FontSize="12" FontFamily="StaticResource TimesFont" FontWeight="Bold"
-								CornerRadius="5"/>
+					<StackPanel Margin="0,10,0,0" Orientation="Vertical">
+
+						<StackPanel.Styles>
+						<Style Selector="Button /template/ContentPresenter">
+							<Setter Property="Transitions">
+								<Transitions>
+									<TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15"/>
+								</Transitions>
+							</Setter>
+						</Style>
+
+						<Style Selector="Button:pointerover /template/ContentPresenter">
+							<Setter Property="Background" Value="Transparent"/>
+							<Setter Property="RenderTransform" Value="scale(1.07)"/>
+							<Setter Property="Opacity" Value="0.4"/>
+							<Setter Property="CornerRadius" Value="10"></Setter>
+							<Setter Property="Foreground" Value="White"/>
+						</Style>
+					</StackPanel.Styles>
+						
+						<Border VerticalAlignment="Top" HorizontalAlignment="Left"
+									Background="#495C7B" CornerRadius="10"
+									Width="400" Height="30" Margin="20,0,0,10"
+									BoxShadow="3 4 6 1 #A8A8A8">
+							<Button Content="Update File Information List" Click="RefreshFileInfo_Click"
+									HorizontalContentAlignment="Center" Foreground="White"
+									HorizontalAlignment="Center"
+									FontSize="13" FontFamily="Arial" FontWeight="Bold"
+									CornerRadius="10" Width="390"
+									Background="Transparent"/>
+						</Border>
 						
 						<DataGrid x:Name="ffileList" Margin="20,0" ItemsSource="{Binding UpFileList,Mode=TwoWay}"
 							  AutoGenerateColumns="True" IsReadOnly="True"

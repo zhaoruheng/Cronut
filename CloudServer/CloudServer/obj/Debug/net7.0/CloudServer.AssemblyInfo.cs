@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CloudServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+058a2704cf45d03a707e8083a7d44368509f2af4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0fd11f9ab061beb3ce906e175e83832d2fc04515")]
 [assembly: System.Reflection.AssemblyProductAttribute("CloudServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CloudServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

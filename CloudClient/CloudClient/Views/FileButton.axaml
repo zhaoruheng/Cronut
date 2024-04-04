@@ -9,15 +9,16 @@
 			ToolTip.Tip="{Binding ElementName=FileButtonTextBlock,Path=Text}" 
 			Click = "OpenFile_Click">
 		<Button.Styles>
-			<Style Selector="Button:pointerover">
-				<Setter Property="Background" Value="Gray"/>
+			<Style Selector="Button:pointerover /template/ContentPresenter">
+				<Setter Property="Background" Value="Transparent"/>
+				<Setter Property="RenderTransform" Value="scale(1.03)"/>
 			</Style>
 		</Button.Styles>
 		
-		<StackPanel Width="50">
-			<Image Source="{SvgImage /Assets/Images/FileIcon.svg}"></Image>
+		<StackPanel Width="50" Height="48" Background="#FFFAFA">
+			<Image Source="avares://CloudClient/Assets/Images/File.png"></Image>
 			<TextBlock x:Name="FileButtonTextBlock" HorizontalAlignment="Center"
-					   Margin="0,2" Text="hajhmhcaha.txt" FontSize="10" Width="70" 
+					   Margin="0,2" FontSize="10" Width="70" 
 					   TextAlignment="Center"/>
 		</StackPanel>
 	</Button>

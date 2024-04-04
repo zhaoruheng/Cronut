@@ -4,234 +4,393 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:CloudClient.Views"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="830" d:DesignHeight="450"
         x:Class="CloudClient.Views.MainWindow"
-        Icon="/Assets/logo.png" KeyDown="Window_KeyDown"
-        Title="CloudClient"
+        Icon="/Assets/CronutIcon.png" KeyDown="Window_KeyDown"
+        Title="CloudClient" 
 		ExtendClientAreaToDecorationsHint="True"
 		ExtendClientAreaChromeHints="NoChrome"
 		ExtendClientAreaTitleBarHeightHint="-1"
 		SystemDecorations="None" 
-		Height="450" Width="800"
-		DragDrop.AllowDrop="True">
+		Height="450" Width="830"
+		DragDrop.AllowDrop="True"
+		CornerRadius="40"
+		Background="#E6E7E7">
 	
-	<Border CornerRadius="20">
-	<Grid ColumnDefinitions="420 Auto,120*">
+	<!--界面分成3列-->
+	<Grid ColumnDefinitions="Auto,Auto,Auto">
 		
-		<!--Login Picture-->
-		<Grid Grid.Column="0">
-			<Image Source="{SvgImage /Assets/Images/Working.svg}" Stretch="UniformToFill"/>
-			<TextBlock Foreground="#0572b0" FontSize="20" Margin="30,20,1,1" FontWeight="Bold" FontFamily="StaticResource TimesFont">Cronut</TextBlock>
-		
-			<Border Margin="100,20,1,1" VerticalAlignment="Top"  HorizontalAlignment="Left"
-					Background="#0572b0" CornerRadius="3" Height="23" Width="65">
-				<TextBlock Text="Cloud" Margin="2,1,1,1" FontWeight="Bold" FontSize="20" Foreground="White"/>
-			</Border>
+		<!--左侧列-->
+		<Grid Grid.Column="0" Width="304">
+			
+			<!--Cronut Cloud字体-->
+			<TextBlock Text="Cronut Cloud" FontFamily="Trebuchet MS"
+					   FontWeight="Bold" FontSize="16" Margin="23,18,0,0"/>
+
+			<!--Girl Swing图片-->
+			<Image Source="avares://CloudClient/Assets/Images/GirlSwing.png"
+				   Width="314" VerticalAlignment="Top"
+				   Margin="0,58,0,0" />
 		</Grid>
-		
-		<!--Login Part-->
-			<!--Welcome-->
-		<Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-			
-			<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="267,7,0,0">
-				<!--最小化-->
-				<Button Background="Transparent" Click="MinButton_Click" VerticalAlignment="Top"
-						Width="32" Height="32" CornerRadius="5">
-					<Image Source="{SvgImage /Assets/Images/MinWindow.svg}" Stretch="UniformToFill"/>
-				</Button>
 
-				<!--最大化-->
-				<Button x:Name="MaxButton" Background="Transparent" Click="MaxButton_Click" VerticalAlignment="Top"
-						Width="34" Height="34" CornerRadius="5" Margin="4,0,0,0">
-					<Image Source="{SvgImage /Assets/Images/MaxWindow.svg}"/>
-				</Button>
+		<!--中间列-->
+		<Border Grid.Column="1" CornerRadius="20"
+				Width="295" Height="353" Margin="0,5,0,0"
+				BoxShadow="3 6 9 4 #7D7D7D"
+				Background="#F3F3F3">
 
-				<!--恢复-->
-				<Button x:Name="NormButton" Background="Transparent" Click="NormButton_Click" VerticalAlignment="Top"
-						Width="34" Height="34" CornerRadius="5" IsVisible="False" Margin="4,0,0,0">
-					<Image Source="{SvgImage /Assets/Images/NormWindow.svg}"/>
-				</Button>
+			<Grid>
+				<!--登录界面-->
+				<StackPanel x:Name="BigStackPanel">
+					<!--Login字体-->
+					<TextBlock Text="Login" FontFamily="Arial"
+							   FontSize="22" FontWeight="Bold"
+							   Margin="52,51,0,0"/>
 
-				<!--关闭-->
-				<Button Background="Transparent" Click="CloseButton_Click" VerticalAlignment="Top"
-						Width="32" Height="32" CornerRadius="5" Margin="4,0,0,0">
-					<Image Source="{SvgImage /Assets/Images/Close.svg}" Stretch="UniformToFill"/>
-				</Button>
-			</StackPanel>
+					<!--用户名输入框-->
+					<Border Width="204" Height="35"
+							Margin="0,30,0,0" Background="#878F9C"
+							BoxShadow="3 4 9 0.2 #7D7D7D"
+							CornerRadius="10">
+						<TextBox x:Name="UserNameBox" BorderThickness="0"
+								 Watermark="UserName"
+								 FontFamily="Arial" FontSize="12"
+								 VerticalContentAlignment="Center"
+								 CornerRadius="10"
+								 />
+					</Border>
 
-			<StackPanel x:Name="BigStackPanel">
-			<Grid Grid.Row="1">
-				<TextBlock Foreground="#0572b0" FontFamily="StaticResource HeiFont" FontSize="30" FontWeight="DemiBold" Margin="32,90,1,1">Welcome</TextBlock>
-			</Grid>
-			
-			<!--输入用户名和密码-->
-			<Grid Grid.Row="2">
-				<StackPanel>
-					
-					<!--输入用户名-->
-					<TextBox x:Name="UserNameBox" VerticalAlignment="Center" HorizontalAlignment="Left"
-								Width="250" Height="20" Margin="32,10,1,1"
-								BorderBrush="Transparent" Background="#ebf2fa"
-								Watermark="UserName" FontSize="12" Foreground="#0572b0" FontFamily="StaticResource TimesFont" FontWeight="Medium"
-								VerticalContentAlignment="Center" HorizontalContentAlignment="Left" CornerRadius="0">
-					</TextBox>
-
-					<!--输入密码-->
+					<!--密码输入框-->
 					<DockPanel>
-						<TextBox x:Name="PasswordBox" VerticalAlignment="Center" HorizontalAlignment="Left"
-							 Width="212.5" Height="20" Margin="32,10,1,1" FontWeight="Medium"
-							 BorderBrush="Transparent" Background="#ebf2fa"
-							 Watermark="Password" FontSize="12" Foreground="#0572b0"
-							 VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
-							 PasswordChar="●" CornerRadius="0"/>
-						
-						<Button x:Name="SeePasswordButton" VerticalAlignment="Center" 
-								Margin="-1,8.1,0,0" Background="#ebf2fa" Click="TogglePasswordVisibility" Width="37.5" Height="32.05" CornerRadius="2">
-							<Image Source="{SvgImage /Assets/Images/Eye.svg}" Stretch="Fill"/>
-						</Button>
+						<Border Width="162.5" Height="35"
+								Margin="44,15,0,0" Background="#878F9C"
+								BoxShadow="3 4 9 0.2 #7D7D7D"
+								CornerRadius="10">
+							<TextBox x:Name="PasswordBox" BorderThickness="0"
+									 Watermark="Password" PasswordChar="●"
+									 FontFamily="Arial" FontSize="12"
+									 VerticalContentAlignment="Center"
+									 CornerRadius="10"
+									 />
+						</Border>
 
-						<Button x:Name="UnseePasswordButton" IsVisible="False" VerticalAlignment="Center"
-								Margin="-1,8.1,0,0" Background="#ebf2fa" Click="TogglePasswordVisibility" Width="37.5" Height="32.05" CornerRadius="2">
-							<Image Source="{SvgImage /Assets/Images/DisableEye.svg}" Stretch="Fill"/>
-						</Button>
+						<DockPanel.Styles>
+							<Style Selector="Button /template/ContentPresenter">
+								<Setter Property="Transitions">
+									<Transitions>
+										<TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15"/>
+									</Transitions>
+								</Setter>
+							</Style>
+							
+							<Style Selector="Button:pointerover /template/ContentPresenter">
+								<Setter Property="Background" Value="#ACAFB3"/>
+								<Setter Property="RenderTransform" Value="scale(1.11)"/>
+								<Setter Property="Opacity" Value="0.4"/>
+								<Setter Property="CornerRadius" Value="10"></Setter>
+							</Style>
+						</DockPanel.Styles>
+						
+						<!--显示密码按钮-->
+						<Border x:Name="SeePasswordBorder" Margin="5,15,0,0" Background="#ACAFB3"
+								Width="37.5" Height="35" CornerRadius="10"
+								BoxShadow="3 4 9 0.2 #7D7D7D">
+							<Button x:Name="SeePasswordButton" Background="Transparent"
+									VerticalAlignment="Center"
+									Click="TogglePasswordVisibility"
+									CornerRadius="10">
+								<Image Source="{SvgImage /Assets/Images/Eye.svg}" Stretch="Fill"/>
+							</Button>
+						</Border>
+
+						<!--隐藏密码按钮-->
+						<Border x:Name="UnseePasswordBorder" Margin="-41,15,0,0" Background="#ACAFB3"
+								Width="37.5" Height="35" CornerRadius="10"
+								BoxShadow="3 4 9 0.2 #7D7D7D" IsVisible="False">
+							<Button x:Name="UnseePasswordButton" 
+									Background="Transparent"
+									VerticalAlignment="Center" 
+									Click="TogglePasswordVisibility"
+									IsVisible="False" CornerRadius="10">
+								<Image Source="{SvgImage /Assets/Images/DisableEye.svg}" Stretch="Fill"/>
+							</Button>
+						</Border>
 					</DockPanel>
 					
-					<TextBlock Margin="32,9,1,1" FontSize="9" Foreground="#0572b0" ToolTip.Tip="Find your password">Forgot password?</TextBlock>
-				</StackPanel>
-			</Grid>
-			
-			<!--登录按钮-->
-			<Grid Grid.Row="3">
-				<Grid.Styles>
-					<Style Selector="Button /template/ContentPresenter">
-						<Setter Property="Transitions">
-							<Transitions>
-								<TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1"/>
-							</Transitions>
-						</Setter>
-					</Style>
-
-					<Style Selector="Button:pointerover /template/ContentPresenter">
-						<Setter Property="Background" Value="#0075b5"/>
-						<Setter Property="RenderTransform" Value="scale(1.01)"/>
-						<Setter Property="Opacity" Value="0.4"/>
-						<Setter Property="CornerRadius" Value="4"></Setter>
-					</Style>
-				</Grid.Styles>
-
-				<Button x:Name="LoginButton" Margin="32,45,1,1" Height="35" Width="90" 
-						Background="#0075b5" Content="Login" 
-						FontSize="12" Foreground="White" FontWeight="Black"
-						VerticalAlignment="Center" HorizontalAlignment="Left"
-						HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-						CornerRadius="4" Click="LoginButton_Click">
-				</Button>
-
-				<Button Margin="152,45,1,1" Height="35" Width="90"
-						Background="#0075b5" Content="Sign up"
-						FontSize="12" Foreground="White" FontWeight="Black"
-						VerticalAlignment="Center" HorizontalAlignment="Left"
-						HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-						CornerRadius="4" Click="SignUpButton_Click"/>
-			</Grid>
-			</StackPanel>
-	
-			<!--注册界面新弹出来的-->
-			<StackPanel x:Name="NewStackPanel" Margin="10,120,0,0">
-
-				<!--输入用户名-->
-				<TextBox x:Name="UserNameBoxSignUp" VerticalAlignment="Center" HorizontalAlignment="Left"
-						 Width="250" Height="20" Margin="32,10,1,1"
-						 BorderBrush="Transparent" Background="#ebf2fa"
-						 Watermark="UserName" FontSize="12" Foreground="#0572b0" FontFamily="StaticResource TimesFont" FontWeight="Medium"
-						 VerticalContentAlignment="Center" HorizontalContentAlignment="Left" CornerRadius="0">
-				</TextBox>
-
-				<!--输入密码-->
-				<DockPanel>
-					<TextBox x:Name="PasswordBoxSignUp" VerticalAlignment="Center" HorizontalAlignment="Left"
-						 Width="212.5" Height="20" Margin="32,10,1,1" FontWeight="Medium"
-						 BorderBrush="Transparent" Background="#ebf2fa"
-						 Watermark="Password" FontSize="12" Foreground="#0572b0"
-						 VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
-						 PasswordChar="●" CornerRadius="0"/>
-
-					<Button x:Name="SeePasswordButtonSignUp" VerticalAlignment="Center"
-							Margin="-1,8.1,0,0" Background="#ebf2fa" Click="TogglePasswordVisibility1" Width="37.5" Height="32.05" CornerRadius="2">
-						<Image Source="{SvgImage /Assets/Images/Eye.svg}" Stretch="Fill"/>
-					</Button>
-
-					<Button x:Name="UnseePasswordButtonSignUp" IsVisible="False" VerticalAlignment="Center"
-							Margin="-1,8.1,0,0" Background="#ebf2fa" Click="TogglePasswordVisibility1" Width="37.5" Height="32.05" CornerRadius="2">
-						<Image Source="{SvgImage /Assets/Images/DisableEye.svg}" Stretch="Fill"/>
-					</Button>
-				</DockPanel>
-				
-				<!--确认密码-->
-				<DockPanel>
-					<TextBox x:Name="PasswordBoxSignUpConfirm" VerticalAlignment="Center" HorizontalAlignment="Left"
-						 Width="212.5" Height="20" Margin="32,10,1,1" FontWeight="Medium"
-						 BorderBrush="Transparent" Background="#ebf2fa"
-						 Watermark="Confirm your password" FontSize="12" Foreground="#0572b0"
-						 VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
-						 PasswordChar="●" CornerRadius="0"/>
-
-					<Button x:Name="SeePasswordButtonSignUpConfirm" VerticalAlignment="Center"
-							Margin="-1,8.1,0,0" Background="#ebf2fa" Click="TogglePasswordVisibility2" Width="37.5" Height="32.05" CornerRadius="2">
-						<Image Source="{SvgImage /Assets/Images/Eye.svg}" Stretch="Fill"/>
-					</Button>
-
-					<Button x:Name="UnseePasswordButtonSignUpConfirm" IsVisible="False" VerticalAlignment="Center"
-							Margin="-1,8.1,0,0" Background="#ebf2fa" Click="TogglePasswordVisibility2" Width="37.5" Height="32.05" CornerRadius="2">
-						<Image Source="{SvgImage /Assets/Images/DisableEye.svg}" Stretch="Fill"/>
-					</Button>
-				</DockPanel>
-
-				<StackPanel Orientation="Horizontal" Margin="50,45,1,1">
-					<Button Height="35" Width="40"
-							Background="Transparent"
-							FontSize="12" Foreground="White" FontWeight="Black"
-							VerticalAlignment="Center" HorizontalAlignment="Left"
-							HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-							CornerRadius="4" Click="GoBack_Click">
-						<Image Source="{SvgImage /Assets/Images/Back.svg}" Stretch="UniformToFill"/>
-					</Button>
+					<TextBlock Margin="32,12,1,1" FontSize="9" Foreground="#352E2C" ToolTip.Tip="Find your password">Forgot password?</TextBlock>
 
 					<StackPanel.Styles>
 						<Style Selector="Button /template/ContentPresenter">
 							<Setter Property="Transitions">
 								<Transitions>
-									<TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1"/>
+									<TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15"/>
 								</Transitions>
 							</Setter>
 						</Style>
 
 						<Style Selector="Button:pointerover /template/ContentPresenter">
-							<Setter Property="Background" Value="#0075b5"/>
-							<Setter Property="RenderTransform" Value="scale(1.01)"/>
+							<Setter Property="Background" Value="#495C7B"/>
+							<Setter Property="RenderTransform" Value="scale(1.07)"/>
 							<Setter Property="Opacity" Value="0.4"/>
-							<Setter Property="CornerRadius" Value="4"></Setter>
+							<Setter Property="CornerRadius" Value="10"/>
+							<Setter Property="Foreground" Value="#FFFAFA"/>
 						</Style>
 					</StackPanel.Styles>
-					
-					<Button Margin="5,0,0,0" Height="35" Width="130"
-						Background="#0075b5" Content="Sign up"
-						FontSize="12" Foreground="White" FontWeight="Black"
-						VerticalAlignment="Center" HorizontalAlignment="Left"
-						HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-						CornerRadius="4" Click="SignUpConfirmButton_Click">
-					</Button>
+
+					<!--登录确认按钮-->
+					<Border x:Name="LoginButton" Background="#495C7B" CornerRadius="10"
+							Width="81" Height="35" Margin="-100,30,0,0" BorderThickness="0"
+						BoxShadow="3 4 4 0.05 #7D7D7D">
+						<Button Background="Transparent" Content="Confirm" FontSize="13"
+							FontFamily="Arial" Foreground="White"
+							FontWeight="Black" HorizontalAlignment="Center"
+							Click="LoginButton_Click"/>
+					</Border>
+
+					<!--注册按钮-->
+					<Border Background="#495C7B" CornerRadius="10"
+							Width="76" Height="35" Margin="100,-35,0,0" BorderThickness="0"
+						BoxShadow="3 4 4 0.05 #7D7D7D">
+						<Button Background="Transparent" Content="SignUp" FontSize="13"
+								FontFamily="Arial" Foreground="White"
+								FontWeight="Black" HorizontalAlignment="Center"
+								Click="SignUpButton_Click"/>
+					</Border>
+
+					<!--是否登陆成功提示-->
+					<Label x:Name="LabelProcess" FontSize="11" 
+						   Foreground="Black" HorizontalAlignment="Center"
+						   Margin="130,35,0,0"/>
 				</StackPanel>
+
 				
-				<Label x:Name="LabelProcessSignUp" FontSize="11" Foreground="#0075b5" Margin="260,80,0,0" VerticalAlignment="Bottom"/>
-			</StackPanel>
-			
-			<!--Lable-->
-			<Grid Grid.Row="4" Margin="260,80,1,0" VerticalAlignment="Bottom">
-				<Label x:Name="LabelProcess" FontSize="11" Foreground="#0075b5"/>
+				<!--注册界面-->
+				<StackPanel x:Name="NewStackPanel" Margin="10,120,0,0">
+
+					<!--用户名输入框-->
+					<Border Width="204" Height="35"
+							Margin="-14,-30,0,0" Background="#878F9C"
+							BoxShadow="3 4 9 0.2 #7D7D7D"
+							CornerRadius="10">
+						<TextBox x:Name="UserNameBoxSignUp" BorderThickness="0"
+								 Watermark="UserName"
+								 FontFamily="Arial" FontSize="12"
+								 VerticalContentAlignment="Center"
+								 CornerRadius="10"/>
+					</Border>
+
+					<!--密码输入框-->
+					<DockPanel>
+						<Border Width="162.5" Height="35"
+								Margin="33,15,0,0" Background="#878F9C"
+								BoxShadow="3 4 9 0.2 #7D7D7D"
+								CornerRadius="10">
+							<TextBox x:Name="PasswordBoxSignUp" BorderThickness="0"
+									 Watermark="Password" PasswordChar="●"
+									 FontFamily="Arial" FontSize="12"
+									 VerticalContentAlignment="Center"
+									 CornerRadius="10"/>
+						</Border>
+
+						<DockPanel.Styles>
+							<Style Selector="Button /template/ContentPresenter">
+								<Setter Property="Transitions">
+									<Transitions>
+										<TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15"/>
+									</Transitions>
+								</Setter>
+							</Style>
+
+							<Style Selector="Button:pointerover /template/ContentPresenter">
+								<Setter Property="Background" Value="#ACAFB3"/>
+								<Setter Property="RenderTransform" Value="scale(1.11)"/>
+								<Setter Property="Opacity" Value="0.4"/>
+								<Setter Property="CornerRadius" Value="10"></Setter>
+							</Style>
+						</DockPanel.Styles>
+						
+						<!--显示密码-->
+						<Border x:Name="SeePasswordBorderSignUp" Margin="5,15,0,0" Background="#ACAFB3"
+								Width="37.5" Height="35"
+								BoxShadow="3 4 9 0.2 #7D7D7D"
+								CornerRadius="10">
+							<Button x:Name="SeePasswordButtonSignUp" Background="Transparent"
+									VerticalAlignment="Center"
+									Click="TogglePasswordVisibility1"
+									CornerRadius="10">
+								<Image Source="{SvgImage /Assets/Images/Eye.svg}" Stretch="Fill"/>
+							</Button>
+						</Border>
+
+						<!--隐藏密码-->
+						<Border x:Name="UnseePasswordBorderSignUp" 
+								Margin="-43,15,0,0" Background="#ACAFB3"
+								Width="37.5" Height="35" CornerRadius="10"
+								BoxShadow="3 4 9 0.2 #7D7D7D"
+								IsVisible="False">
+							<Button x:Name="UnseePasswordButtonSignUp" IsVisible="False"
+									Background="Transparent" VerticalAlignment="Center"
+									Click="TogglePasswordVisibility1"
+									CornerRadius="10">
+								<Image Source="{SvgImage /Assets/Images/DisableEye.svg}" Stretch="Fill"/>							</Button>
+						</Border>
+						
+					</DockPanel>
+
+					<!--确认密码输入框-->
+					<DockPanel>
+						<Border Width="162.5" Height="35"
+								Margin="33,15,0,0" Background="#878F9C"
+								BoxShadow="3 4 9 0.2 #7D7D7D"
+								CornerRadius="10">
+							<TextBox x:Name="PasswordBoxSignUpConfirm"
+									 BorderThickness="0"
+									 Watermark="Confirm your password" 
+									 PasswordChar="●"
+									 FontFamily="Arial" FontSize="12"
+									 VerticalContentAlignment="Center"
+									 CornerRadius="10"/>
+						</Border>
+
+						<DockPanel.Styles>
+							<Style Selector="Button /template/ContentPresenter">
+								<Setter Property="Transitions">
+									<Transitions>
+										<TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15"/>
+									</Transitions>
+								</Setter>
+							</Style>
+
+							<Style Selector="Button:pointerover /template/ContentPresenter">
+								<Setter Property="Background" Value="#ACAFB3"/>
+								<Setter Property="RenderTransform" Value="scale(1.11)"/>
+								<Setter Property="Opacity" Value="0.4"/>
+								<Setter Property="CornerRadius" Value="10"></Setter>
+							</Style>
+						</DockPanel.Styles>
+						
+						<!--显示密码-->
+						<Border x:Name="SeePasswordBorderSignUpConfirm" 
+								Margin="5,15,0,0" Background="#ACAFB3"
+								Width="37.5" Height="35" CornerRadius="10"
+								BoxShadow="3 4 9 0.2 #7D7D7D">
+							<Button x:Name="SeePasswordButtonSignUpConfirm" 
+									Background="Transparent"
+									VerticalAlignment="Center"
+									Click="TogglePasswordVisibility2"
+									CornerRadius="10">
+								<Image Source="{SvgImage /Assets/Images/Eye.svg}" Stretch="Fill"/>
+							</Button>
+						</Border>
+						
+						<!--隐藏密码-->
+						<Border x:Name="UnseePasswordBorderSignUpConfirm" 
+								Margin="-43,15,0,0" Background="#ACAFB3"
+								Width="37.5" Height="35" CornerRadius="10"
+								BoxShadow="3 4 9 0.2 #7D7D7D"
+								IsVisible="False">
+							<Button x:Name="UnseePasswordButtonSignUpConfirm" 
+									Background="Transparent" VerticalAlignment="Center"
+									Click="TogglePasswordVisibility2"
+									CornerRadius="10"
+									IsVisible="False">
+								<Image Source="{SvgImage /Assets/Images/DisableEye.svg}" Stretch="Fill"/>
+							</Button>
+						</Border>
+					</DockPanel>
+
+					<StackPanel Orientation="Horizontal" Margin="30,40,1,1">
+
+						<StackPanel.Styles>
+							<Style Selector="Button /template/ContentPresenter">
+								<Setter Property="Transitions">
+									<Transitions>
+										<TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15"/>
+									</Transitions>
+								</Setter>
+							</Style>
+
+							<Style Selector="Button:pointerover /template/ContentPresenter">
+								<Setter Property="Background" Value="#495C7B"/>
+								<Setter Property="RenderTransform" Value="scale(1.07)"/>
+								<Setter Property="Opacity" Value="0.4"/>
+								<Setter Property="CornerRadius" Value="10"></Setter>
+							</Style>
+						</StackPanel.Styles>
+						
+						<!--从注册界面回退到登录界面-->
+						<Button Height="35" Width="40"
+								Background="Transparent"
+								FontSize="12" Foreground="White" FontWeight="Black"
+								VerticalAlignment="Center" HorizontalAlignment="Left"
+								HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+								CornerRadius="4" Click="GoBack_Click">
+							<Image Source="{SvgImage /Assets/Images/Back.svg}" Stretch="UniformToFill"/>
+						</Button>
+
+						<!--注册按钮-->
+						<Border Background="#495C7B" CornerRadius="10"
+								Width="130" Height="35" Margin="5,0,0,0" BorderThickness="0"
+								BoxShadow="3 4 4 0.05 #7D7D7D">
+							<Button Background="Transparent" Content="Sign up" FontSize="13"
+								FontFamily="Arial" Foreground="White"
+								FontWeight="Black" HorizontalAlignment="Center"
+								Click="SignUpConfirmButton_Click"/>
+						</Border>
+						
+					</StackPanel>
+
+					<Label x:Name="LabelProcessSignUp" FontSize="11" 
+						   Foreground="Black" Margin="130,23,0,0"
+						   HorizontalAlignment="Center"/>
+				</StackPanel>
 			</Grid>
-		
+			
+		</Border>
+
+		<Grid Grid.Column="2">
+
+			<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="267,7,0,0">
+				<!--最小化-->
+				<Button Background="Transparent"  VerticalAlignment="Top"
+						Width="32" Height="32" CornerRadius="5" 
+						Margin="-190,5,0,0" Click="MinButton_Click">
+					<Image Source="{SvgImage /Assets/Images/MinWindow.svg}" Stretch="UniformToFill"/>
+				</Button>
+
+				<!--最大化-->
+				<Button x:Name="MaxButton" Background="Transparent"  VerticalAlignment="Top"
+						Width="34" Height="34" CornerRadius="5" Margin="-140,5,0,0"
+						Click="MaxButton_Click">
+					<Image Source="{SvgImage /Assets/Images/MaxWindow.svg}"/>
+				</Button>
+
+				<!--恢复-->
+				<Button x:Name="NormButton" Background="Transparent"  VerticalAlignment="Top"
+						Width="34" Height="34" CornerRadius="5" IsVisible="False" 
+						Margin="-140,5,0,0" Click="NormButton_Click">
+					<Image Source="{SvgImage /Assets/Images/NormWindow.svg}"/>
+				</Button>
+
+				<!--关闭-->
+				<Button Background="Transparent"  VerticalAlignment="Top"
+						Width="32" Height="32" CornerRadius="5" 
+						Click="CloseButton_Click" Margin="-90,5,0,0">
+					<Image Source="{SvgImage /Assets/Images/Close.svg}" Stretch="UniformToFill"/>
+				</Button>
+			</StackPanel>
+
+			<!--Welcome Back!字体-->
+			<TextBlock Text="Welcome Back!" FontFamily="Segoe Script"
+					   FontWeight="Regular" Margin="26,173,0,0"
+					   FontSize="23"/>
+			
+			<!--Girl Reading图片-->
+			<Image Source="avares://CloudClient/Assets/Images/GirlReading.png"
+				   Width="232" Margin="0,0,25,-1"
+				   HorizontalAlignment="Right"
+				   VerticalAlignment="Bottom"/>
+
 		</Grid>
 	</Grid>
-	</Border>
 </Window>

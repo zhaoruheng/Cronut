@@ -55,8 +55,8 @@ public class MainViewModel : ViewModelBase
                 Values = MainChartValues1,
                 GeometrySize = 0,
                 GeometryStroke = null,
-                Fill = new SolidColorPaint(new SKColor(181,212,233)),
-                Stroke = new SolidColorPaint(new SKColor(1,111,174)){StrokeThickness=2},
+                Fill = new SolidColorPaint(new SKColor(160,173,196)),
+                Stroke = new SolidColorPaint(new SKColor(97,105,119)){StrokeThickness=2},
             }
         };
 
@@ -67,8 +67,8 @@ public class MainViewModel : ViewModelBase
                 Values = MainChartValues2,
                 GeometrySize = 0,
                 GeometryStroke = null,
-                Fill = new SolidColorPaint(new SKColor(181,212,233)),
-                Stroke = new SolidColorPaint(new SKColor(1,111,174)){StrokeThickness=2},
+                Fill = new SolidColorPaint(new SKColor(160,173,196)),
+                Stroke = new SolidColorPaint(new SKColor(97,105,119)){StrokeThickness=2},
             }
         };
 
@@ -79,8 +79,8 @@ public class MainViewModel : ViewModelBase
                 Values = MainChartValues3,
                 GeometrySize = 0,
                 GeometryStroke = null,
-                Fill = new SolidColorPaint(new SKColor(181,212,233)),
-                Stroke = new SolidColorPaint(new SKColor(1,111,174)){StrokeThickness=2},
+                Fill = new SolidColorPaint(new SKColor(135,156,190)),
+                Stroke = new SolidColorPaint(new SKColor(73,92,123)){StrokeThickness=2},
             }
         };
 

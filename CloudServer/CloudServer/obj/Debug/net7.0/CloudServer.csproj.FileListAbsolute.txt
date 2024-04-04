@@ -165,3 +165,113 @@ C:\Users\Rune0\Desktop\项目代码\CloudServer\CloudServer\obj\Debug\net7.0\Clo
 C:\Users\Rune0\Desktop\项目代码\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.pdb
 C:\Users\Rune0\Desktop\项目代码\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.CopyComplete
 C:\Users\Rune0\Desktop\项目代码\CloudServer\CloudServer\obj\Debug\net7.0\ref\CloudServer.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\bin\Debug\net7.0\log4net.config
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.deps.json
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.pdb
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\bin\Debug\net7.0\NetPublic.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.AssemblyReference.cache
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\Resources.Inputs.cache
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\resources
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.GeneratedMSBuildEditorConfig.editorconfig
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.AssemblyInfoInputs.cache
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.AssemblyInfo.cs
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.CoreCompileInputs.cache
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.sourcelink.json
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\references
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.pdb
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.ref.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\refint\CloudServer.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.pdb
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.CopyComplete
+D:\AF-Dedup项目\写到一半的代码\源代码4.2\CloudServer\CloudServer\obj\Debug\net7.0\ref\CloudServer.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\bin\Debug\net7.0\log4net.config
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.deps.json
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.pdb
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\bin\Debug\net7.0\NetPublic.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.AssemblyReference.cache
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\Resources.Inputs.cache
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\resources
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.GeneratedMSBuildEditorConfig.editorconfig
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.AssemblyInfoInputs.cache
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.AssemblyInfo.cs
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.CoreCompileInputs.cache
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.sourcelink.json
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\references
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.pdb
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.ref.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\refint\CloudServer.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.dll
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.pdb
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.CopyComplete
+D:\AF-Dedup项目\写到一半的代码\源代码4.3\CloudServer\CloudServer\obj\Debug\net7.0\ref\CloudServer.dll
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\bin\Debug\net7.0\log4net.config
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.deps.json
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.dll
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.pdb
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\bin\Debug\net7.0\NetPublic.dll
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.AssemblyReference.cache
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\Resources.Inputs.cache
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\resources
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.GeneratedMSBuildEditorConfig.editorconfig
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.AssemblyInfoInputs.cache
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.AssemblyInfo.cs
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.CoreCompileInputs.cache
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.sourcelink.json
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\references
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.dll
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.pdb
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.ref.dll
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\refint\CloudServer.dll
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.dll
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.pdb
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.CopyComplete
+D:\AF-Dedup项目\Bingo Cloud\源代码0.1\CloudServer\CloudServer\obj\Debug\net7.0\ref\CloudServer.dll
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\bin\Debug\net7.0\log4net.config
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.deps.json
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.dll
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.pdb
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\bin\Debug\net7.0\NetPublic.dll
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.AssemblyReference.cache
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\Resources.Inputs.cache
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\resources
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.GeneratedMSBuildEditorConfig.editorconfig
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.AssemblyInfoInputs.cache
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.AssemblyInfo.cs
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.CoreCompileInputs.cache
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.sourcelink.json
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\references
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.dll
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.pdb
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.ref.dll
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\refint\CloudServer.dll
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.dll
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.pdb
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.CopyComplete
+D:\AF-Dedup项目\Carefree Cloud\源代码1.0\CloudServer\CloudServer\obj\Debug\net7.0\ref\CloudServer.dll
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\bin\Debug\net7.0\log4net.config
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.deps.json
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.dll
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\bin\Debug\net7.0\CloudServer.pdb
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\bin\Debug\net7.0\NetPublic.dll
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.AssemblyReference.cache
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\Resources.Inputs.cache
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\resources
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.AssemblyInfoInputs.cache
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.AssemblyInfo.cs
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.CoreCompileInputs.cache
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.sourcelink.json
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\references
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.dll
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.pdb
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\Avalonia\original.ref.dll
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\refint\CloudServer.dll
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.dll
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.pdb
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\CloudServer.csproj.CopyComplete
+C:\Users\Rune0\Desktop\项目V2\CloudServer\CloudServer\obj\Debug\net7.0\ref\CloudServer.dll
