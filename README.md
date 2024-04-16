@@ -123,6 +123,3 @@ Cronut云盘是一款**端到端加密**且**跨平台**的同步云盘。基于
 
 **4.4 updata:大幅美化UI**
 
----
-
-[Cronut-dev](https://github.com/zhaoruheng/Cronut-dev) 项目记录了该项目的三个UI美化的版本，欢迎使用
